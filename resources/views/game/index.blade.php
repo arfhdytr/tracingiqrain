@@ -26,8 +26,8 @@
 
                 <div class="preview-section">
                     <div class="section-header">
-                        <h3 class="preview-title">Cara Menulis</h3>
-                        <button id="replayBtn" class="btn btn-small">▶️ Ulang</button>
+                        <div class="section-header" style="gap: 8px;"> <h3 class="preview-title" style="flex: 1;">Cara Menulis</h3> <button id="replayBtn" class="btn btn-small btn-secondary">▶️ Ulang</button>
+                        <button id="nextBtn" class="btn btn-small btn-secondary">Next →</button> </div>
                     </div>
                     <div class="preview-wrapper">
                         <div class="letter-display" id="letterDisplay">ا</div>

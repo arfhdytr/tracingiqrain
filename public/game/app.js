@@ -283,13 +283,13 @@ let animationCanvas, animationCtx;
 
 // Initialize the game
 function init() {
-  // Setup canvases
-  guideCanvas = document.getElementById('guideCanvas');
-  guideCtx = guideCanvas.getContext('2d');
-  tracingCanvas = document.getElementById('tracingCanvas');
-  tracingCtx = tracingCanvas.getContext('2d');
-  animationCanvas = document.getElementById('animationCanvas');
-  animationCtx = animationCanvas.getContext('2d');
+  // // Setup canvases (PINDAH)
+  // guideCanvas = document.getElementById('guideCanvas');
+  // guideCtx = guideCanvas.getContext('2d');
+  // tracingCanvas = document.getElementById('tracingCanvas');
+  // tracingCtx = tracingCanvas.getContext('2d');
+  // animationCanvas = document.getElementById('animationCanvas');
+  // animationCtx = animationCanvas.getContext('2d');
 
   // Setup event listeners
   setupEventListeners();
@@ -302,28 +302,12 @@ function init() {
 }
 
 // Setup Event Listeners
-function setupEventListeners() {
-  // Mouse events
-  tracingCanvas.addEventListener('mousedown', startDrawing);
-  tracingCanvas.addEventListener('mousemove', draw);
-  tracingCanvas.addEventListener('mouseup', stopDrawing);
-  tracingCanvas.addEventListener('mouseleave', stopDrawing);
-
-  // Touch events
-  tracingCanvas.addEventListener('touchstart', handleTouchStart);
-  tracingCanvas.addEventListener('touchmove', handleTouchMove);
-  tracingCanvas.addEventListener('touchend', stopDrawing);
-
-  // Button events
-  document.getElementById('clearBtn').addEventListener('click', clearCanvas);
-  document.getElementById('replayBtn').addEventListener('click', playAnimation);
-  
-  // Tombol "Next" (Skip) di layar game
-  document.getElementById('nextBtn').addEventListener('click', selectNextLetter);
+// Setup Event Listeners
+function setupSafeEventListeners() {
+  // HANYA listener untuk tombol di luar game screen
   
   // Tombol "Back" di layar game
   document.getElementById('backBtn').addEventListener('click', () => {
-    // Kembali ke halaman /murid/games (sesuai permintaan)
     window.location.href = '/murid/games';
   });
 
@@ -332,6 +316,25 @@ function setupEventListeners() {
   
   // Tombol "Huruf Lain" (Next) di layar sukses
   document.getElementById('nextLetterBtn').addEventListener('click', selectNextLetter);
+}
+
+// FUNGSI BARU: untuk listener khusus game screen
+function setupGameEventListeners() {
+    // Mouse events
+    tracingCanvas.addEventListener('mousedown', startDrawing);
+    tracingCanvas.addEventListener('mousemove', draw);
+    tracingCanvas.addEventListener('mouseup', stopDrawing);
+    tracingCanvas.addEventListener('mouseleave', stopDrawing);
+
+    // Touch events
+    tracingCanvas.addEventListener('touchstart', handleTouchStart);
+    tracingCanvas.addEventListener('touchmove', handleTouchMove);
+    tracingCanvas.addEventListener('touchend', stopDrawing);
+
+    // Button events di game screen
+    document.getElementById('clearBtn').addEventListener('click', clearCanvas);
+    document.getElementById('replayBtn').addEventListener('click', playAnimation);
+    document.getElementById('nextBtn').addEventListener('click', selectNextLetter);
 }
 
 // Generate Letter Menu
@@ -378,6 +381,21 @@ function selectLetter(letter) {
     console.warn('Attempted to select a non-playable letter.');
     return;
   }
+
+  // ==========================================================
+  // PINDAHKAN SETUP CANVAS KE SINI
+  // Cek apakah sudah di-setup, jika belum, setup sekarang
+  if (!guideCtx) {
+    guideCanvas = document.getElementById('guideCanvas');
+    guideCtx = guideCanvas.getContext('2d');
+    tracingCanvas = document.getElementById('tracingCanvas');
+    tracingCtx = tracingCanvas.getContext('2d');
+    animationCanvas = document.getElementById('animationCanvas');
+    animationCtx = animationCanvas.getContext('2d');
+
+    setupGameEventListeners ();
+  }
+  // ==========================================================
     
   gameState.currentLetter = letter;
   gameState.progress = 0;

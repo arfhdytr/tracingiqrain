@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LandingController;
 
-Route::get('/tracing-game', function () {
+Route::get('/tracing-game',function () {
             return view('game.index'); // Ini mengarah ke 'resources/views/game/index.blade.php'
         })->name('tracing-game');
 

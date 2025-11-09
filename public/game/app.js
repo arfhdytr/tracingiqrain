@@ -1,5 +1,5 @@
 // ===================================================================
-// KODE BARU UNTUK 'public/game/app.js' (Ganti semua isinya)
+// KODE FINAL UNTUK 'public/game/app.js'
 // ===================================================================
 
 // Hijaiyah Letters Data
@@ -276,23 +276,15 @@ let gameState = {
   correctPoints: 0
 };
 
-// Canvas References
-let guideCanvas, guideCtx;
-let tracingCanvas, tracingCtx;
-let animationCanvas, animationCtx;
+// Canvas References (dibuat null dulu)
+let guideCanvas = null, guideCtx = null;
+let tracingCanvas = null, tracingCtx = null;
+let animationCanvas = null, animationCtx = null;
 
 // Initialize the game
 function init() {
-  // // Setup canvases (PINDAH)
-  // guideCanvas = document.getElementById('guideCanvas');
-  // guideCtx = guideCanvas.getContext('2d');
-  // tracingCanvas = document.getElementById('tracingCanvas');
-  // tracingCtx = tracingCanvas.getContext('2d');
-  // animationCanvas = document.getElementById('animationCanvas');
-  // animationCtx = animationCanvas.getContext('2d');
-
-  // Setup event listeners
-  setupEventListeners();
+  // Setup event listeners (HANYA listener yang aman)
+  setupSafeEventListeners();
 
   // Generate letter menu
   generateLetterMenu();
@@ -301,11 +293,8 @@ function init() {
   showScreen('menu');
 }
 
-// Setup Event Listeners
-// Setup Event Listeners
+// Setup Event Listeners (HANYA untuk tombol/navigasi)
 function setupSafeEventListeners() {
-  // HANYA listener untuk tombol di luar game screen
-  
   // Tombol "Back" di layar game
   document.getElementById('backBtn').addEventListener('click', () => {
     window.location.href = '/murid/games';
@@ -336,6 +325,7 @@ function setupGameEventListeners() {
     document.getElementById('replayBtn').addEventListener('click', playAnimation);
     document.getElementById('nextBtn').addEventListener('click', selectNextLetter);
 }
+
 
 // Generate Letter Menu
 function generateLetterMenu() {
@@ -381,9 +371,9 @@ function selectLetter(letter) {
     console.warn('Attempted to select a non-playable letter.');
     return;
   }
-
+  
   // ==========================================================
-  // PINDAHKAN SETUP CANVAS KE SINI
+  // SETUP CANVAS DAN LISTENER (PINDAHKAN KE SINI)
   // Cek apakah sudah di-setup, jika belum, setup sekarang
   if (!guideCtx) {
     guideCanvas = document.getElementById('guideCanvas');
@@ -393,7 +383,8 @@ function selectLetter(letter) {
     animationCanvas = document.getElementById('animationCanvas');
     animationCtx = animationCanvas.getContext('2d');
 
-    setupGameEventListeners ();
+    // Panggil listener game HANYA SEKALI, saat pertama kali
+    setupGameEventListeners();
   }
   // ==========================================================
     
@@ -834,5 +825,5 @@ function showScreen(screenName) {
   }
 }
 
-// Initialize game when DOM is loaded
+// Panggil init() secara langsung di akhir file
 init();

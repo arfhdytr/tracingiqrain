@@ -1,4 +1,6 @@
-<x-layouts.game>
+@extends('layouts.game')
+
+@section('content')
     <div id="app">
         <div id="menuScreen" class="screen active">
             <div class="menu-container">
@@ -70,4 +72,4 @@
         </div>
     </div>
 
-</x-layouts.game>
+@endsection

@@ -3,6 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LandingController;
 
+Route::get('/tracing-game', function () {
+            return view('game.index'); // Ini mengarah ke 'resources/views/game/index.blade.php'
+        })->name('tracing-game');
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,6 +17,7 @@ use App\Http\Controllers\LandingController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
 
 Route::get('/', [LandingController::class, 'index'])->name('landing');
 
@@ -54,6 +59,3 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     });
 });
 
-Route::get('/tracing-game', function () {
-            return view('game.index'); // Ini mengarah ke 'resources/views/game/index.blade.php'
-        })->name('tracing-game');

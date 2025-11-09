@@ -49,5 +49,11 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::get('/games', [MuridDashboardController::class, 'games'])->name('games');
         Route::get('/progress', [MuridDashboardController::class, 'progress'])->name('progress');
         Route::get('/mentors', [MuridDashboardController::class, 'mentors'])->name('mentors');
+
+        
     });
 });
+
+Route::get('/tracing-game', function () {
+            return view('game.index'); // Ini mengarah ke 'resources/views/game/index.blade.php'
+        })->name('tracing-game');

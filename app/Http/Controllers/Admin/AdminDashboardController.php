@@ -34,6 +34,11 @@ class AdminDashboardController extends Controller
         return view('pages.admin.dashboard', compact('stats', 'recent_activities', 'dataFeed'));
     }
 
+    public function approval()
+    {
+        return view('pages.admin.approval.index');
+    }
+
     public function mentors()
     {
         return view('admin.mentors');

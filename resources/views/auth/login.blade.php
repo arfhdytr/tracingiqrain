@@ -22,7 +22,7 @@
                 </svg>
             </div>
             <div class="relative z-10 text-center">
-                <img src="{{ asset('images/qira-mascot.png') }}" alt="Qira Mascot" class="w-64 h-auto mx-auto mb-4">
+                <img src="{{ asset('images/qira-mascot.webp') }}" alt="Qira Mascot" class="w-64 h-auto mx-auto mb-4">
                 <h2 class="text-2xl font-bold text-gray-800">Belajar Bersama Qira!</h2>
             </div>
         </div>

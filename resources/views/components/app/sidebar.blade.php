@@ -21,7 +21,7 @@
                     <path d="M10.7 18.7l1.4-1.4L7.8 13H20v-2H7.8l4.3-4.3-1.4-1.4L4 12z" />
                 </svg>
             </button>
-            <a class="block" href="{{ route('dashboard') }}">
+            <a class="block" href="{{ route('admin.dashboard') }}">
                 <div class="flex items-center space-x-2">
                     <div class="w-8 h-8 bg-iqrain-blue rounded-lg flex items-center justify-center">
                         <span class="text-white font-bold text-sm">IQ</span>
@@ -49,6 +49,17 @@
                                         <path d="M6.068 7.482A2.003 2.003 0 0 0 8 10a2 2 0 1 0-.518-3.932L3.707 2.293a1 1 0 0 0-1.414 1.414l3.775 3.775Z" />
                                     </svg>
                                     <span class="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Dashboard</span>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li class="pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 @if(request()->routeIs('admin.approval')) bg-iqrain-blue @endif">
+                            <a class="block truncate transition @if(request()->routeIs('admin.approval')) text-iqrain-yellow @else text-iqrain-blue dark:text-iqrain-blue hover:text-iqrain-dark-blue dark:hover:text-iqrain-dark-blue @endif" href="{{ route('admin.approval') }}">
+                                <div class="flex items-center">
+                                    <svg class="shrink-0 fill-current text-iqrain-pink" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                                        <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z"/>
+                                    </svg>
+                                    <span class="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Approval</span>
                                 </div>
                             </a>
                         </li>
@@ -116,7 +127,15 @@
         </div>
 
         <div class="pt-3 hidden lg:inline-flex 2xl:hidden justify-end mt-auto">
+            <div class="w-12 pl-4 pr-3 py-2">
+                <button class="text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400 transition-colors" @click="sidebarExpanded = !sidebarExpanded">
+                    <span class="sr-only">Expand / collapse sidebar</span>
+                    <svg class="shrink-0 fill-current text-gray-400 dark:text-gray-500 sidebar-expanded:rotate-180" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                        <path d="M15 16a1 1 0 0 1-1-1V1a1 1 0 1 1 2 0v14a1 1 0 0 1-1 1ZM8.586 7H1a1 1 0 1 0 0 2h7.586l-2.793 2.793a1 1 0 1 0 1.414 1.414l4.5-4.5A.997.997 0 0 0 12 8.01M11.924 7.617a.997.997 0 0 0-.217-.324l-4.5-4.5a1 1 0 0 0-1.414 1.414L8.586 7M12 7.99a.996.996 0 0 0-.076-.373Z" />
+                    </svg>
+                </button>
             </div>
+        </div>
 
     </div>
 </div>

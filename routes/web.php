@@ -5,10 +5,15 @@ use App\Http\Controllers\LandingController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Mentor\MentorDashboardController;
-use App\Http\Controllers\Murid\MuridDashboardController;
 use App\Http\Controllers\Auth\RegisterMuridController;
 use App\Http\Controllers\Auth\RegisterMentorController;
 use App\Http\Controllers\Auth\ForgotPasswordMuridController;
+use App\Models\TingkatanIqra;
+
+use App\Http\Controllers\Murid\ModulController;
+use App\Http\Controllers\Murid\GameController;
+use App\Http\Controllers\Murid\EvaluasiController;
+use App\Http\Controllers\Murid\MentorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,11 +73,11 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
     // Admin Routes
     Route::middleware(['role:admin'])->prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+        // approval
+        Route::get('/approval', [AdminDashboardController::class, 'approval'])->name('approval');
         Route::get('/mentors', [AdminDashboardController::class, 'mentors'])->name('mentors');
         Route::get('/murids', [AdminDashboardController::class, 'murids'])->name('murids');
         Route::get('/activities', [AdminDashboardController::class, 'activities'])->name('activities');
@@ -91,11 +96,33 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     });
 
     // Murid Routes
-    Route::middleware(['role:murid'])->prefix('murid')->name('murid.')->group(function () {
-        Route::get('/dashboard', [MuridDashboardController::class, 'index'])->name('dashboard');
-        Route::get('/learning', [MuridDashboardController::class, 'learning'])->name('learning');
-        Route::get('/games', [MuridDashboardController::class, 'games'])->name('games');
-        Route::get('/progress', [MuridDashboardController::class, 'progress'])->name('progress');
-        Route::get('/mentors', [MuridDashboardController::class, 'mentors'])->name('mentors');
+    Route::middleware(['auth', 'role:murid'])->prefix('murid')->name('murid.')->group(function () {
+
+        Route::get('/pilih-iqra', function () {
+            $tingkatans = TingkatanIqra::orderBy('level')->get();
+            return view('pages.murid.pilih-iqra', compact('tingkatans'));
+        })->name('pilih-iqra');
+
+        // Modul
+        Route::get('/modul/{tingkatan_id}', [ModulController::class, 'index'])->name('modul.index');
+        Route::get('/modul/{tingkatan_id}/video', [ModulController::class, 'video'])->name('modul.video');
+        Route::get('/modul/{tingkatan_id}/materi/{materi_id}', [ModulController::class, 'materi'])->name('modul.materi');
+        Route::post('/modul/progress', [ModulController::class, 'updateProgress'])->name('modul.progress');
+
+        // Games
+        Route::get('/games/{tingkatan_id}', [GameController::class, 'index'])->name('games.index');
+        Route::get('/games/{tingkatan_id}/memory-card', [GameController::class, 'memoryCard'])->name('games.memory-card');
+        Route::get('/games/{tingkatan_id}/tracing', [GameController::class, 'tracing'])->name('games.tracing');
+        Route::get('/games/{tingkatan_id}/labirin', [GameController::class, 'labirin'])->name('games.labirin');
+        Route::get('/games/{tingkatan_id}/drag-drop', [GameController::class, 'dragDrop'])->name('games.drag-drop');
+        Route::post('/games/save-score', [GameController::class, 'saveScore'])->name('games.save-score');
+
+        // Evaluasi
+        Route::get('/evaluasi/{tingkatan_id}', [EvaluasiController::class, 'index'])->name('evaluasi.index');
+        Route::get('/evaluasi/{tingkatan_id}/leaderboard', [EvaluasiController::class, 'leaderboard'])->name('evaluasi.leaderboard');
+
+        // Mentor
+        Route::get('/mentor', [MentorController::class, 'index'])->name('mentor.index');
+        Route::post('/mentor/request/{mentor_id}', [MentorController::class, 'requestBimbingan'])->name('mentor.request');
     });
 });

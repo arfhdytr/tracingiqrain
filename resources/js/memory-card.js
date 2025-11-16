@@ -5,40 +5,41 @@ var pasanganDitemukan = 0;
 var totalPasangan = 6; 
 
 var cardMasterList = [
+    { id: "ain", latin: "Ain" },
     { id: "alif", latin: "Alif" },
     { id: "ba", latin: "Ba" },
-    { id: "ta", latin: "Ta" },
-    { id: "tsa", latin: "Tsa" },
+    { id: "dal", latin: "Dal" },
+    { id: "Dhad", latin: "Dhad" },
+    { id: "dzal", latin: "Dzal" },
+    { id: "fa", latin: "Fa" },
+    { id: "Ghain", latin: "Ghain" },
+    { id: "Ha", latin: "Ha" },
+    { id: "hamzah", latin: "Hamzah" },
+
     { id: "jim", latin: "Jim" },
+    { id: "kaf", latin: "Kaf" },
     { id: "kha", latin: "Kha" },
     { id: "kho", latin: "Kho" },
-    { id: "dal", latin: "Dal" },
-    { id: "dzal", latin: "Dzal" },
-    { id: "ra", latin: "Ra" },
-    { id: "za", latin: "Za" },
-    { id: "sin", latin: "Sin" },
-    { id: "syin", latin: "Syin" },
-    { id: "shod", latin: "Shod" },
-    { id: "dhod", latin: "Dhod" },
-    { id: "tho", latin: "Tho" },
-    { id: "dhlo", latin: "Dhlo" },
-    { id: "ain", latin: "Ain" },
-    { id: "ghoin", latin: "Ghoin" },
-    { id: "fa", latin: "Fa" },
-    { id: "qof", latin: "Qof" },
-    { id: "kaf", latin: "Kaf" },
     { id: "lam", latin: "Lam" },
+    { id: "Lamalif", latin: "Lam Alif" },
     { id: "mim", latin: "Mim" },
     { id: "nun", latin: "Nun" },
-    { id: "wawu", latin: "Wawu" },
-    { id: "hamzah", latin: "Hamzah" },
-    { id: "ya", latin: "Ya" }
+    { id: "Qaf", latin: "Qaf" },
+    { id: "ra", latin: "Ra" },
+
+    { id: "Sad", latin: "Shod / Sad" },
+    { id: "sin", latin: "Sin" },
+    { id: "syin", latin: "Syin" },
+    { id: "ta", latin: "Ta" },
+    { id: "Tha", latin: "Tha" },
+    { id: "tsa", latin: "Tsa" },
+    { id: "Waw", latin: "Waw" },
+    { id: "ya", latin: "Ya" },
+    { id: "Zayn", latin: "Zain" },
+    { id: "Zha", latin: "Zha" }
 ];
 
 var cardSet; 
-// var board = [];
-// var rows = 3;
-// var columns = 4;
 
 var card1Selected = null;
 var card2Selected = null;
@@ -226,9 +227,7 @@ function update() {
         // --- JIKA TIDAK COCOK ---
         // Balikkan kartu (secara visual)
         card1Selected.classList.remove("is-flipped");
-        card2Selected.classList.remove("is-flipped");
-        
-        // (Kita hapus poinSalah, sesuaikan dengan HTML)
+        card2Selected.classList.remove("is-flipped");               
         
     } else { 
         // --- JIKA COCOK! ---

@@ -33,7 +33,7 @@ const allHijaiyahData = [
         arabic: 'ا',
         name: 'Alif',
         difficulty: 'easy',
-        image_path: '/images/hijaiyah/alif.png',
+        image_path: '/images/hijaiyah/alif.webp',
         strokes: [
             {
                 type: 'line',
@@ -49,7 +49,7 @@ const allHijaiyahData = [
         arabic: 'ب',
         name: 'Ba',
         difficulty: 'easy',
-        image_path: '/images/hijaiyah/ba.png',
+        image_path: '/images/hijaiyah/ba.webp',
         strokes: [
             {
                 type: 'line',
@@ -73,7 +73,7 @@ const allHijaiyahData = [
         arabic: 'ت',
         name: 'Ta',
         difficulty: 'easy',
-        image_path: '/images/hijaiyah/ta.png',
+        image_path: '/images/hijaiyah/ta.webp',
         strokes: [
             {
                 type: 'line',
@@ -102,7 +102,7 @@ const allHijaiyahData = [
         arabic: 'ث',
         name: 'Tsa',
         difficulty: 'easy',
-        image_path: '/images/hijaiyah/tsa.png',
+        image_path: '/images/hijaiyah/tsa.webp',
         strokes: [
             {
                 type: 'line',
@@ -136,7 +136,7 @@ const allHijaiyahData = [
         arabic: 'ج',
         name: 'Jim',
         difficulty: 'medium',
-        image_path: '/images/hijaiyah/jim.png',
+        image_path: '/images/hijaiyah/jim.webp',
         strokes: [
             {
                 type: 'line',
@@ -165,7 +165,7 @@ const allHijaiyahData = [
         arabic: 'ح',
         name: 'Ha',
         difficulty: 'medium',
-        image_path: '/images/hijaiyah/ha.png',
+        image_path: '/images/hijaiyah/ha.webp',
         strokes: [
             {
                 type: 'line',
@@ -189,7 +189,7 @@ const allHijaiyahData = [
         arabic: 'خ',
         name: 'Kha',
         difficulty: 'medium',
-        image_path: '/images/hijaiyah/kha.png',
+        image_path: '/images/hijaiyah/kha.webp',
         strokes: [
             {
                 type: 'line',
@@ -218,7 +218,7 @@ const allHijaiyahData = [
         arabic: 'د',
         name: 'Dal',
         difficulty: 'easy',
-        image_path: '/images/hijaiyah/dal.png',
+        image_path: '/images/hijaiyah/dal.webp',
         strokes: [
             {
                 type: 'line',
@@ -238,7 +238,7 @@ const allHijaiyahData = [
         arabic: 'ذ',
         name: 'Dzal',
         difficulty: 'easy',
-        image_path: '/images/hijaiyah/dzal.png',
+        image_path: '/images/hijaiyah/dzal.webp',
         strokes: [
             {
                 type: 'line',
@@ -253,7 +253,7 @@ const allHijaiyahData = [
             },
             {
                 type: 'circle',
-                center: { x: 200, y: 75 },
+                center: { x: 190, y: 75 },
                 radius: 8
             }
         ]
@@ -263,7 +263,7 @@ const allHijaiyahData = [
         arabic: 'ر',
         name: 'Ra',
         difficulty: 'easy',
-        image_path: '/images/hijaiyah/ra.png',
+        image_path: '/images/hijaiyah/ra.webp',
         strokes: [
             {
                 type: 'line',
@@ -282,7 +282,7 @@ const allHijaiyahData = [
         arabic: 'ز',
         name: 'Zai',
         difficulty: 'easy',
-        image_path: '/images/hijaiyah/zai.png',
+        image_path: '/images/hijaiyah/zai.webp',
         strokes: [
             {
                 type: 'line',
@@ -306,7 +306,7 @@ const allHijaiyahData = [
         arabic: 'س',
         name: 'Sin',
         difficulty: 'medium',
-        image_path: '/images/hijaiyah/sin.png',
+        image_path: '/images/hijaiyah/sin.webp',
         strokes: [
             {
                 type: 'line',
@@ -337,7 +337,7 @@ const allHijaiyahData = [
         arabic: 'ش',
         name: 'Syin',
         difficulty: 'medium',
-        image_path: '/images/hijaiyah/syin.png',
+        image_path: '/images/hijaiyah/syin.webp',
         strokes: [
             {
                 type: 'line',
@@ -363,17 +363,17 @@ const allHijaiyahData = [
             },
             {
                 type: 'circle',
-                center: { x: 220, y: 95 },
+                center: { x: 220, y: 105 },
                 radius: 6
             },
             {
                 type: 'circle',
-                center: { x: 240, y: 80 },
+                center: { x: 240, y: 90 },
                 radius: 6
             },
             {
                 type: 'circle',
-                center: { x: 260, y: 95 },
+                center: { x: 260, y: 105 },
                 radius: 6
             }
         ]
@@ -383,7 +383,7 @@ const allHijaiyahData = [
         arabic: 'ص',
         name: 'Shad',
         difficulty: 'medium',
-        image_path: '/images/hijaiyah/shad.png',
+        image_path: '/images/hijaiyah/shad.webp',
         strokes: [
             {
                 type: 'line',
@@ -417,7 +417,7 @@ const allHijaiyahData = [
         arabic: 'ض',
         name: 'Dhad',
         difficulty: 'medium',
-        image_path: '/images/hijaiyah/dhad.png',
+        image_path: '/images/hijaiyah/dhad.webp',
         strokes: [
             {
                 type: 'line',
@@ -456,7 +456,7 @@ const allHijaiyahData = [
         arabic: 'ط',
         name: 'Tha',
         difficulty: 'medium',
-        image_path: '/images/hijaiyah/tha.png',
+        image_path: '/images/hijaiyah/tha.webp',
         strokes: [
             {
                 type: 'line',
@@ -483,7 +483,7 @@ const allHijaiyahData = [
         arabic: 'ظ',
         name: 'Dza',
         difficulty: 'medium',
-        image_path: '/images/hijaiyah/dza.png',
+        image_path: '/images/hijaiyah/dza.webp',
         strokes: [
             {
                 type: 'line',
@@ -514,7 +514,7 @@ const allHijaiyahData = [
         arabic: 'ع',
         name: 'Ain',
         difficulty: 'hard',
-        image_path: '/images/hijaiyah/ain.png',
+        image_path: '/images/hijaiyah/ain.webp',
         strokes: [
             {
                 type: 'line',
@@ -543,7 +543,7 @@ const allHijaiyahData = [
         arabic: 'غ',
         name: 'Ghain',
         difficulty: 'hard',
-        image_path: '/images/hijaiyah/ghain.png',
+        image_path: '/images/hijaiyah/ghain.webp',
         strokes: [
             {
                 type: 'line',
@@ -577,7 +577,7 @@ const allHijaiyahData = [
         arabic: 'ف',
         name: 'Fa',
         difficulty: 'medium',
-        image_path: '/images/hijaiyah/fa.png',
+        image_path: '/images/hijaiyah/fa.webp',
         strokes: [
             {
                 type: 'line',
@@ -610,7 +610,7 @@ const allHijaiyahData = [
         arabic: 'ق',
         name: 'Qaf',
         difficulty: 'medium',
-        image_path: '/images/hijaiyah/qaf.png',
+        image_path: '/images/hijaiyah/qaf.webp',
         strokes: [
             {
                 type: 'line',
@@ -648,7 +648,7 @@ const allHijaiyahData = [
         arabic: 'ك',
         name: 'Kaf',
         difficulty: 'medium',
-        image_path: '/images/hijaiyah/kaf.png',
+        image_path: '/images/hijaiyah/kaf.webp',
         strokes: [
             {
                 type: 'line',
@@ -677,7 +677,7 @@ const allHijaiyahData = [
         arabic: 'ل',
         name: 'Lam',
         difficulty: 'easy',
-        image_path: '/images/hijaiyah/lam.png',
+        image_path: '/images/hijaiyah/lam.webp',
         strokes: [
             {
                 type: 'line',
@@ -699,22 +699,20 @@ const allHijaiyahData = [
         arabic: 'م',
         name: 'Mim',
         difficulty: 'medium',
-        image_path: '/images/hijaiyah/mim.png',
+        image_path: '/images/hijaiyah/mim.webp',
         strokes: [
             {
                 type: 'line',
                 points: [
-                    { x: 120, y: 140 },
-                    { x: 140, y: 120 },
-                    { x: 170, y: 110 },
-                    { x: 200, y: 120 },
-                    { x: 220, y: 140 },
-                    { x: 220, y: 170 },
-                    { x: 200, y: 200 },
-                    { x: 170, y: 210 },
-                    { x: 140, y: 200 },
-                    { x: 120, y: 170 },
-                    { x: 120, y: 140 }
+                    { x: 180, y: 105 },
+                    { x: 190, y: 100 },
+                    { x: 205, y: 90 },
+                    { x: 210, y: 95 },
+                    { x: 230, y: 100 },
+                    { x: 230, y: 105 },
+                    { x: 200, y: 110 },
+                    { x: 180, y: 115 },
+                    { x: 190, y: 180 },
                 ]
             }
         ]
@@ -724,7 +722,7 @@ const allHijaiyahData = [
         arabic: 'ن',
         name: 'Nun',
         difficulty: 'medium',
-        image_path: '/images/hijaiyah/nun.png',
+        image_path: '/images/hijaiyah/nun.webp',
         strokes: [
             {
                 type: 'line',
@@ -748,7 +746,7 @@ const allHijaiyahData = [
         arabic: 'و',
         name: 'Wau',
         difficulty: 'easy',
-        image_path: '/images/hijaiyah/wau.png',
+        image_path: '/images/hijaiyah/wau.webp',
         strokes: [
             {
                 type: 'line',
@@ -773,7 +771,7 @@ const allHijaiyahData = [
         arabic: 'ه',
         name: 'Ha',
         difficulty: 'medium',
-        image_path: '/images/hijaiyah/haa.png',
+        image_path: '/images/hijaiyah/haa.webp',
         strokes: [
             {
                 type: 'line',
@@ -793,30 +791,85 @@ const allHijaiyahData = [
     },
     {
         id: 28,
-        arabic: 'ي',
-        name: 'Ya',
+        arabic: 'لا',
+        name: 'Lamalif',
         difficulty: 'medium',
-        image_path: '/images/hijaiyah/ya.png',
+        image_path: '/images/hijaiyah/Lamalif.webp',
         strokes: [
             {
                 type: 'line',
                 points: [
-                    { x: 280, y: 120 },
-                    { x: 250, y: 140 },
-                    { x: 200, y: 150 },
-                    { x: 150, y: 140 },
-                    { x: 120, y: 120 }
+                    { x: 240, y: 120 },
+                    { x: 200, y: 170 },
+                    { x: 160, y: 200 },
+                    { x: 160, y: 205 },
+                    { x: 180, y: 210 },
+                    { x: 230, y: 200 },
+                    { x: 230, y: 195 },
+                    { x: 200, y: 170 },
+                    { x: 160, y: 140 }
+                ]
+            },
+            {
+                type: 'line',
+                center: { x: 190, y: 195 },
+                radius: 8
+            }
+        ]
+    },
+    {
+        id: 29,
+        arabic: 'ء',
+        name: 'Hamzah',
+        difficulty: 'easy',
+        image_path: '/images/hijaiyah/hamzah.webp',
+        strokes: [
+            {
+                type: 'line',
+                points: [
+                    { x: 210, y: 135 },
+                    { x: 190, y: 125 },  // MELENGKUNG KIRI ATAS
+                    { x: 170, y: 120 },
+                    { x: 160, y: 140 },
+                    { x: 170, y: 160 },
+                    { x: 210, y: 165 },  // BALIK KE TENGAH
+                    { x: 155, y: 170 },
+                ]
+            }
+        ]   
+    },
+    {
+        arabic: 'ي',
+        name: 'Ya',
+        difficulty: 'medium',
+        image_path: '/images/hijaiyah/ya.webp',
+        strokes: [
+            {
+                type: 'line',
+                points: [
+                    { x: 270, y: 120 },
+                    { x: 250, y: 125 },
+                    { x: 215, y: 140 },
+                    { x: 210, y: 152 },
+                    { x: 220, y: 155 },
+                    { x: 260, y: 175 },
+                    { x: 255, y: 180 },
+                    { x: 250, y: 200 },
+                    { x: 200, y: 210 },
+                    { x: 175, y: 205 },
+                    { x: 150, y: 205 },
+                    { x: 140, y: 195 }
                 ]
             },
             {
                 type: 'circle',
-                center: { x: 190, y: 195 },
-                radius: 8
+                center: { x: 180, y: 225 },
+                radius: 7
             },
             {
                 type: 'circle',
-                center: { x: 210, y: 195 },
-                radius: 8
+                center: { x: 215, y: 225 },
+                radius: 7
             }
         ]
     }

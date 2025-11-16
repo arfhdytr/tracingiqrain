@@ -11,6 +11,8 @@ use App\Models\Murid;
 use App\Models\HasilGame;
 use App\Models\JenisGame;
 use Illuminate\Support\Facades\Hash; // <-- Tambahkan ini
+use App\Models\Leaderboard; // <-- TAMBAHKAN INI
+use Illuminate\Support\Facades\DB;   // <-- TAMBAHKAN INI
 
 class DatabaseSeeder extends Seeder
 {
@@ -67,5 +69,29 @@ class DatabaseSeeder extends Seeder
             })
             ->for($jagoanMurid) // Tautkan ke Murid jagoan
             ->create();
+
+        $scores = HasilGame::select(
+                'murid_id', 
+                DB::raw('SUM(total_poin) as total_skor')
+            )
+            ->groupBy('murid_id')
+            ->orderBy('total_skor', 'desc')
+            ->get();
+        
+        // Ambil data murid (untuk 'mentor_id' jika ada, jika tidak tetap null)
+        $allMurids = Murid::all()->keyBy('murid_id');
+
+        // Loop dan masukkan ke tabel 'leaderboards'
+        foreach ($scores as $index => $score) {
+            $murid = $allMurids->get($score->murid_id);
+            
+            Leaderboard::create([
+                'murid_id' => $score->murid_id,
+                'mentor_id' => $murid ? $murid->mentor_id : null, // Aman, tetap null jika tidak ada
+                'total_poin_semua_game' => $score->total_skor,
+                'ranking_global' => $index + 1, // $index mulai dari 0
+                'ranking_mentor' => null, // Kita biarkan null dulu
+            ]);
+        }
     }
 }

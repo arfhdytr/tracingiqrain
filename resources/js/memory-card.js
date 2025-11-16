@@ -103,7 +103,7 @@ function shuffleCards() {
         cardSet.push({
             id: kartu.id,
             type: "hijaiyah",
-            content: `<img src="${basePath}images/hijaiyah/${kartu.id}.png" alt="${kartu.id}">`
+            content: `<img src="${basePath}images/hijaiyah/${kartu.id}.webp" alt="${kartu.id}">`
         });
         
         // Tambah kartu Tipe LATIN (Teks)

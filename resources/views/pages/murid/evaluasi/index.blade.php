@@ -23,7 +23,7 @@
         </div>
         
         <!-- Tab Toggle -->
-        <div class="flex justify-center mb-8">
+        <div class="flex justify-center mb-4">
             <div class="bg-white rounded-full p-1 shadow-lg inline-flex">
                 <button onclick="switchTab('leaderboard')" 
                         id="tab-leaderboard" 
@@ -39,111 +39,119 @@
         </div>
         
         <!-- Leaderboard Content -->
-        <div id="content-leaderboard" class="tab-content">
-            <div class="bg-white rounded-3xl p-8 shadow-2xl">
+       <div id="content-leaderboard" class="tab-content flex justify-center items-center">
+    <div class="bg-white rounded-3xl shadow-2xl" style="width: 512px; height: 602px; overflow: hidden; display: flex; flex-direction: column;">
                 
-                <!-- Filter Dropdown -->
-                @if(auth()->user()->murid->mentor_id)
-                <div class="flex justify-end mb-6">
-                    <select onchange="changeLeaderboardType(this.value)" 
-                            class="bg-blue-500 text-white px-6 py-2 rounded-full font-semibold cursor-pointer">
-                        <option value="global" {{ $leaderboardType === 'global' ? 'selected' : '' }}>
-                            Berdasarkan Global
-                        </option>
-                        <option value="mentor" {{ $leaderboardType === 'mentor' ? 'selected' : '' }}>
-                            Berdasarkan Mentor
-                        </option>
-                    </select>
-                </div>
-                @endif
+        <div class="flex justify-end mb-4 px-6 pt-6 flex-shrink-0">
+            <select onchange="changeLeaderboardType(this.value)" 
+                    class="bg-blue-500 text-white px-6 py-2 rounded-full font-semibold cursor-pointer">
+                <option value="global" {{ $leaderboardType === 'global' ? 'selected' : '' }}>
+                    Global
+                </option>
+                <option value="mentor" {{ $leaderboardType === 'mentor' ? 'selected' : '' }}>
+                    Mentor
+                </option>
+            </select>
+        </div>        
+        
+        @if($leaderboards->count() >= 3)
+            {{-- 
+              LANGKAH "RAPI":
+              Kita definisikan variabel dulu di sini agar HTML di bawah lebih bersih.
+            --}}
+            @php
+                $rank1 = $leaderboards[0];
+                $rank2 = $leaderboards[1];
+                $rank3 = $leaderboards[2];
+            @endphp
+
+            <div class="flex items-end justify-center gap-4 mb-6 px-4 flex-shrink-0">
                 
-                <!-- Top 3 Podium -->
-                @if($leaderboards->count() >= 3)
-                <div class="flex items-end justify-center gap-8 mb-12">
-                    <!-- Rank 2 -->
-                    <div class="text-center">
-                        <div class="bg-gray-200 rounded-full w-20 h-20 flex items-center justify-center mb-2">
-                            <svg class="w-12 h-12 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/>
-                            </svg>
-                        </div>
-                        <p class="font-bold text-gray-700">{{ $leaderboards[1]->murid->user->username ?? 'Murid 2' }}</p>
-                        <p class="text-sm text-gray-500">Skor {{ $leaderboards[1]->total_poin_semua_game }}</p>
-                        <div class="bg-gray-300 rounded-t-3xl px-6 py-8 mt-4 shadow-lg">
-                            <div class="text-4xl font-bold text-gray-600">2</div>
-                        </div>
-                    </div>
+                <!-- Rank 2 -->
+                <div class="text-center pb-0" style="width: 120px;">
+                    <img src="{{ $rank2->murid->user->avatar_url ?? '' }}" 
+                         alt="{{ $rank2->murid->user->username ?? 'Murid 2' }}"
+                         class="bg-gray-200 rounded-full w-16 h-16 object-cover border-4 border-gray-300 mx-auto ">
                     
-                    <!-- Rank 1 -->
-                    <div class="text-center -mt-8">
-                        <div class="bg-yellow-400 rounded-full w-24 h-24 flex items-center justify-center mb-2 shadow-lg">
-                            <svg class="w-14 h-14 text-yellow-700" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/>
-                            </svg>
-                        </div>
-                        <p class="font-bold text-blue-900 text-lg">{{ $leaderboards[0]->murid->user->username ?? 'Murid 1' }}</p>
-                        <p class="text-sm text-gray-600">Skor {{ $leaderboards[0]->total_poin_semua_game }}</p>
-                        <div class="bg-gradient-to-b from-yellow-300 to-yellow-400 rounded-t-3xl px-6 py-12 mt-4 shadow-xl">
-                            <div class="text-5xl font-bold text-yellow-700">1</div>
-                            <div class="text-3xl mt-2">👑</div>
-                        </div>
-                    </div>
-                    
-                    <!-- Rank 3 -->
-                    <div class="text-center">
-                        <div class="bg-orange-200 rounded-full w-20 h-20 flex items-center justify-center mb-2">
-                            <svg class="w-12 h-12 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/>
-                            </svg>
-                        </div>
-                        <p class="font-bold text-gray-700">{{ $leaderboards[2]->murid->user->username ?? 'Murid 3' }}</p>
-                        <p class="text-sm text-gray-500">Skor {{ $leaderboards[2]->total_poin_semua_game }}</p>
-                        <div class="bg-orange-300 rounded-t-3xl px-6 py-6 mt-4 shadow-lg">
-                            <div class="text-3xl font-bold text-orange-600">3</div>
-                        </div>
+                    <p class="font-bold text-gray-700 text-sm truncate px-1">{{ $rank2->murid->user->username ?? 'Murid 2' }}</p>
+                    <p class="text-xs text-gray-500">Skor {{ $rank2->total_poin_semua_game }}</p>
+                    <div class="bg-gray-300 rounded-t-3xl shadow-lg flex items-center justify-center" style="height: 80px;">
+                        <div class="text-3xl font-bold text-gray-600">2</div>
                     </div>
                 </div>
-                @endif
                 
-                <!-- Leaderboard List -->
-                <div class="max-h-96 overflow-y-auto space-y-2">
-                    @forelse($leaderboards->skip(3) as $index => $leaderboard)
-                    <div class="flex items-center justify-between bg-gray-50 rounded-2xl p-4 hover:bg-gray-100 transition-colors">
-                        <div class="flex items-center gap-4">
-                            <div class="text-2xl font-bold text-gray-400 w-12 text-center">
-                                {{ sprintf('%02d', $index + 4) }}
-                            </div>
-                            <div class="bg-blue-100 rounded-full w-12 h-12 flex items-center justify-center">
-                                <svg class="w-8 h-8 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/>
-                                </svg>
-                            </div>
-                            <p class="font-semibold text-gray-700">{{ $leaderboard->murid->user->username }}</p>
-                        </div>
-                        <p class="text-xl font-bold text-pink-500">Skor {{ $leaderboard->total_poin_semua_game }}</p>
+                <!-- Rank 1 -->
+                <div class="text-center pb-0" style="width: 130px">
+                    <img src="{{ $rank1->murid->user->avatar_url ?? '' }}" 
+                         alt="{{ $rank1->murid->user->username ?? 'Murid 1' }}"
+                         class="bg-yellow-400 rounded-full w-20 h-20 object-cover border-4 border-yellow-500 mx-auto shadow-lg">
+
+                    <p class="font-bold text-blue-900 text-sm truncate px-1">{{ $rank1->murid->user->username ?? 'Murid 1' }}</p>
+                    <p class="text-xs text-gray-600">Skor {{ $rank1->total_poin_semua_game }}</p>
+                    <div class="bg-gradient-to-b from-yellow-300 to-yellow-400 rounded-t-3xl  shadow-xl flex flex-col items-center justify-center" style="height: 110px;">
+                        <div class="text-4xl font-bold text-yellow-700">1</div>
+                        <div class="text-2xl mt-1">👑</div>
                     </div>
-                    @empty
-                    <div class="text-center text-gray-500 py-8">
-                        Belum ada peringkat lainnya
-                    </div>
-                    @endforelse
                 </div>
                 
-                <!-- My Ranking -->
-                @if($myRanking)
-                <div class="mt-8 bg-gradient-to-r from-pink-100 to-blue-100 rounded-2xl p-6 border-4 border-pink-300">
-                    <p class="text-center text-xl font-bold text-gray-700">
-                        Peringkatmu: 
-                        <span class="text-3xl text-pink-500">
-                            #{{ $leaderboardType === 'mentor' ? $myRanking->ranking_mentor : $myRanking->ranking_global }}
-                        </span>
-                        dengan skor <span class="text-pink-500">{{ $myRanking->total_poin_semua_game }}</span> poin
-                    </p>
+                <!-- Rank 3 -->
+                <div class="text-center pb-0" style="width: 120px;">
+                    <img src="{{ $rank3->murid->user->avatar_url ?? '' }}" 
+                         alt="{{ $rank3->murid->user->username ?? 'Murid 3' }}"
+                         class="bg-orange-200 rounded-full w-16 h-16 object-cover border-4 border-orange-300 mx-auto ">
+
+                    <p class="font-bold text-gray-700 text-sm truncate px-1">{{ $rank3->murid->user->username ?? 'Murid 3' }}</p>
+                    <p class="text-xs text-gray-500">Skor {{ $rank3->total_poin_semua_game }}</p>
+                    <div class="bg-orange-300 rounded-t-3xl shadow-lg flex items-center justify-center" style="height: 60px;">
+                        <div class="text-2xl font-bold text-orange-600">3</div>
+                    </div>
                 </div>
-                @endif
-                
             </div>
+        @endif
+        
+        <div class="flex-1 min-h-0 overflow-y-auto space-y-2 px-6">
+            @forelse($leaderboards->skip(3) as $index => $leaderboard)
+            <div class="flex items-center justify-between bg-gray-50 rounded-2xl p-3 hover:bg-gray-100 transition-colors">
+                <div class="flex items-center gap-3">
+                    <div class="text-xl font-bold text-gray-400 w-10 text-center">
+                        {{-- 
+                          LANGKAH "AMAN": 
+                          Ambil ranking dari database, bukan hitung manual $index + 4
+                          Ini lebih aman jika data $leaderboards tidak lengkap 
+                        --}}
+                        {{ sprintf('%02d', $leaderboard->ranking_global) }}
+                    </div>
+                    
+                    {{-- REVISI: Ganti SVG dengan <img> --}}
+                    <img src="{{ $leaderboard->murid->user->avatar_url ?? '' }}" 
+                         alt="{{ $leaderboard->murid->user->username ?? 'Murid' }}"
+                         class="bg-blue-100 rounded-full w-10 h-10 object-cover border-2 border-blue-200">
+
+                    <p class="font-semibold text-gray-700 truncate text-sm">{{ $leaderboard->murid->user->username ?? 'Murid' }}</p>
+                </div>
+                <p class="text-lg font-bold text-pink-500">{{ $leaderboard->total_poin_semua_game }}</p>
+            </div>
+            @empty
+            <div class="text-center text-gray-500 py-8">
+                Belum ada peringkat lainnya
+            </div>
+            @endforelse
         </div>
+        
+        @if($myRanking)
+        <div class="mt-4 mb-4 mx-6 bg-gradient-to-r from-pink-100 to-blue-100 rounded-2xl p-4 border-4 border-pink-300 flex-shrink-0">
+            <p class="text-center text-sm font-bold text-gray-700">
+                Peringkatmu: 
+                <span class="text-2xl text-pink-500">
+                    #{{ $leaderboardType === 'mentor' ? $myRanking->ranking_mentor : $myRanking->ranking_global }}
+                </span>
+                dengan skor <span class="text-pink-500">{{ $myRanking->total_poin_semua_game }}</span> poin
+            </p>
+        </div>
+        @endif
+        
+    </div>
+</div>
         
         <!-- Evaluasi Content -->
         <div id="content-evaluasi" class="tab-content hidden">

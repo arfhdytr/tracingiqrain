@@ -49,6 +49,11 @@ class GameController extends Controller
         return view('pages.murid.games.tracing', compact('tingkatan', 'materiPembelajarans', 'gameStatic'));
     }
 
+    public function tracingStandalone(){
+        return view('pages.murid.games.tracing');
+    }
+
+
     public function labirin($tingkatan_id)
     {
         $tingkatan = TingkatanIqra::with('materiPembelajarans')->findOrFail($tingkatan_id);

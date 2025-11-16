@@ -1,186 +1,104 @@
-@extends('layouts.murid')
-
-@section('title', 'Menulis Huruf - Tracing')
-
-@section('content')
-<div class="container mx-auto px-4 py-8">
-    <div class="max-w-5xl mx-auto">
-        
-        <!-- Header -->
-        <div class="bg-gradient-to-r from-green-300 to-green-400 rounded-3xl p-6 shadow-lg mb-8">
-            <div class="flex items-center justify-between">
-                <div>
-                    <h1 class="text-4xl font-bold text-white mb-2">Menulis Huruf</h1>
-                    <p class="text-white text-lg font-light">
-                        Ikuti garis titik-titik untuk menulis huruf hijaiyah!
-                    </p>
-                </div>
-                <div class="text-right">
-                    <div class="text-white text-sm">Huruf ke-</div>
-                    <div class="text-5xl font-bold text-white" id="currentLetter">1</div>
-                </div>
-            </div>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracing Huruf Hijaiyah - IQRain</title>
+    <link rel="stylesheet" href="{{ asset('css/game-tracing.css') }}">
+</head>
+<body>
+    
+    <!-- Welcome Animation Backdrop -->
+    <div id="welcome-backdrop" class="welcome-backdrop fixed inset-0 bg-black opacity-0 transition-opacity duration-500 pointer-events-none z-50"></div>
+    
+    <!-- Welcome Message -->
+    <div id="welcome-message" class="welcome-message fixed inset-0 flex items-center justify-center opacity-0 transition-opacity duration-500 pointer-events-none z-50">
+        <div class="text-center">
+            <h1 class="welcome-title text-6xl font-bold text-white mb-4">Selamat Bermain!</h1>
+            <p class="welcome-subtitle text-2xl text-white">Mari belajar menulis huruf hijaiyah</p>
         </div>
-        
-        <!-- Game Board -->
-        <div class="bg-white rounded-3xl p-8 shadow-2xl mb-8">
-            <div class="text-center mb-6">
-                <p class="text-3xl font-bold text-gray-700 mb-2">Tulis huruf "<span id="hurufName">Alif</span>"</p>
-                <p class="text-xl text-gray-500">Ikuti garis putus-putus</p>
-            </div>
-            
-            <!-- Canvas untuk tracing -->
-            <div class="bg-gradient-to-br from-pink-50 to-blue-50 rounded-2xl p-8 flex items-center justify-center" style="min-height: 400px;">
-                <canvas id="tracingCanvas" width="600" height="400" 
-                        class="border-4 border-pink-200 rounded-xl bg-white cursor-crosshair">
-                </canvas>
-            </div>
-            
-            <div class="flex justify-center gap-4 mt-6">
-                <button onclick="clearCanvas()" class="btn-secondary px-6 py-2">
-                    🗑️ Hapus
-                </button>
-                <button onclick="nextLetter()" class="btn-primary px-6 py-2">
-                    Lanjut ➡️
-                </button>
-            </div>
-        </div>
-        
-        <!-- Action Buttons -->
-        <div class="flex justify-center gap-4">
-            <button onclick="window.location.href='{{ route('murid.games.index', $tingkatan->tingkatan_id) }}'" 
-                    class="btn-secondary px-8 py-3 text-xl">
-                ← Selesai
-            </button>
-        </div>
-        
     </div>
-</div>
 
-@push('scripts')
-<script>
-    const materiPembelajarans = @json($materiPembelajarans);
-    const gameStaticId = {{ $gameStatic->game_static_id ?? 'null' }};
-    const jenisGameId = {{ $gameStatic->jenis_game_id ?? 'null' }};
-    
-    let currentIndex = 0;
-    let canvas, ctx;
-    let isDrawing = false;
-    let score = 0;
-    
-    function initCanvas() {
-        canvas = document.getElementById('tracingCanvas');
-        ctx = canvas.getContext('2d');
+    <!-- Game Container -->
+    <div id="game-container" class="game-container">
         
-        drawDottedLetter();
-        
-        // Mouse events
-        canvas.addEventListener('mousedown', startDrawing);
-        canvas.addEventListener('mousemove', draw);
-        canvas.addEventListener('mouseup', stopDrawing);
-        canvas.addEventListener('mouseout', stopDrawing);
-        
-        // Touch events
-        canvas.addEventListener('touchstart', handleTouch);
-        canvas.addEventListener('touchmove', handleTouch);
-        canvas.addEventListener('touchend', stopDrawing);
-    }
-    
-    function drawDottedLetter() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        // Draw dotted guide
-        ctx.font = '200px Arial';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.setLineDash([5, 10]);
-        ctx.strokeStyle = '#FFB6C1';
-        ctx.lineWidth = 3;
-        
-        const letter = materiPembelajarans[currentIndex]?.moduls[0]?.teks_latin || 'A';
-        ctx.strokeText(letter, canvas.width / 2, canvas.height / 2);
-        ctx.setLineDash([]);
-    }
-    
-    function startDrawing(e) {
-        isDrawing = true;
-        const rect = canvas.getBoundingClientRect();
-        ctx.beginPath();
-        ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
-    }
-    
-    function draw(e) {
-        if (!isDrawing) return;
-        
-        const rect = canvas.getBoundingClientRect();
-        ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
-        ctx.strokeStyle = '#E85A8B';
-        ctx.lineWidth = 5;
-        ctx.lineCap = 'round';
-        ctx.stroke();
-    }
-    
-    function stopDrawing() {
-        isDrawing = false;
-    }
-    
-    function handleTouch(e) {
-        e.preventDefault();
-        const touch = e.touches[0];
-        const mouseEvent = new MouseEvent(e.type === 'touchstart' ? 'mousedown' : 'mousemove', {
-            clientX: touch.clientX,
-            clientY: touch.clientY
-        });
-        canvas.dispatchEvent(mouseEvent);
-    }
-    
-    function clearCanvas() {
-        drawDottedLetter();
-    }
-    
-    function nextLetter() {
-        score += 100;
-        currentIndex++;
-        
-        if (currentIndex >= materiPembelajarans.length) {
-            // Game complete
-            showToast('Hebat! Semua huruf selesai! 🎉', 'success');
-            saveScore();
-            setTimeout(() => {
-                window.location.href = '{{ route('murid.games.index', $tingkatan->tingkatan_id) }}';
-            }, 2000);
-            return;
-        }
-        
-        document.getElementById('currentLetter').textContent = currentIndex + 1;
-        document.getElementById('hurufName').textContent = materiPembelajarans[currentIndex].judul_materi;
-        drawDottedLetter();
-        showToast('Bagus! Lanjut ke huruf berikutnya! 👍', 'success');
-    }
-    
-    async function saveScore() {
-        try {
-            await fetchAPI('/murid/games/save-score', {
-                method: 'POST',
-                body: JSON.stringify({
-                    jenis_game_id: jenisGameId,
-                    game_static_id: gameStaticId,
-                    skor: score,
-                    total_poin: score
-                })
-            });
-        } catch (error) {
-            console.error('Error saving score:', error);
-        }
-    }
-    
-    // Initialize
-    document.addEventListener('DOMContentLoaded', () => {
-        initCanvas();
-        document.getElementById('hurufName').textContent = materiPembelajarans[0]?.judul_materi || 'Alif';
-        document.getElementById('currentLetter').textContent = '1';
-    });
-</script>
-@endpush
+        <!-- Header with Exit Button -->
+        <div class="game-header">
+            <div class="letter-info-display">
+                <span id="current-letter-arabic" class="arabic-letter">ا</span>
+                <span id="current-letter-name" class="letter-name-display">Alif</span>
+            </div>
+            <a href="{{ url('/murid/games') }}" id="exit-button" class="exit-button">Keluar</a>
+        </div>
 
-@endsection
+        <!-- Main Game Area -->
+        <div class="game-main">
+            
+            <!-- Canvas Area (Left Side) -->
+            <div class="canvas-section">
+                <div class="canvas-wrapper">
+                    <!-- Guide Canvas - Shows the dotted path -->
+                    <canvas id="guideCanvas" width="400" height="300"></canvas>
+                    <!-- Tracing Canvas - Where user draws -->
+                    <canvas id="tracingCanvas" width="400" height="300"></canvas>
+                </div>
+                
+                <div class="canvas-controls">
+                    <button id="clear-button" class="control-btn btn-clear">Hapus</button>
+                    <button id="replay-button" class="control-btn btn-replay">Ulang Animasi</button>
+                </div>
+            </div>
+
+            <!-- Animation Preview (Right Side) -->
+            <div class="preview-section">
+                <div class="preview-title">Perhatikan Cara Menulisnya</div>
+                <div class="preview-wrapper">
+                    <div id="letter-display" class="letter-display">ا</div>
+                    <canvas id="animationCanvas" width="300" height="250"></canvas>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Progress Footer -->
+        <div class="game-footer">
+            <div class="progress-container">
+                <div class="progress-label">Progress:</div>
+                <div class="progress-bar">
+                    <div id="progress-fill" class="progress-fill"></div>
+                </div>
+                <div id="progress-text" class="progress-text">0%</div>
+            </div>
+
+            <div class="score-container">
+                <div class="score-label">Akurasi:</div>
+                <div id="score-display" class="score-display">0%</div>
+                <div id="stars-display" class="stars-display">☆☆☆</div>
+            </div>
+
+            <div class="navigation-buttons">
+                <button id="prev-button" class="nav-btn btn-prev">← Sebelumnya</button>
+                <button id="next-button" class="nav-btn btn-next">Berikutnya →</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Success Modal (Hidden by default) -->
+    <div id="success-modal" class="success-modal">
+        <div class="success-container">
+            <div class="success-animation">🎉</div>
+            <h2 class="success-title">Hebat!</h2>
+            <div id="final-stars" class="final-stars">⭐⭐⭐</div>
+            <p id="success-message" class="success-message">Kamu menulis huruf dengan sangat baik!</p>
+            <p id="final-score" class="final-score">Akurasi: 0%</p>
+            <div class="success-buttons">
+                <button id="try-again-button" class="btn btn-secondary">Coba Lagi</button>
+                <button id="next-letter-button" class="btn btn-primary">Huruf Berikutnya</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ asset('js/game-tracing.js') }}"></script>
+</body>
+</html>

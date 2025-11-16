@@ -126,3 +126,5 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::post('/mentor/request/{mentor_id}', [MentorController::class, 'requestBimbingan'])->name('mentor.request');
     });
 });
+
+Route::get('/games/tracing-hijaiyah', [GameController::class, 'tracingStandalone'])->name('games.tracing');

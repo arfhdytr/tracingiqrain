@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Admin\Approval; // Pastikan namespace ini benar
+namespace App\Livewire\Admin\Approval;
 
 use App\Models\Mentor;
 use Illuminate\Database\Eloquent\Builder;
@@ -41,7 +41,6 @@ class ApprovalTable extends DataTableComponent
                 ->sortable()
                 ->searchable(),
             Column::make('Email', 'email')
-                ->format(fn($value, $row) => $row->email)
                 ->sortable()
                 ->searchable(),
             Column::make('Status Pendaftaran', 'created_at')

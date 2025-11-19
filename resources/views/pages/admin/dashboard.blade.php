@@ -56,22 +56,6 @@
                 </div>
             </div>
 
-            {{-- Total Soal --}}
-            <div class="bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-2xl shadow-lg p-6 text-white transform transition-all duration-300 hover:scale-105 hover:shadow-xl">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-indigo-100 text-sm font-medium mb-1">Soal Kuis</p>
-                        <h3 class="text-4xl font-bold">{{ $stats['total_soal'] }}</h3>
-                        <p class="text-indigo-100 text-xs mt-2">
-                            <span class="font-semibold">{{ $stats['pending_soal'] }}</span> perlu direview
-                        </p>
-                    </div>
-                    <div class="bg-white/20 backdrop-blur-sm rounded-xl p-4">
-                        <i class="fas fa-book text-4xl"></i>
-                    </div>
-                </div>
-            </div>
-
             {{-- Pending Requests --}}
             <div class="bg-gradient-to-br from-red-500 to-red-600 rounded-2xl shadow-lg p-6 text-white transform transition-all duration-300 hover:scale-105 hover:shadow-xl">
                 <div class="flex items-center justify-between">

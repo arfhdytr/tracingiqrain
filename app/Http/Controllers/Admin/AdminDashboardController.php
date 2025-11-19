@@ -7,7 +7,6 @@ use App\Models\User;
 use App\Models\Mentor;
 use App\Models\Murid;
 use App\Models\HasilGame;
-use App\Models\SoalDragDrop;
 use App\Models\VideoPembelajaran;
 use App\Models\PermintaanBimbingan;
 use Illuminate\Support\Facades\DB;
@@ -35,8 +34,6 @@ class AdminDashboardController extends Controller
 
             // Content Statistics
             'total_videos' => VideoPembelajaran::count(),
-            'total_soal' => SoalDragDrop::count(),
-            'pending_soal' => SoalDragDrop::where('status_approval', 'pending')->count(),
 
             // Activity Statistics
             'total_games_played' => HasilGame::count(),
@@ -103,14 +100,76 @@ class AdminDashboardController extends Controller
         return view('pages.admin.approval.index');
     }
 
-    public function mentors()
+    public function murid()
     {
-        return view('admin.mentors');
+        return view('pages.admin.murid.index');
     }
 
-    public function murids()
+    public function muridCreate()
     {
-        return view('admin.murids');
+        return view('pages.admin.murid.create');
+    }
+
+    public function muridEdit(Murid $murid)
+    {
+        return view('pages.admin.murid.edit', [
+            'murid' => $murid->load(['user', 'mentor', 'preferensiPertanyaan'])
+        ]);
+    }
+
+    // Mentor methods
+    public function mentor()
+    {
+        return view('pages.admin.mentor.index');
+    }
+
+    public function mentorCreate()
+    {
+        return view('pages.admin.mentor.create');
+    }
+
+    public function mentorEdit(Mentor $mentor)
+    {
+        return view('pages.admin.mentor.edit', [
+            'mentor' => $mentor->load('user')
+        ]);
+    }
+
+    // Video methods
+    public function video()
+    {
+        return view('pages.admin.video.index');
+    }
+
+    public function videoCreate()
+    {
+        return view('pages.admin.video.create');
+    }
+
+    public function videoView(VideoPembelajaran $videoPembelajaran)
+    {
+        return view('pages.admin.video.view', [
+            'video' => $videoPembelajaran->load('tingkatanIqra')
+        ]);
+    }
+
+    public function videoEdit(VideoPembelajaran $videoPembelajaran)
+    {
+        return view('pages.admin.video.edit', [
+            'video' => $videoPembelajaran->load('tingkatanIqra')
+        ]);
+    }
+
+    public function tracking()
+    {
+        return view('pages.admin.tracking.index');
+    }
+
+    public function trackingDetail(Murid $murid)
+    {
+        return view('pages.admin.tracking.detail', [
+            'murid' => $murid->load(['user', 'mentor', 'leaderboards', 'hasilGames.jenisGame', 'progressModuls.modul'])
+        ]);
     }
 
     public function activities()

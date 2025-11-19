@@ -13,10 +13,13 @@ return new class extends Migration
     {
         Schema::create('jenis_games', function (Blueprint $table) {
             $table->id('jenis_game_id');
+            $table->unsignedBigInteger('tingkatan_id');
             $table->string('nama_game', 50);
             $table->integer('poin_maksimal');
             $table->text('deskripsi')->nullable();
             $table->timestamps();
+
+            $table->foreign('tingkatan_id')->references('tingkatan_id')->on('tingkatan_iqras')->onDelete('cascade');
         });
     }
 

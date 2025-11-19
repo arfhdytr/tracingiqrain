@@ -10,8 +10,7 @@
         <span wire:loading.remove wire:target="confirmRejection">Tolak</span>
         <span wire:loading wire:target="confirmRejection">Loading...</span>
     </button>
-
-    {{-- ✅ Gunakan Jetstream Dialog Modal --}}
+ 
     <x-dialog-modal wire:model="confirmReject">
         <x-slot name="title">
             <div class="flex items-center">

@@ -78,8 +78,29 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
         // approval
         Route::get('/approval', [AdminDashboardController::class, 'approval'])->name('approval');
-        Route::get('/mentors', [AdminDashboardController::class, 'mentors'])->name('mentors');
-        Route::get('/murids', [AdminDashboardController::class, 'murids'])->name('murids');
+        // murid
+        Route::prefix('murid')->name('murid.')->group(function () {
+            Route::get('/', [AdminDashboardController::class, 'murid'])->name('index');
+            Route::get('/create', [AdminDashboardController::class, 'muridCreate'])->name('create');
+            Route::get('/{murid}/edit', [AdminDashboardController::class, 'muridEdit'])->name('edit');
+        });
+        // mentor
+        Route::prefix('mentor')->name('mentor.')->group(function () {
+            Route::get('/', [AdminDashboardController::class, 'mentor'])->name('index');
+            Route::get('/create', [AdminDashboardController::class, 'mentorCreate'])->name('create');
+            Route::get('/{mentor}/edit', [AdminDashboardController::class, 'mentorEdit'])->name('edit');
+        });
+        // video
+        Route::prefix('video')->name('video.')->group(function () {
+            Route::get('/', [AdminDashboardController::class, 'video'])->name('index');
+            Route::get('/create', [AdminDashboardController::class, 'videoCreate'])->name('create');
+            Route::get('/{videoPembelajaran}/view', [AdminDashboardController::class, 'videoView'])->name('view');
+            Route::get('/{videoPembelajaran}/edit', [AdminDashboardController::class, 'videoEdit'])->name('edit');
+        });
+        Route::prefix('tracking')->name('tracking.')->group(function () {
+            Route::get('/', [AdminDashboardController::class, 'tracking'])->name('index');
+            Route::get('/{murid}', [AdminDashboardController::class, 'trackingDetail'])->name('detail');
+        });
         Route::get('/activities', [AdminDashboardController::class, 'activities'])->name('activities');
         Route::get('/content', [AdminDashboardController::class, 'content'])->name('content');
         Route::get('/soal-management', [AdminDashboardController::class, 'soalManagement'])->name('soal.management');
@@ -88,11 +109,26 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     // Mentor Routes
     Route::middleware(['role:mentor'])->prefix('mentor')->name('mentor.')->group(function () {
         Route::get('/dashboard', [MentorDashboardController::class, 'index'])->name('dashboard');
-        Route::get('/murids', [MentorDashboardController::class, 'murids'])->name('murids');
-        Route::get('/progress', [MentorDashboardController::class, 'progress'])->name('progress');
-        Route::get('/soal', [MentorDashboardController::class, 'soal'])->name('soal');
-        Route::get('/leaderboard', [MentorDashboardController::class, 'leaderboard'])->name('leaderboard');
-        Route::get('/requests', [MentorDashboardController::class, 'requests'])->name('requests');
+        // Murid Management
+        Route::prefix('murid')->name('murid.')->group(function () {
+            Route::get('/', [MentorDashboardController::class, 'murid'])->name('index');
+            Route::get('/create', [MentorDashboardController::class, 'muridCreate'])->name('create');
+            Route::get('/{murid}/edit', [MentorDashboardController::class, 'muridEdit'])->name('edit');
+
+            // Download Template
+            Route::get('/download-template', [MentorDashboardController::class, 'downloadTemplate'])->name('download-template');
+        });
+        Route::prefix('permintaan')->name('permintaan.')->group(function () {
+            Route::get('/', [MentorDashboardController::class, 'permintaan'])->name('index');
+        });
+        Route::prefix('laporan-kelas')->name('laporan-kelas.')->group(function () {
+            Route::get('/', [MentorDashboardController::class, 'laporanKelas'])->name('index');
+        });
+        // Laporan Murid
+        Route::prefix('laporan-murid')->name('laporan-murid.')->group(function () {
+            Route::get('/', [MentorDashboardController::class, 'laporanMurid'])->name('index');
+            Route::get('/{murid}', [MentorDashboardController::class, 'laporanMuridDetail'])->name('detail');
+        });
     });
 
     // Murid Routes
@@ -125,4 +161,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::get('/mentor', [MentorController::class, 'index'])->name('mentor.index');
         Route::post('/mentor/request/{mentor_id}', [MentorController::class, 'requestBimbingan'])->name('mentor.request');
     });
+
+    
 });

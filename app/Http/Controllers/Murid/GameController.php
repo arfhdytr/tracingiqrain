@@ -160,15 +160,10 @@ class GameController extends Controller
     public function dragDrop($tingkatan_id)
     {
         $tingkatan = TingkatanIqra::findOrFail($tingkatan_id);
-        $soals = SoalDragDrop::where('tingkatan_id', $tingkatan_id)
-            ->where('status_approval', 'approved')
-            ->inRandomOrder()
-            ->limit(10)
-            ->get();
 
         $jenisGame = JenisGame::where('nama_game', 'Kuis Drag & Drop')->first();
 
-        return view('pages.murid.games.drag-drop', compact('tingkatan', 'soals', 'jenisGame'));
+        return view('pages.murid.games.drag-drop', compact('tingkatan', 'jenisGame'));
     }
 
     // ==================================================================

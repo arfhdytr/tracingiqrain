@@ -27,13 +27,8 @@ class TingkatanIqra extends Model
         return $this->hasMany(VideoPembelajaran::class, 'tingkatan_id', 'tingkatan_id');
     }
 
-    public function gameStatics()
+    public function jenisGames()
     {
-        return $this->hasMany(GameStatic::class, 'tingkatan_id', 'tingkatan_id');
-    }
-
-    public function soalDragDrops()
-    {
-        return $this->hasMany(SoalDragDrop::class, 'tingkatan_id', 'tingkatan_id');
+        return $this->hasMany(JenisGame::class, 'tingkatan_id', 'tingkatan_id');
     }
 }

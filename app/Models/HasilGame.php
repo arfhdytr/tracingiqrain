@@ -14,8 +14,6 @@ class HasilGame extends Model
     protected $fillable = [
         'murid_id',
         'jenis_game_id',
-        'soal_id',
-        'game_static_id',
         'skor',
         'total_poin',
         'dimainkan_at',
@@ -33,15 +31,5 @@ class HasilGame extends Model
     public function jenisGame()
     {
         return $this->belongsTo(JenisGame::class, 'jenis_game_id', 'jenis_game_id');
-    }
-
-    public function soalDragDrop()
-    {
-        return $this->belongsTo(SoalDragDrop::class, 'soal_id', 'soal_id');
-    }
-
-    public function gameStatic()
-    {
-        return $this->belongsTo(GameStatic::class, 'game_static_id', 'game_static_id');
     }
 }

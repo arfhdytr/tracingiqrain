@@ -6,186 +6,53 @@ use App\Models\Mentor;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
-use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 
 class ApprovalTable extends DataTableComponent
 {
-    public bool $columnSelect = false;
+    protected $model = Mentor::class;
+    
+    protected $listeners = ['reloadTable' => '$refresh'];
 
-    // Modal properties
-    public $isRejectModalOpen = false;
-    public $selectedMentorId;
-    public $selectedMentorName;
-    public $alasan_tolak = '';
+    public function configure(): void
+    {
+        $this->setPrimaryKey('mentor_id')
+            ->setDefaultSort('created_at', 'desc')
+            ->setEmptyMessage('Tidak ada data yang ditemukan.')
+            ->setPerPageAccepted([10, 25, 50, 100])
+            ->setPerPage(10);
+    }
 
-    protected $listeners = ['refreshTable' => '$refresh'];
-
-    // Builder method (Wajib)
     public function builder(): Builder
     {
         return Mentor::query()
             ->with('user')
-            ->when(
-                $this->getFilter('status'),
-                fn($query, $status) =>
-                $query->where('status_approval', $status)
-            )
-            ->when(
-                !$this->getFilter('status'),
-                fn($query) =>
-                $query->where('status_approval', 'pending')
-            );
-    }
-
-    public function configure(): void
-    {
-        $this->setPrimaryKey('mentor_id');
-        $this->setPerPageAccepted([5, 10, 25, 50]);
-        $this->setPerPage(5);
-        $this->setSearchPlaceholder('Cari Mentor');
+            ->where('status_approval', 'pending');
     }
 
     public function columns(): array
     {
         return [
-            Column::make('No')
+            Column::make('No', 'mentor_id')
                 ->sortable()
-                ->format(function ($value, $column, $row) {
-                    static $index = 0;
-                    return ++$index;
-                })
-                ->excludeFromColumnSelect(),
-
+                ->format(
+                    fn($v, $r, $c) => $c->getRowIndex() + $this->getPage() * $this->getPerPage() - ($this->getPerPage() - 1)
+                ),
             Column::make('Nama', 'nama_lengkap')
                 ->sortable()
-                ->searchable()
-                ->excludeFromColumnSelect(),
-
+                ->searchable(),
             Column::make('Email', 'email')
                 ->sortable()
                 ->searchable(),
-
             Column::make('Status Pendaftaran', 'created_at')
                 ->sortable()
-                ->format(function ($value, $column, $row) {
-                    $days = now()->diffInDays($row->created_at);
-                    $hours = now()->diffInHours($row->created_at);
-
-                    if ($days > 0) {
-                        return "Diminta {$days} hari yang lalu";
-                    } elseif ($hours > 0) {
-                        return "Diminta {$hours} jam yang lalu";
-                    } else {
-                        return "Diminta baru saja";
-                    }
-                }),
-
+                ->format(fn($v) => 'Diminta ' . \Carbon\Carbon::parse($v)->diffForHumans()),
             Column::make('Aksi')
-                ->format(function ($value, $column, $row) {
-                    return view('components.column.mentor-approval-action', ['row' => $row]);
-                }),
+                ->label(function ($row) {
+                    // Panggil view perantara
+                    return view('components.column.approval.actions', ['mentor' => $row]);
+                })
+                ->excludeFromColumnSelect(),
         ];
     }
 
-    public function filters(): array
-    {
-        return [
-            'status' => SelectFilter::make('Status')
-                ->options([
-                    '' => 'Semua',
-                    'pending' => 'Menunggu',
-                    'approved' => 'Disetujui',
-                    'rejected' => 'Ditolak'
-                ]),
-        ];
-    }
-
-    /**
-     * resetModal
-     *
-     * @return void
-     */
-    private function resetModal()
-    {
-        $this->reset('selectedMentorId', 'selectedMentorName', 'alasan_tolak');
-    }
-
-    /**
-     * openRejectModal
-     *
-     * @return void
-     */
-    public function openRejectModal($mentorId, $mentorName)
-    {
-        $this->selectedMentorId = $mentorId;
-        $this->selectedMentorName = $mentorName;
-        $this->isRejectModalOpen = true;
-    }
-
-    /**
-     * closeRejectModal
-     *
-     * @return void
-     */
-    public function closeRejectModal()
-    {
-        $this->isRejectModalOpen = false;
-        $this->resetModal();
-    }
-
-    /**
-     * approve
-     *
-     * Method untuk approve mentor
-     *
-     * @return void
-     */
-    public function approve($mentorId)
-    {
-        try {
-            $mentor = Mentor::findOrFail($mentorId);
-
-            $mentor->update([
-                'status_approval' => 'approved',
-                'tgl_persetujuan' => now(),
-                'alasan_tolak' => null
-            ]);
-
-            $this->emit('success', "Mentor {$mentor->nama_lengkap} berhasil disetujui");
-        } catch (\Exception $e) {
-            $this->emit('error', 'Gagal menyetujui mentor: ' . $e->getMessage());
-        }
-    }
-
-    /**
-     * reject
-     *
-     * Method untuk reject mentor
-     *
-     * @return void
-     */
-    public function reject()
-    {
-        $this->validate([
-            'alasan_tolak' => 'required|min:10'
-        ], [
-            'alasan_tolak.required' => 'Alasan penolakan harus diisi',
-            'alasan_tolak.min' => 'Alasan penolakan minimal 10 karakter'
-        ]);
-
-        try {
-            $mentor = Mentor::findOrFail($this->selectedMentorId);
-
-            $mentor->update([
-                'status_approval' => 'rejected',
-                'tgl_persetujuan' => now(),
-                'alasan_tolak' => $this->alasan_tolak
-            ]);
-
-            $this->closeRejectModal();
-            $this->emit('success', "Pendaftaran mentor {$this->selectedMentorName} ditolak");
-        } catch (\Exception $e) {
-            $this->emit('error', 'Gagal menolak mentor: ' . $e->getMessage());
-        }
-    }
 }

@@ -35,11 +35,6 @@ class Mentor extends Model
         return $this->hasMany(Murid::class, 'mentor_id', 'mentor_id');
     }
 
-    public function soalDragDrops()
-    {
-        return $this->hasMany(SoalDragDrop::class, 'mentor_id', 'mentor_id');
-    }
-
     public function leaderboards()
     {
         return $this->hasMany(Leaderboard::class, 'mentor_id', 'mentor_id');

@@ -20,9 +20,4 @@ class Admin extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'user_id');
     }
-
-    public function soalDragDrops()
-    {
-        return $this->hasMany(SoalDragDrop::class, 'admin_id', 'admin_id');
-    }
 }

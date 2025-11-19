@@ -12,14 +12,15 @@ class JenisGame extends Model
     protected $primaryKey = 'jenis_game_id';
 
     protected $fillable = [
+        'tingkatan_id',
         'nama_game',
         'poin_maksimal',
         'deskripsi',
     ];
 
-    public function gameStatics()
+    public function tingkatanIqra()
     {
-        return $this->hasMany(GameStatic::class, 'jenis_game_id', 'jenis_game_id');
+        return $this->belongsTo(TingkatanIqra::class, 'tingkatan_id', 'tingkatan_id');
     }
 
     public function hasilGames()

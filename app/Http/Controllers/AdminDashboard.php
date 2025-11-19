@@ -7,7 +7,6 @@ use App\Models\User;
 use App\Models\Mentor;
 use App\Models\Murid;
 use App\Models\HasilGame;
-use App\Models\SoalDragDrop;
 use Illuminate\Http\Request;
 
 class AdminDashboardController extends Controller
@@ -20,7 +19,6 @@ class AdminDashboardController extends Controller
             'approved_mentors' => Mentor::where('status_approval', 'approved')->count(),
             'total_murids' => Murid::count(),
             'total_games_played' => HasilGame::count(),
-            'total_soal' => SoalDragDrop::count(),
         ];
 
         $recent_activities = HasilGame::with(['murid.user', 'jenisGame'])

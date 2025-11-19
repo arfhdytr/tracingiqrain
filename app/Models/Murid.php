@@ -22,6 +22,26 @@ class Murid extends Model
         'preferensi_terisi' => 'boolean',
     ];
 
+    // Boot method untuk auto delete related data
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($murid) {
+            // Delete related data
+            $murid->hasilGames()->delete();
+            $murid->progressModuls()->delete();
+            $murid->leaderboards()->delete();
+            $murid->preferensiPertanyaan()->delete();
+            $murid->permintaanBimbingans()->delete();
+
+            // Delete user account
+            if ($murid->user) {
+                $murid->user->delete();
+            }
+        });
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'user_id');
@@ -66,5 +86,25 @@ class Murid extends Model
     public function hasMentor()
     {
         return !is_null($this->mentor_id);
+    }
+
+    public function scopeWithMentor($query)
+    {
+        return $query->whereNotNull('mentor_id');
+    }
+
+    public function scopeWithoutMentor($query)
+    {
+        return $query->whereNull('mentor_id');
+    }
+
+    public function scopePreferensiTerisi($query)
+    {
+        return $query->where('preferensi_terisi', true);
+    }
+
+    public function scopePreferensiKosong($query)
+    {
+        return $query->where('preferensi_terisi', false);
     }
 }

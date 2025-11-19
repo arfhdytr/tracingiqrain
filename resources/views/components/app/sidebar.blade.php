@@ -64,24 +64,45 @@
                             </a>
                         </li>
 
-                        <li class="pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 @if(request()->routeIs('admin.mentors')) bg-iqrain-blue @endif">
-                            <a class="block truncate transition @if(request()->routeIs('admin.mentors')) text-iqrain-yellow @else text-iqrain-blue dark:text-iqrain-blue hover:text-iqrain-dark-blue dark:hover:text-iqrain-dark-blue @endif" href="{{ route('admin.mentors') }}">
-                                <div class="flex items-center">
-                                    <svg class="shrink-0 fill-current text-iqrain-pink" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-                                        <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
-                                    </svg>
-                                    <span class="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Kelola Mentor</span>
+                        <li x-data="{ open: {{ request()->routeIs('admin.mentor.index') || request()->routeIs('admin.murid.index') ? 1 : 0 }} }" class="pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 bg-linear-to-r @if(request()->routeIs('admin.mentor.index') || request()->routeIs('admin.murid.index')) {{ 'from-iqrain-blue/[0.12] to-iqrain-blue/[0.04]' }} @endif">
+                            <a href="#0" @click.prevent="open = !open; sidebarExpanded = true" class="block truncate transition @if(request()->routeIs('admin.mentor.index') || request()->routeIs('admin.murid.index')) {{ 'text-iqrain-yellow' }} @else {{ 'text-iqrain-blue dark:text-iqrain-blue hover:text-iqrain-dark-blue dark:hover:text-iqrain-dark-blue' }} @endif">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <svg class="shrink-0 fill-current text-iqrain-pink" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" /></svg>
+                                        <span class="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Users</span>
+                                    </div>
+                                    <div class="flex shrink-0 ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                        <svg class="w-3 h-3 shrink-0 ml-1 fill-current text-gray-400 dark:text-gray-500" :class="{ 'rotate-180': open, 'rotate-0': !open }" viewBox="0 0 12 12"><path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" /></svg>
+                                    </div>
                                 </div>
                             </a>
+
+                            <div class="lg:hidden lg:sidebar-expanded:block 2xl:block">
+                                <ul class="pl-8 mt-1 @if(!(request()->routeIs('admin.mentor.index') || request()->routeIs('admin.murid.index'))) hidden @endif" :class="{ 'block!': open, 'hidden': !open }" x-cloak>
+
+                                    <li class="mb-1 last:mb-0">
+                                        <a href="{{ route('admin.mentor.index') }}" class="block text-gray-500/90 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition truncate @if(request()->routeIs('admin.mentor.index')) {{ 'text-iqrain-yellow!' }} @endif">
+                                            <span class="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Mentor</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="mb-1 last:mb-0">
+                                        <a href="{{ route('admin.murid.index') }}" class="block text-gray-500/90 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition truncate @if(request()->routeIs('admin.murid.index')) {{ 'text-iqrain-yellow!' }} @endif">
+                                            <span class="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Murid</span>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </div>
                         </li>
 
-                        <li class="pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 @if(request()->routeIs('admin.murids')) bg-iqrain-blue @endif">
-                            <a class="block truncate transition @if(request()->routeIs('admin.murids')) text-iqrain-yellow @else text-iqrain-blue dark:text-iqrain-blue hover:text-iqrain-dark-blue dark:hover:text-iqrain-dark-blue @endif" href="{{ route('admin.murids') }}">
+                        <li class="pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 @if(request()->routeIs('admin.video.index')) bg-iqrain-blue @endif">
+                            <a class="block truncate transition @if(request()->routeIs('admin.video.index')) text-iqrain-yellow @else text-iqrain-blue dark:text-iqrain-blue hover:text-iqrain-dark-blue dark:hover:text-iqrain-dark-blue @endif" href="{{ route('admin.video.index') }}">
                                 <div class="flex items-center">
                                     <svg class="shrink-0 fill-current text-iqrain-pink" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-                                        <path d="M6 0C4.895 0 4 .895 4 2s.895 2 2 2 2-.895 2-2-.895-2-2-2ZM2 8c0-.552.895-1 2-1s2 .448 2 1v1h4V8c0-.552.895-1 2-1s2 .448 2 1v4c0 .552-.895 1-2 1s-2-.448-2-1V11H6v1c0 .552-.895 1-2 1s-2-.448-2-1V8Z" />
+                                        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2Zm6 10.5 6-4.5-6-4.5v9Z"/>
                                     </svg>
-                                    <span class="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Kelola Murid</span>
+                                    <span class="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Video</span>
                                 </div>
                             </a>
                         </li>
@@ -92,13 +113,13 @@
                                     <svg class="shrink-0 fill-current text-iqrain-pink" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
                                         <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2ZM3 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5Zm0-3a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5Zm0-3a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5Z" />
                                     </svg>
-                                    <span class="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Kelola Soal</span>
+                                    <span class="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Soal</span>
                                 </div>
                             </a>
                         </li>
 
-                        <li class="pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 @if(request()->routeIs('admin.activities')) bg-iqrain-blue @endif">
-                            <a class="block truncate transition @if(request()->routeIs('admin.activities')) text-iqrain-yellow @else text-iqrain-blue dark:text-iqrain-blue hover:text-iqrain-dark-blue dark:hover:text-iqrain-dark-blue @endif" href="{{ route('admin.activities') }}">
+                        <li class="pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 @if(request()->routeIs('admin.tracking.index') || request()->routeIs('admin.tracking.detail')) bg-iqrain-blue @endif">
+                            <a class="block truncate transition @if(request()->routeIs('admin.tracking.index') || request()->routeIs('admin.tracking.detail')) text-iqrain-yellow @else text-iqrain-blue dark:text-iqrain-blue hover:text-iqrain-dark-blue dark:hover:text-iqrain-dark-blue @endif" href="{{ route('admin.tracking.index') }}">
                                 <div class="flex items-center">
                                     <svg class="shrink-0 fill-current text-iqrain-pink" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
                                         <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2Z" />
@@ -119,6 +140,82 @@
                                     <span class="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Dashboard</span>
                                 </div>
                             </a>
+                        </li>
+
+                        <li x-data="{ open: {{ request()->routeIs('mentor.murid.index') || request()->routeIs('mentor.permintaan.index') ? 1 : 0 }} }" class="pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 bg-linear-to-r @if(request()->routeIs('mentor.murid.index') || request()->routeIs('mentor.permintaan.index')) {{ 'from-iqrain-blue/[0.12] to-iqrain-blue/[0.04]' }} @endif">
+                            <a href="#0" @click.prevent="open = !open; sidebarExpanded = true" class="block truncate transition @if(request()->routeIs('mentor.murid.index') || request()->routeIs('mentor.permintaan.index')) {{ 'text-iqrain-yellow' }} @else {{ 'text-iqrain-blue dark:text-iqrain-blue hover:text-iqrain-dark-blue dark:hover:text-iqrain-dark-blue' }} @endif">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <svg class="shrink-0 fill-current text-iqrain-pink" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                                            <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                                            <path fill-rule="evenodd" d="M5.216 14A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216z"/>
+                                            <path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
+                                        </svg>
+                                        <span class="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Manajemen Murid</span>
+                                    </div>
+                                    <div class="flex shrink-0 ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                        <svg class="w-3 h-3 shrink-0 ml-1 fill-current text-gray-400 dark:text-gray-500" :class="{ 'rotate-180': open, 'rotate-0': !open }" viewBox="0 0 12 12">
+                                            <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <div class="lg:hidden lg:sidebar-expanded:block 2xl:block">
+                                <ul class="pl-8 mt-1 @if(!(request()->routeIs('mentor.murid.index') || request()->routeIs('mentor.permintaan.index'))) hidden @endif" :class="{ 'block!': open, 'hidden': !open }" x-cloak>
+
+                                    <li class="mb-1 last:mb-0">
+                                        <a href="{{ route('mentor.murid.index') }}" class="block text-gray-500/90 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition truncate @if(request()->routeIs('mentor.murid.index')) {{ 'text-iqrain-yellow!' }} @endif">
+                                            <span class="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Data Murid</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="mb-1 last:mb-0">
+                                        <a href="{{ route('mentor.permintaan.index') }}" class="block text-gray-500/90 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition truncate @if(request()->routeIs('mentor.permintaan.index')) {{ 'text-iqrain-yellow!' }} @endif">
+                                            <span class="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Permintaan</span>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li x-data="{ open: {{ request()->routeIs('mentor.laporan-kelas.index') || request()->routeIs('mentor.laporan-murid.index') ? 1 : 0 }} }" class="pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 bg-linear-to-r @if(request()->routeIs('mentor.laporan-kelas.index') || request()->routeIs('mentor.laporan-murid.index')) {{ 'from-iqrain-blue/[0.12] to-iqrain-blue/[0.04]' }} @endif">
+                            <a href="#0" @click.prevent="open = !open; sidebarExpanded = true" class="block truncate transition @if(request()->routeIs('mentor.laporan-kelas.index') || request()->routeIs('mentor.laporan-murid.index')) {{ 'text-iqrain-yellow' }} @else {{ 'text-iqrain-blue dark:text-iqrain-blue hover:text-iqrain-dark-blue dark:hover:text-iqrain-dark-blue' }} @endif">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        {{-- Logo ikon Laporan/Dokumen --}}
+                                        <svg class="shrink-0 fill-current text-iqrain-pink" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                                            <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
+                                            <path d="M4.5 10a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2a.5.5 0 0 1 .5-.5zm2 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2a.5.5 0 0 1 .5-.5zm2 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2a.5.5 0 0 1 .5-.5zm2 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2a.5.5 0 0 1 .5-.5z"/>
+                                        </svg>
+                                        <span class="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Laporan</span>
+                                    </div>
+                                    <div class="flex shrink-0 ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                        <svg class="w-3 h-3 shrink-0 ml-1 fill-current text-gray-400 dark:text-gray-500" :class="{ 'rotate-180': open, 'rotate-0': !open }" viewBox="0 0 12 12">
+                                            <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <div class="lg:hidden lg:sidebar-expanded:block 2xl:block">
+                                <ul class="pl-8 mt-1 @if(!(request()->routeIs('mentor.laporan-kelas.index') || request()->routeIs('mentor.laporan-murid.index'))) hidden @endif" :class="{ 'block!': open, 'hidden': !open }" x-cloak>
+
+                                    <li class="mb-1 last:mb-0">
+                                        <a href="{{ route('mentor.laporan-kelas.index') }}" class="block text-gray-500/90 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition truncate @if(request()->routeIs('mentor.laporan-kelas.index')) {{ 'text-iqrain-yellow!' }} @endif">
+                                            <span class="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Kelas</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="mb-1 last:mb-0">
+                                        <a href="{{ route('mentor.laporan-murid.index') }}" class="block text-gray-500/90 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition truncate @if(request()->routeIs('mentor.laporan-murid.index')) {{ 'text-iqrain-yellow!' }} @endif">
+                                            <span class="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Murid</span>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </div>
                         </li>
                         
                         @endif

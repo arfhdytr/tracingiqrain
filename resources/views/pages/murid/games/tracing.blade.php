@@ -82,6 +82,8 @@
             </div>
         </div>
 
+        <button id="finish-button" class="btn btn-success" style="display:none;">Selesai & Simpan Skor</button>
+        
     </div>
 
     <!-- Success Modal (Hidden by default) -->
@@ -98,6 +100,27 @@
             </div>
         </div>
     </div>
+
+    <div id="score-modal" class="modal d-none">
+        <div class="modal-content">
+            <h4>Skor tracing berhasil disimpan!</h4>
+            <p id="modal-skor"></p>
+            <p id="modal-total"></p>
+            <button onclick="closeScoreModal()">Lanjut</button>
+        </div>
+    </div>
+
+    <script>
+    function showScoreModal(skor, aggregate) {
+        document.getElementById('modal-skor').textContent = "Skor Huruf: " + skor + "/100";
+        document.getElementById('modal-total').textContent = "Total Leaderboard: " + aggregate + "/100";
+        document.getElementById('score-modal').classList.remove('d-none');
+    }
+    function closeScoreModal() {
+        document.getElementById('score-modal').classList.add('d-none');
+    }
+    </script>
+
 
     <script src="{{ asset('js/game-tracing.js') }}"></script>
 </body>

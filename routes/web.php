@@ -112,7 +112,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         // Games
         Route::get('/games/{tingkatan_id}', [GameController::class, 'index'])->name('games.index');
         Route::get('/games/{tingkatan_id}/memory-card', [GameController::class, 'memoryCard'])->name('games.memory-card');
-        Route::get('/games/{tingkatan_id}/tracing', [GameController::class, 'tracing'])->name('games.tracing');
+        Route::get('/games/{tingkatan_id}/tracing', [GameController::class, 'tracingStandalone'])->name('games.tracing');
         Route::get('/games/{tingkatan_id}/labirin', [GameController::class, 'labirin'])->name('games.labirin');
         Route::get('/games/{tingkatan_id}/drag-drop', [GameController::class, 'dragDrop'])->name('games.drag-drop');
         Route::post('/games/save-score', [GameController::class, 'saveScore'])->name('games.save-score');
@@ -126,5 +126,3 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::post('/mentor/request/{mentor_id}', [MentorController::class, 'requestBimbingan'])->name('mentor.request');
     });
 });
-
-Route::get('/games/tracing-hijaiyah', [GameController::class, 'tracingStandalone'])->name('games.tracing');

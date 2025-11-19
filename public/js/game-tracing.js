@@ -1495,3 +1495,54 @@ function hideSuccessScreen() {
     const modal = document.getElementById('success-modal');
     modal.style.display = 'none';
 }
+
+// ========================================
+// SUBMIT SCORE TO SERVER
+// ========================================
+
+function calculateAccuracy(strokesDone, totalStrokes) {
+    return Math.round((strokesDone / totalStrokes) * 100);
+}
+
+async function submitTracingScore(hurufId, accuracy) {
+    const resp = await fetch('/games/save-score', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({ huruf_id: hurufId, accuracy: accuracy })
+    });
+    const result = await resp.json();
+    if(result.success){
+        showScoreModal(result.skor, result.aggregateScore);
+    } else {
+        alert('Gagal menyimpan skor.');
+    }
+}
+
+document.getElementById('finish-button').addEventListener('click', function() {
+    // Hitung akurasi & submit ke backend
+     const accuracy = calculateAccuracy(completedStrokes, totalStrokes);
+    submitTracingScore(currentHurufId, accuracy);
+});
+
+
+
+// Contoh di function checkWaypoint atau checkCircle
+function checkWaypointReached() {
+    if (userReachedWaypoint) {
+        // Existing logic...
+        
+        // Tambahkan:
+        onStrokeComplete();
+    }
+}
+
+function checkCircleCompleted() {
+    if (userCompletedCircle) {
+        
+        
+        onStrokeComplete();
+    }
+}

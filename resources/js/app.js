@@ -8,7 +8,7 @@ import "./bootstrap";
 import { Chart } from "chart.js";
 
 // Import flatpickr
-import flatpickr from "flatpickr";
+// import flatpickr from "flatpickr";
 
 // Define Chart.js default settings
 /* eslint-disable prefer-destructuring */

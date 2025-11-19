@@ -46,17 +46,55 @@ class EvaluasiController extends Controller
         $jenisGames = JenisGame::all();
         $evaluasiData = [];
 
-        foreach ($jenisGames as $game) {
-            $latestResult = HasilGame::where('murid_id', $murid->murid_id)
-                ->where('jenis_game_id', $game->jenis_game_id)
-                ->latest('dimainkan_at')
-                ->first();
+       foreach ($jenisGames as $game) {
 
+            // --- LOGIKA BARU ---
+
+            // 1. Ambil semua hasil permainan untuk game ini
+            $allResults = HasilGame::where('murid_id', $murid->murid_id)
+                ->where('jenis_game_id', $game->jenis_game_id)
+                ->get();
+
+            // 2. Hitung total poin dan total jumlah main
+            $totalPoinGameIni = $allResults->sum('total_poin');
+            $jumlahMain       = $allResults->count();
+
+            // Siapkan variabel default
+            $ulasan         = null;
+            $resultForView  = null;
+
+            if ($jumlahMain > 0) {
+                // Buat objek sederhana agar mudah dibaca di Blade
+                $resultForView = (object) [
+                    'total_poin' => $totalPoinGameIni, // total semua poin
+                    'skor'       => $jumlahMain        // jumlah bermain
+                ];
+
+                // Hitung rata-rata dan persentase
+                $poinMaksimal = $game->poin_maksimal ?? 100;
+                $rataRata     = $totalPoinGameIni / $jumlahMain;
+                $persen       = ($rataRata / $poinMaksimal) * 100;
+
+                // Tentukan ulasan berdasarkan persentase rata-rata
+                if ($persen >= 90) {
+                    $ulasan = 'Luar biasa! Kamu konsisten hebat! 🌟';
+                } elseif ($persen >= 75) {
+                    $ulasan = 'Bagus sekali! Rata-rata skormu tinggi! 💪';
+                } elseif ($persen >= 60) {
+                    $ulasan = 'Cukup baik! Terus tingkatkan! 😊';
+                } else {
+                    $ulasan = 'Tetap semangat! Latihan lagi ya! 🔥';
+                }
+            }
+
+            // Masukkan ke array evaluasi
             $evaluasiData[] = [
-                'game' => $game,
-                'result' => $latestResult,
+                'game'   => $game,
+                'result' => $resultForView,
+                'ulasan' => $ulasan,
             ];
         }
+
 
         return view('pages.murid.evaluasi.index', compact(
             'tingkatan',

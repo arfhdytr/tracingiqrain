@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             TingkatanIqraSeeder::class,
             JenisGameSeeder::class,
+            GameStaticSeeder::class, // nanti bisa di hapus lur
         ]);
 
         // 2. Buat 20 Murid (Sekarang kita panggil Murid::factory() langsung)

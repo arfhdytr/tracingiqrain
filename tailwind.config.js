@@ -16,7 +16,8 @@ module.exports = {
                 ...defaultTheme.fontFamily.sans, // Fallback kalo gaada Mooli
             ],
             'titan': ['Titan One', 'cursive'],
-            'cursive-iwk': ['Tegak Bersambung IWK', 'cursive'],
+            // 'cursive-iwk': ['Tegak Bersambung IWK', 'cursive'],
+            'tegak': ['"TegakBersambung"', 'sans-serif'],
         },
         extend: {
             colors: {

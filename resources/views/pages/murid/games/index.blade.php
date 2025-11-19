@@ -193,12 +193,7 @@
             </div>
 
         </div>
-    </div>
-
-    {{-- Ini adalah Footer dari file LAMA Anda --}}
-    <footer class="w-full mt-12">
-        <img src="/images/games/game-footer.webp" alt="Footer Hiasan" class="w-full object-cover">
-    </footer>
+    </div>    
 @endsection
 
 {{-- 3. Kita tetap gunakan @push('scripts') dari file BARU Anda --}}

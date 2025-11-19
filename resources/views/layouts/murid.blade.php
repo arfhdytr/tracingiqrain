@@ -13,6 +13,13 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap');
 
+        @font-face {
+            font-family: 'Tegak Bersambung IWK';
+            src: url("{{ asset('fonts/TegakBersambung_IWK.ttf') }}") format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
         * {
             font-family: 'Fredoka', sans-serif;
         }
@@ -26,13 +33,21 @@
             /* Kita tidak lagi memerlukan flexbox karena footer dihilangkan */
         }
 
-        /* Pink Navbar (Tidak diubah) */
+        /* Style Container Navbar */
         .navbar-murid {
-            background: linear-gradient(135deg, #FF6B9D 0%, #E85A8B 100%);
-            box-shadow: 0 4px 20px rgba(255, 107, 157, 0.3);
+            /* --- Style dari Anda --- */
+            background: #F387A9;
+            border-radius: 74px;
+            box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+
+            /* --- Tambahan agar posisi rapi --- */
+            /* Kita tidak perlu padding besar disini karena akan diatur di HTML */
         }
 
+        /* Navbar Link Items */
         .nav-item {
+            font-family: 'Tegak Bersambung IWK', cursive;
+            font-size: 25px;
             transition: all 0.3s ease;
         }
 
@@ -145,6 +160,32 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #E85A8B;
         }
+
+        /* Menambahkan font-family kustom */
+        .font-titan {
+            font-family: 'Titan One', sans-serif;
+        }
+
+        /* PERUBAHAN: Mengganti font-mooli menjadi Tegak Bersambung */
+        .font-cursive-iwk {
+            font-family: 'Tegak Bersambung IWK', cursive;
+        }
+
+        .phrase {
+            display: inline-block;
+            text-wrap: nowrap;
+            font-family: 'Tegak Bersambung IWK', cursive;
+        }
+
+        .phrase::after {
+            content: "";
+            display: block;
+            width: 100%;
+            height: 16px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 50' preserveAspectRatio='none'%3E%3Cpath fill='none' stroke='%23ffffff' stroke-width='4' d='M5,5 C30,35 70,35 95,5' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+        }
     </style>
 
     @stack('styles')
@@ -153,7 +194,7 @@
 <body>
 
     @if (!isset($hideNavbar) || !$hideNavbar)
-        <nav class="navbar-murid fixed top-0 left-0 right-0 z-50">
+        <nav class="navbar-murid fixed top-4 left-0 right-0 z-50 w-11/12 max-w-5xl mx-auto rounded-full">
             <div class="container mx-auto px-4 py-3">
                 <div class="flex items-center justify-between max-w-4xl mx-auto">
                     <a href="{{ route('murid.pilih-iqra') }}" class="flex items-center space-x-2">
@@ -195,11 +236,18 @@
         @yield('content')
     </main>
 
-    <div class="fixed top-40 right-20 bee-float z-5">
+    {{-- <div class="fixed top-40 right-20 bee-float z-5">
         <div class="text-6xl">🐝</div>
     </div>
     <div class="fixed top-60 left-20 bee-float z-5" style="animation-delay: 1.5s;">
         <div class="text-5xl">🐝</div>
+    </div> --}}
+
+    {{-- FOOTER GLOBAL (Mengambang di Bawah) --}}
+    <div class="w-full relative z-20 -mt-32 pointer-events-none">
+        {{-- Pastikan gambar ini format PNG/WEBP transparan (bukan kotak solid) --}}
+        <img src="{{ asset('images/games/game-footer.webp') }}" alt="Footer Decoration"
+            class="w-full h-auto object-cover block select-none">
     </div>
 
     <script>
@@ -216,5 +264,4 @@
 
     @stack('scripts')
 </body>
-
 </html>

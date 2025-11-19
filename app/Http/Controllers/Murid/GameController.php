@@ -26,14 +26,15 @@ class GameController extends Controller
     public function memoryCard($tingkatan_id)
     {
         $tingkatan = TingkatanIqra::with('materiPembelajarans')->findOrFail($tingkatan_id);
-        $gameStatic = GameStatic::where('tingkatan_id', $tingkatan_id)
+        $gameStatic = GameStatic::with('jenisGame') 
+            ->where('tingkatan_id', $tingkatan_id)
             ->whereHas('jenisGame', function ($q) {
                 $q->where('nama_game', 'Memory Card');
-            })->first();
+            })->firstOrFail();
 
-        $materiPembelajarans = $tingkatan->materiPembelajarans->take(6); // 6 pairs = 12 cards
+        $materiPembelajarans = $tingkatan->materiPembelajarans->take(6); // 6 kombo untuk 12 kartu
 
-        return view('pages.murid.games.memory-card', compact('tingkatan', 'materiPembelajarans', 'gameStatic'));
+        return view('pages.murid.games.memory-card', compact('tingkatan', 'materiPembelajarans', 'gameStatic'));     
     }
 
     public function tracing($tingkatan_id)
@@ -121,6 +122,8 @@ class GameController extends Controller
             ],
             [
                 'total_poin_semua_game' => $totalPoin,
+                'ranking_global' => 0, // ✅ INI YANG DITAMBAH
+                'ranking_mentor' => 0, // ✅ INI YANG DITAMBAH
             ]
         );
 
@@ -133,6 +136,8 @@ class GameController extends Controller
                 ],
                 [
                     'total_poin_semua_game' => $totalPoin,
+                    'ranking_global' => 0, // ✅ INI YANG DITAMBAH
+                'ranking_mentor' => 0, // ✅ INI YANG DITAMBAH
                 ]
             );
         }

@@ -1,6 +1,6 @@
 @import 'tailwindcss';
-@import './additional-styles/flatpickr.css';
-@import './additional-styles/utility-patterns.css' layer(components);
+/* @import './additional-styles/flatpickr.css';
+@import './additional-styles/utility-patterns.css' layer(components); */
 
 @plugin "@tailwindcss/forms" {
   strategy: base;
@@ -8,6 +8,17 @@
 
 @custom-variant dark (&:is(.dark *));
 @custom-variant sidebar-expanded (&:is(.sidebar-expanded *));
+
+@layer base {
+  @font-face {
+    font-family: 'TegakBersambung';
+    /* Pastikan file ada di public/fonts/ */
+    src: url('/fonts/TegakBersambung_IWK.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+}
 
 @theme {
   --shadow-sm: 0 1px 1px 0 rgb(0 0 0 / 0.05), 0 1px 2px 0 rgb(0 0 0 / 0.02);
@@ -117,6 +128,8 @@
 
   --breakpoint-xs: 480px;
 
+  --font-tegak: "TegakBersambung", "sans-serif";
+
   --color-iqrain-pink: #F387A9;
   --color-iqrain-yellow: #FFC801;
   --color-iqrain-blue: #56B1F3;
@@ -149,13 +162,7 @@
   If we ever want to remove these styles, we need to add an explicit border
   color utility to any element that depends on these defaults.
 */
-@layer base {
-  @font-face {
-      font-family: 'TegakBersambung';
-      src: url('/fonts/TegakBersambung_IWK.ttf') format('truetype');
-      unicode-range: U+0041-007A;
-  }
-  
+@layer base {  
   *,
   ::after,
   ::before,
@@ -225,6 +232,7 @@
         @apply w-3/4 h-3/4 object-contain; /* Gambar jadi 75% ukuran kartu */
     }
     .card-back span {
-        @apply text-3xl font-bold font-sans; 
+        @apply text-3xl font-bold font-tegak; 
     }
 }
+

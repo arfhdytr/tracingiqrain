@@ -4,6 +4,11 @@ var poinBenar = 0;
 var pasanganDitemukan = 0;
 var totalPasangan = 6; 
 
+var gameStaticId = typeof GAME_STATIC_ID !== 'undefined' ? GAME_STATIC_ID : null;
+var jenisGameId = typeof JENIS_GAME_ID !== 'undefined' ? JENIS_GAME_ID : null;
+var poinMaksimal = typeof POIN_MAKSIMAL !== 'undefined' ? POIN_MAKSIMAL : 100;
+var POIN_PER_MATCH = poinMaksimal / totalPasangan;
+
 var cardMasterList = [
     { id: "ain", latin: "Ain" },
     { id: "alif", latin: "Alif" },
@@ -27,7 +32,7 @@ var cardMasterList = [
     { id: "Qaf", latin: "Qaf" },
     { id: "ra", latin: "Ra" },
 
-    { id: "Sad", latin: "Shod / Sad" },
+    { id: "Sad", latin: "Sad" },
     { id: "sin", latin: "Sin" },
     { id: "syin", latin: "Syin" },
     { id: "ta", latin: "Ta" },
@@ -48,16 +53,16 @@ var lockBoard = false;
 window.onload = function () {
     shuffleCards();
     startGame();
-
-    document.getElementById("poin-benar").innerText = poinBenar;
+    
     document.getElementById("current-matches").innerText = pasanganDitemukan;
-
-    // Listener tombol reset
+    
+    // Untuk mengatur murid pas mau restart
     document.getElementById("reset-button").addEventListener("click", () => {
         shuffleCards();
         startGame();
     });
 
+    // Welcome message
     const welcomeBackdrop = document.getElementById("welcome-backdrop");
     const welcomeMessage = document.getElementById("welcome-message");
 
@@ -88,8 +93,8 @@ window.onload = function () {
 };
 
 function shuffleCards() {
-    
-   // 1. Acak dulu "Master Database"
+
+    // Mengacak kartu
     cardMasterList.sort(() => 0.5 - Math.random());
 
     // 2. Ambil 6 kartu pertama
@@ -111,11 +116,11 @@ function shuffleCards() {
         cardSet.push({
             id: kartu.id,
             type: "latin",
-            content: `<span>${kartu.latin}</span>`
+            content: `<span class="font-tegak text-4xl font-bold text-pink-500">${kartu.latin}</span>`
         });
     });
 
-    // 4. Acak 12 kartu yang akan dimainkan
+    // Acak 12 kartu yang akan dimainkan
     for (let i = cardSet.length - 1; i > 0; i--) {
         let j = Math.floor(Math.random() * (i + 1));
         [cardSet[i], cardSet[j]] = [cardSet[j], cardSet[i]];
@@ -126,9 +131,8 @@ function startGame() {
     // Reset papan & skor
     pasanganDitemukan = 0;
     poinBenar = 0;
-    lockBoard = true; // <-- 1. KUNCI PAPAN DARI AWAL
-    
-    document.getElementById("poin-benar").innerText = poinBenar;
+    lockBoard = true; 
+        
     document.getElementById("current-matches").innerText = pasanganDitemukan;
 
     const boardEl = document.getElementById("board");
@@ -167,26 +171,21 @@ function startGame() {
         boardEl.append(card);
     }
 
-    // --- LOGIKA "INTIP" 2 DETIK ---
-    
-    // 3. Setel "Alarm" 2 detik
+    // Ngintip 2 detik
     setTimeout(() => {
-        
-        // Ambil SEMUA kartu yang ada di papan
+                        
         let allCards = document.querySelectorAll('#board .card'); 
         
-        allCards.forEach(card => {
-            // 4. BALIKKAN SEMUA KARTU (Tutup)
+        allCards.forEach(card => {        
             card.classList.remove("is-flipped");
         });
 
         // 5. BUKA KUNCI PAPAN, game siap dimainkan!
         lockBoard = false; 
         
-    }, 2000); // <-- Waktu "intip" (2000ms = 2 detik)
+    }, 2000); 
 } 
 
-// --- BEDAH #4: Fungsi SelectCard (Pakai kelas .is-flipped) ---
 function selectCard() {
     // 'this' sekarang adalah <div class="card">
     
@@ -209,10 +208,9 @@ function selectCard() {
     }
 }
 
-// --- BEDAH #5: Fungsi Update (Logika Baru yang Keren) ---
-function update() {
-    
-    // --- INI LOGIKA BARUNYA ---
+// Fungsi update
+async function update() {
+        
     let isMatch = false;
     
     // Cek: Apakah ID-nya sama? (misal: 'alif' === 'alif')
@@ -224,8 +222,7 @@ function update() {
     }
 
     if (!isMatch) { 
-        // --- JIKA TIDAK COCOK ---
-        // Balikkan kartu (secara visual)
+        // Jika kedua kartu tidak cocok
         card1Selected.classList.remove("is-flipped");
         card2Selected.classList.remove("is-flipped");               
         
@@ -236,26 +233,51 @@ function update() {
         card2Selected.removeEventListener("click", selectCard);
         
         // Update skor
-        poinBenar += 1; // (Nanti bisa diubah skornya, misal +10)
         pasanganDitemukan += 1;
-        document.getElementById("poin-benar").innerText = poinBenar;
+        poinBenar += POIN_PER_MATCH; // (Nanti bisa diubah skornya, misal +10)
+        
         document.getElementById("current-matches").innerText = pasanganDitemukan;
 
         // Cek Menang
         if (pasanganDitemukan === totalPasangan) {
             
-            // Tembak Confetti!
-            confetti({
-                particleCount: 150,
-                spread: 70,
-                origin: { y: 0.6 }
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+
+            const response = await fetch('/murid/game/save-score', { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                body: JSON.stringify({
+                    jenis_game_id: jenisGameId, 
+                    game_static_id: gameStaticId,
+                    skor: pasanganDitemukan,
+                    total_poin: Math.round(poinBenar)
+                })
             });
 
-            setTimeout(() => {
-                alert("Selamat! Kamu Menang!");
-                shuffleCards();
-                startGame();
-            }, 500);
+                const data = await response.json();
+
+           if (data.success) {
+                    confetti({
+                        particleCount: 150,
+                        spread: 70,
+                        origin: { y: 0.6 }
+                    });
+
+                    setTimeout(() => {
+                        alert("Selamat! Kamu Menang! Skor tersimpan.");
+                        shuffleCards();
+                        startGame();
+                    }, 500);
+                
+                } else {
+                    // Tampilkan error jika server bilang gagal (tapi koneksi sukses)
+                    alert('Wah, menang! Tapi skor gagal disimpan. (Server Error)');
+                    shuffleCards();
+                    startGame();
+                }
         }
     }
 

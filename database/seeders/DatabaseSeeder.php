@@ -16,12 +16,12 @@ class DatabaseSeeder extends Seeder
     {
 
         $this->call([
-            DashboardTableSeeder::class,
             RolePermissionSeeder::class,
             UserSeeder::class,
             TingkatanIqraSeeder::class,
+            MateriPembelajaranSeeder::class,  // ✅ HARUS sebelum MateriSeeder
+            MateriSeeder::class,               // ✅ Seeder modul huruf
             JenisGameSeeder::class,
-            GameStaticSeeder::class,
-        ]); 
+        ]);
     }
 }

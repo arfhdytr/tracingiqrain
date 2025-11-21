@@ -144,6 +144,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::get('/modul/{tingkatan_id}/video', [ModulController::class, 'video'])->name('modul.video');
         Route::get('/modul/{tingkatan_id}/materi/{materi_id}', [ModulController::class, 'materi'])->name('modul.materi');
         Route::post('/modul/progress', [ModulController::class, 'updateProgress'])->name('modul.progress');
+        Route::get('/modul/completed', [ModulController::class, 'getCompletedModuls'])->name('modul.completed');
 
         // Games
         Route::get('/games/{tingkatan_id}', [GameController::class, 'index'])->name('games.index');

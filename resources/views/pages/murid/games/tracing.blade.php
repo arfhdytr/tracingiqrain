@@ -6,6 +6,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Tracing Huruf Hijaiyah - IQRain</title>
     <link rel="stylesheet" href="{{ asset('css/game-tracing.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mooli&family=Titan+One&display=swap" rel="stylesheet">
 </head>
 <body>
     
@@ -15,8 +18,8 @@
     <!-- Welcome Message -->
     <div id="welcome-message" class="welcome-message fixed inset-0 flex items-center justify-center opacity-0 transition-opacity duration-500 pointer-events-none z-50">
         <div class="text-center">
-            <h1 class="welcome-title text-6xl font-bold text-white mb-4">Selamat Bermain!</h1>
-            <p class="welcome-subtitle text-2xl text-white">Mari belajar menulis huruf hijaiyah</p>
+            <h1 class="welcome-title text-6xl font-titan text-white mb-4">Selamat Bermain!</h1>
+            <p class="welcome-subtitle text-2xl font-cursive-iwk text-white">Mari belajar menulis huruf hijaiyah</p>
         </div>
     </div>
 
@@ -25,7 +28,7 @@
         
         <!-- Header with Exit Button -->
         <div class="game-header">
-            <div class="letter-info-display">
+            <div class="letter-info-display font-cursive-iwk">
                 <span id="current-letter-arabic" class="arabic-letter">ا</span>
                 <span id="current-letter-name" class="letter-name-display">Alif</span>
             </div>
@@ -44,14 +47,14 @@
                     <canvas id="tracingCanvas" width="400" height="300"></canvas>
                 </div>
                 
-                <div class="canvas-controls">
+                <div class="canvas-controls font-cursive-iwk">
                     <button id="clear-button" class="control-btn btn-clear">Hapus</button>
                     <button id="replay-button" class="control-btn btn-replay">Ulang Animasi</button>
                 </div>
             </div>
 
             <!-- Animation Preview (Right Side) -->
-            <div class="preview-section">
+            <div class="preview-section font-cursive-iwk">
                 <div class="preview-title">Perhatikan Cara Menulisnya</div>
                 <div class="preview-wrapper">
                     <div id="letter-display" class="letter-display">ا</div>
@@ -59,7 +62,7 @@
                 </div>
             </div>
 
-            <h2 id="final-score" class="text-2xl font-bold mt-4" style="display:none;">Skor Akhir: 0</h2>
+            <h2 id="final-score" class="text-2xl font-titan mt-4" style="display:none;">Skor Akhir: 0</h2>
             {{-- Tombol untuk menyimpan skor (muncul setelah game selesai) --}}
             {{-- PENTING: data-tingkatan-id harus diisi dari controller --}}
             <!-- <button id="save-score-btn" 
@@ -72,7 +75,7 @@
 
             {{-- Tombol kembali ke menu --}}
             <a href="{{ route('murid.games.index', ['tingkatan_id' => $tingkatan->tingkatan_id ?? 0]) }}" 
-            class="btn bg-gray-500 hover:bg-gray-600 text-white mt-4 ml-2" 
+            class="btn bg-gray-500 hover:bg-gray-600 text-white mt-4 ml-2 font-titan" 
             style="display:none;" 
             id="back-to-menu-btn">
                 Kembali ke Menu Game
@@ -83,22 +86,22 @@
         <!-- Progress Footer -->
         <div class="game-footer">
             <div class="progress-container">
-                <div class="progress-label">Progress:</div>
+                <div class="progress-label font-titan">Progress:</div>
                 <div class="progress-bar">
                     <div id="progress-fill" class="progress-fill"></div>
                 </div>
-                <div id="progress-text" class="progress-text">0%</div>
+                <div id="progress-text" class="progress-text font-titan">0%</div>
             </div>
 
             <div class="score-container">
-                <div class="score-label">Akurasi:</div>
-                <div id="score-display" class="score-display">0%</div>
+                <div class="score-label font-cursive-iwk">Akurasi:</div>
+                <div id="score-display" class="score-display font-cursive-iwk">0%</div>
                 <div id="stars-display" class="stars-display">☆☆☆</div>
             </div>
 
             <div class="navigation-buttons">
-                <button id="prev-button" class="nav-btn btn-prev">← Sebelumnya</button>
-                <button id="next-button" class="nav-btn btn-next">Berikutnya →</button>
+                <button id="prev-button" class="nav-btn btn-prev font-titan">← Sebelumnya</button>
+                <button id="next-button" class="nav-btn btn-next font-titan">Berikutnya →</button>
             </div>
         </div>
 
@@ -109,30 +112,30 @@
     <div id="success-modal" class="success-modal" style="display:none;">
         <div class="success-container">
             <div class="success-animation">🎉</div>
-            <h2 class="success-title">Hebat!</h2>
+            <h2 class="success-title font-titan">Hebat!</h2>
             <div id="final-stars" class="final-stars">⭐⭐⭐</div>
-            <p id="success-message" class="success-message">Kamu menulis huruf dengan sangat baik!</p>
+            <p id="success-message" class="success-message font-cursive-iwk">Kamu menulis huruf dengan sangat baik!</p>
             
             {{-- REVISI MINOR: Akurasi --}}
-            <p id="final-accuracy" class="final-score">Akurasi: 0%</p> 
+            <p id="final-accuracy" class="final-score font-cursive-iwk">Akurasi: 0%</p> 
             
             {{-- Pesan status penyimpanan skor --}}
-            <p id="save-status" class="text-sm mt-2 text-yellow-600">Menyimpan skor...</p> 
+            <p id="save-status" class="text-sm mt-2 text-yellow-600 font-cursive-iwk">Menyimpan skor...</p> 
 
             <div class="success-buttons">
                 {{-- Tombol 1: Ulangi Huruf Ini --}}
-                <button id="try-again-button" class="btn btn-secondary" onclick="restartCurrentLetter()">
+                <button id="try-again-button" class="btn btn-secondary font-cursive-iwk" onclick="restartCurrentLetter()">
                     Ulangi Huruf Ini
                 </button>
                 
                 {{-- Tombol 2: Lanjut Huruf Berikutnya --}}
-                <button id="next-letter-button" class="btn btn-primary" onclick="loadNextLetter()">
+                <button id="next-letter-button" class="btn btn-primary font-cursive-iwk" onclick="loadNextLetter()">
                     Huruf Berikutnya
                 </button>
                 
                 {{-- Tombol 3: Selesai & Kembali ke Menu (Dipakai untuk mengambil tingkatan ID) --}}
                 <button id="back-to-menu-button" 
-                        class="btn btn-tertiary"
+                        class="btn btn-tertiary font-titan"
                         data-tingkatan-id="{{ $tingkatan->tingkatan_id ?? 1 }}"
                         onclick="window.location.href = '{{ route('murid.games.index', ['tingkatan_id' => $tingkatan->tingkatan_id ?? 1]) }}'"
                         style="margin-top: 10px;">

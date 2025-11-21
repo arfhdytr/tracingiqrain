@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\Models\MateriPembelajaran;
 
 class MateriPembelajaranSeeder extends Seeder
 {
@@ -14,58 +15,24 @@ class MateriPembelajaranSeeder extends Seeder
      */
     public function run(): void
     {
-        $now = Carbon::now();
-
-        $tingkatanId = 1;
-
-        $materiList = [
-            'Alif',
-            'Ba',
-            'Ta',
-            'Tsa',
-            'Jim',
-            'Kha', 
-            'Kho', 
-            'Dal',
-            'Dzal',
-            'Ra',
-            'Zai',
-            'Sin',
-            'Syin',
-            'Sad',
-            'Dhad',
-            'Tha',
-            'Zha', 
-            'Ain',
-            'Ghain',
-            'Fa',
-            'Qaf',
-            'Kaf',
-            'Lam',
-            'Mim',
-            'Nun',
-            'Waw',
-            'Ha',
-            'Lamalif',
-            'Hamzah',
-            'Ya'
+        $materis = [
+            [
+                'tingkatan_id' => 1,
+                'judul_materi' => 'Pengenalan Huruf Hijaiyah',
+                'deskripsi' => 'Materi dasar huruf Hijaiyah untuk Iqra 1',
+                'urutan' => 1
+            ],
+            // Tambahkan materi lain jika diperlukan
         ];
 
-        $data = [];
-        $urutan = 1;
-
-        foreach ($materiList as $namaMateri) {
-            $data[] = [
-                'tingkatan_id' => $tingkatanId,
-                'judul_materi' => $namaMateri,
-                'deskripsi' => 'Pengenalan dan cara membaca huruf ' . $namaMateri . ' dengan harakat Fathah.',
-                'urutan' => $urutan++,
-                'created_at' => $now,
-                'updated_at' => $now
-            ];
+        foreach ($materis as $materi) {
+            MateriPembelajaran::updateOrCreate(
+                ['judul_materi' => $materi['judul_materi']],
+                $materi
+            );
         }
 
-        // Masukkan semua data sekaligus
-        DB::table('materi_pembelajarans')->insert($data);
+        $this->command->info('✅ Materi Pembelajaran berhasil di-seed!');
+
     }
 }

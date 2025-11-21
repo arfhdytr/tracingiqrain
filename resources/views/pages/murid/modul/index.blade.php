@@ -3,21 +3,44 @@
 @section('title', 'Modul Pembelajaran - Iqra ' . $tingkatan->level)
 
 @section('content')
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mooli&family=Titan+One&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-image: 
+                url('{{ asset('images/pattern/pattern1-darker.webp') }}'),
+                linear-gradient(135deg, #56b1f3, #d3f2ff);
+
+            background-size: 
+                500px,       /* pattern */
+                cover;       /* gradient */
+
+            background-repeat: 
+                repeat,      /* pattern */
+                no-repeat;   /* gradient */
+
+            background-attachment: fixed;
+            background-position: center;
+            background-blend-mode: normal, overlay;
+        }
+    </style>
+
 {{-- OUTER BACKGROUND: BIRU --}}
-<div class="pt-4 sm:pt-8 pb-0 px-4 flex items-start justify-center relative overflow-hidden">
+<div class="pt-15 sm:pt-25 pb-15 px-4 flex items-start justify-center relative overflow-hidden">
     
-    {{-- Pattern Background --}}
-    <img src="{{ asset('images/pattern/pattern1.webp') }}" class="absolute top-0 left-0 w-full h-full object-cover opacity-10 pointer-events-none mix-blend-overlay" alt="pattern">
+    <!-- {{-- Pattern Background --}}
+    <img src="{{ asset('images/pattern/pattern1.webp') }}" class="absolute top-0 left-0 w-full h-full object-cover opacity-10 pointer-events-none mix-blend-overlay" alt="pattern"> -->
 
     {{-- KONTEN UTAMA: BLOK KREM BESAR --}}
     <div class="w-full max-w-6xl bg-[#FDF6E9] rounded-[3rem] shadow-2xl border-[6px] border-white/30 relative z-10 overflow-hidden flex flex-col min-h-[75vh] mb-0">
         
         {{-- HEADER --}}
         <div class="bg-white/50 backdrop-blur-sm p-6 border-b border-orange-100/50 text-center">
-            <h1 class="text-3xl font-bold text-indigo-900 inline-flex items-center gap-3">
-                <img src="{{ asset('images/icon/bintang.webp') }}" class="w-8 h-8 animate-spin-slow" alt="star">
+            <h1 class="text-3xl font-titan text-indigo-900 inline-flex items-center gap-3">
+                <!-- <img src="{{ asset('images/icon/bintang.webp') }}" class="w-8 h-8 animate-spin-slow" alt="star"> -->
                 Modul Pembelajaran Iqra Jilid {{ $tingkatan->level }}
-                <img src="{{ asset('images/icon/bintang.webp') }}" class="w-8 h-8 animate-spin-slow" alt="star">
+                <!-- <img src="{{ asset('images/icon/bintang.webp') }}" class="w-8 h-8 animate-spin-slow" alt="star"> -->
             </h1>
         </div>
 
@@ -46,8 +69,8 @@
                         </div>
                         
                         <div class="bg-white p-4 rounded-xl shadow-sm border border-indigo-50">
-                            <h2 id="main-video-title" class="text-xl font-bold text-gray-800">Video Pembelajaran</h2>
-                            <p id="main-video-desc" class="text-gray-600 text-sm mt-1">Materi Video</p>
+                            <h2 id="main-video-title" class="text-xl font-titan text-gray-800">Video Pembelajaran</h2>
+                            <p id="main-video-desc" class="text-white-600 font-cursive-iwk text-sm mt-1">Materi Video</p>
                         </div>
                     </div>
 
@@ -62,12 +85,12 @@
                             </div>
 
                             {{-- Text Info --}}
-                            <h3 id="materi-title" class="text-3xl font-bold text-indigo-900 font-comic tracking-wide mb-1">...</h3>
-                            <p id="materi-desc-short" class="text-indigo-600 font-medium text-sm">...</p>
+                            <h3 id="materi-title" class="text-3xl font-bold text-indigo-900 font-cursive-iwk tracking-wide mb-1">...</h3>
+                            <p id="materi-desc-short" class="text-white-600 font-cursive-iwk text-sm"></p>
                             
                             {{-- Progress Badge --}}
-                            <div class="absolute top-3 right-3 bg-indigo-500 text-white px-3 py-1 rounded-full text-xs font-bold">
-                                Huruf <span id="materi-counter">1/1</span>
+                            <div class="absolute top-3 right-3 bg-white-500 text-white px-3 py-1 rounded-full text-xs font-bold">
+                                <!-- Huruf <span id="materi-counter">1/1</span> -->
                             </div>
                         </div>
                     </div>
@@ -84,7 +107,7 @@
 
             {{-- FOOTER KONTEN UTAMA: PROGRESS BAR --}}
             <div class="w-full mt-8 pt-4 border-t border-gray-100">
-                <h3 class="text-lg font-bold text-gray-800 mb-2">
+                <h3 class="text-lg font-titan text-gray-800 mb-2">
                     Progres Tingkatan {{ $tingkatan->level }}
                 </h3>
                 <div class="bg-gray-200 rounded-full h-4 relative overflow-hidden">
@@ -92,8 +115,8 @@
                     <div class="bg-indigo-500 h-full rounded-full transition-all duration-500" style="width: {{ $progressPercentage }}%;"></div>
                     
                     {{-- Progress Text --}}
-                    <span class="absolute inset-0 text-center text-xs font-bold text-white leading-4 tracking-wider" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.2);">
-                        {{ $completedMaterialsCount }} / {{ $totalMaterials }} Materi Selesai ({{ $progressPercentage }}%)
+                    <span class="absolute inset-0 text-center text-xs font-titan text-white leading-4 tracking-wider" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.2);">
+                        {{ $completedModulsCount }} / {{ $totalModuls }} Materi Selesai ({{ $progressPercentage }}%)
                     </span>
                 </div>
             </div>
@@ -107,37 +130,23 @@
     // === DATA STATIC MATERI (DI LOAD LANGSUNG DI SINI) ===
     // Nama file disesuaikan persis dengan yang ada di folder public/images/hijaiyah/
     const staticMateriData = [
-        { judul: 'Alif', desc: 'Huruf Alif', file: 'alif.webp',video: '{{ $videos->count() > 0 ? $videos[0]->url_video : "" }}' },
-        { judul: 'Ba', desc: 'Huruf Ba', file: 'ba.webp', video: '{{ $videos->count() > 1 ? $videos[1]->url_video : "" }}'  },
-        { judul: 'Ta', desc: 'Huruf Ta', file: 'ta.webp', video: '{{ $videos->count() > 2 ? $videos[2]->url_video : "" }}' },
-        { judul: 'Tsa', desc: 'Huruf Tsa', file: 'tsa.webp', video: '{{ $videos->count() > 3 ? $videos[3]->url_video : "" }}' },
-        { judul: 'Jim', desc: 'Huruf Jim', file: 'jim.webp', video: '{{ $videos->count() > 4 ? $videos[4]->url_video : "" }}' },
-        { judul: 'Kha', desc: 'Huruf Kha', file: 'Kha.webp', video: '{{ $videos->count() > 5 ? $videos[5]->url_video : "" }}' }, 
-        { judul: 'Kho', desc: 'Huruf Kho', file: 'kho.webp', video: '{{ $videos->count() > 6 ? $videos[6]->url_video : "" }}' },
-        { judul: 'Dal', desc: 'Huruf Dal', file: 'dal.webp', video: '{{ $videos->count() > 7 ? $videos[7]->url_video : "" }}' },
-        { judul: 'Dzal', desc: 'Huruf Dzal', file: 'dzal.webp', video: '{{ $videos->count() > 8 ? $videos[8]->url_video : "" }}' },
-        { judul: 'Ra', desc: 'Huruf Ra', file: 'ra.webp', video: '{{ $videos->count() > 9 ? $videos[9]->url_video : "" }}' },
-        { judul: 'Za', desc: 'Huruf Za', file: 'Za.webp', video: '{{ $videos->count() > 10 ? $videos[10]->url_video : "" }}' }, // Sesuai aset Zayn.webp
-        { judul: 'Sin', desc: 'Huruf Sin', file: 'sin.webp', video: '{{ $videos->count() > 11 ? $videos[11]->url_video : "" }}' },
-        { judul: 'Syin', desc: 'Huruf Syin', file: 'syin.webp', video: '{{ $videos->count() > 12 ? $videos[12]->url_video : "" }}' },
-        { judul: 'Sad', desc: 'Huruf Sad', file: 'Shod.webp', video: '{{ $videos->count() > 13 ? $videos[13]->url_video : "" }}' }, // Sesuai aset Sad.webp
-        { judul: 'Dhod', desc: 'Huruf Dhod', file: 'Dhod.webp', video: '{{ $videos->count() > 14 ? $videos[14]->url_video : "" }}' }, // Sesuai aset Dhad.webp
-        { judul: 'Tho', desc: 'Huruf Tha', file: 'Tho.webp', video: '{{ $videos->count() > 15 ? $videos[15]->url_video : "" }}' }, // Sesuai aset Tha.webp
-        { judul: 'Dhlo', desc: 'Huruf Dhlo', file: 'Dhlo.webp', video: '{{ $videos->count() > 16 ? $videos[16]->url_video : "" }}' }, // Sesuai aset Zha.webp
-        { judul: 'Ain', desc: 'Huruf Ain', file: 'ain.webp', video: '{{ $videos->count() > 17 ? $videos[17]->url_video : "" }}' },
-        { judul: 'Ghoin', desc: 'Huruf Ghoin', file: 'Ghoin.webp', video: '{{ $videos->count() > 18 ? $videos[18]->url_video : "" }}' }, // Sesuai aset Ghain.webp
-        { judul: 'Fa', desc: 'Huruf Fa', file: 'fa.webp', video: '{{ $videos->count() > 19 ? $videos[19]->url_video : "" }}' },
-        { judul: 'Qof', desc: 'Huruf Qof', file: 'Qof.webp', video: '{{ $videos->count() > 20 ? $videos[20]->url_video : "" }}' }, // Sesuai aset Qaf.webp
-        { judul: 'Kaf', desc: 'Huruf Kaf', file: 'kaf.webp', video: '{{ $videos->count() > 21 ? $videos[21]->url_video : "" }}' },
-        { judul: 'Lam', desc: 'Huruf Lam', file: 'lam.webp', video: '{{ $videos->count() > 22 ? $videos[22]->url_video : "" }}' },
-        { judul: 'Mim', desc: 'Huruf Mim', file: 'mim.webp', video: '{{ $videos->count() > 23 ? $videos[23]->url_video : "" }}' },
-        { judul: 'Nun', desc: 'Huruf Nun', file: 'nun.webp', video: '{{ $videos->count() > 24 ? $videos[24]->url_video : "" }}' },
-        { judul: 'Wawu', desc: 'Huruf Wawu', file: 'Wawu.webp', video: '{{ $videos->count() > 25 ? $videos[25]->url_video : "" }}' }, // Sesuai aset Waw.webp
-        { judul: 'Ha', desc: 'Huruf Ha', file: 'Ha.webp', video: '{{ $videos->count() > 26 ? $videos[26]->url_video : "" }}' }, // Sesuai aset
-        { judul: 'Lam Alif', desc: 'Huruf Lam Alif', file: 'Lamalif.webp', video: '{{ $videos->count() > 27 ? $videos[27]->url_video : "" }}' }, // Sesuai aset
-        { judul: 'Hamzah', desc: 'Huruf Hamzah', file: 'hamzah.webp', video: '{{ $videos->count() > 28 ? $videos[28]->url_video : "" }}' },
-        { judul: 'Ya', desc: 'Huruf Ya', file: 'ya.webp', video: '{{ $videos->count() > 29 ? $videos[29]->url_video : "" }}' }
+        @foreach($hurufs as $index => $huruf)
+        {
+            modul_id: {{ $huruf->modul_id }},  
+            judul: '{{ $huruf->judul_modul }}',
+            desc: '{{ $huruf->materiPembelajaran->judul_materi ?? "Huruf Hijaiyah" }}',
+            file: '{{ $huruf->gambar_path ?? "default.webp" }}',
+            latin: '{{ $huruf->teks_latin ?? "" }}',
+            konten: '{{ $huruf->konten_teks ?? "" }}',
+            video: '{{ $videos->get($index)->video_path ?? "" }}'  // Pairing by index
+        }{{ $loop->last ? '' : ',' }}
+        @endforeach
     ];
+    console.log('staticMateriData:', staticMateriData);
+
+    let completedModuls = new Set();
+    const initialCompletedCount = {{ $completedModulsCount }};
+    const totalModulsCount = {{ $totalModuls }};
 
     let currentIndex = 0;
 
@@ -160,7 +169,7 @@
             // Update Teks
             document.getElementById('materi-title').innerText = materi.judul;
             document.getElementById('materi-desc-short').innerText = materi.desc;
-            document.getElementById('materi-counter').innerText = `${currentIndex + 1} / ${staticMateriData.length}`;
+            // document.getElementById('materi-counter').innerText = `${currentIndex + 1} / ${staticMateriData.length}`;
             
             // Update Gambar
             const imagePath = `{{ asset('images/hijaiyah/') }}/${materi.file}`;
@@ -189,11 +198,31 @@
     }
 
     function nextMateri() {
+        // ✅ Ambil data huruf saat ini
+        const currentHuruf = staticMateriData[currentIndex];
+        
+        // ✅ Debug: Log ke console
+        console.log('Current huruf:', currentHuruf);
+        console.log('modul_id:', currentHuruf?.modul_id);
+        
+        // ✅ Simpan progress jika modul_id ada
+        if (currentHuruf && currentHuruf.modul_id) {
+            saveProgressAsync(currentHuruf.modul_id);
+        } else {
+            console.error('❌ modul_id tidak ditemukan!', currentHuruf);
+        }
+        
         currentIndex = (currentIndex + 1) % staticMateriData.length;
         updateMateriDisplay();
     }
 
     function prevMateri() {
+        // ✅ HARUS ADA: Simpan progress modul saat ini
+        const currentHuruf = staticMateriData[currentIndex];
+        if (currentHuruf && currentHuruf.modul_id) {
+            saveProgressAsync(currentHuruf.modul_id);  // ← INI HARUS ADA!
+        }
+        
         currentIndex = (currentIndex - 1 + staticMateriData.length) % staticMateriData.length;
         updateMateriDisplay();
     }
@@ -212,37 +241,100 @@
         }
     }
 
-    async function saveProgressAsync(materiId) {
-        const realMateriId = parseInt(materiId);
+    async function saveProgressAsync(modulId) {
+        const realModulId = parseInt(modulId);
         const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
-        if (isNaN(realMateriId) || realMateriId < 1) return;
+        if (isNaN(realModulId) || realModulId < 1) {
+            console.error('❌ Invalid modulId:', modulId);
+            return;
+        }
 
-        try {
-            // PERUBAHAN DISINI: Gunakan route 'modul.progress' yang sudah ada di web.php
-            const response = await fetch('{{ route("modul.progress") }}', { 
+        try {   
+            console.log('📤 Sending progress for modul_id:', realModulId);
+            
+            const response = await fetch('{{ route("murid.modul.progress") }}', { 
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': csrfToken,
                 },
-                body: JSON.stringify({ materi_id: realMateriId })
+                body: JSON.stringify({ 
+                    modul_id: realModulId,
+                    status: 'selesai'
+                })
             });
 
             const result = await response.json();
+            
             if (result.success) {
-                console.log(`Progress tersimpan untuk Materi ID: ${realMateriId}`);
-            } 
+                console.log(`✅ Progress saved for Modul ID: ${realModulId}`);
+                
+                // ✅ Tambahkan ke Set completed moduls
+                completedModuls.add(realModulId);
+                
+                // ✅ Update progress bar TANPA reload
+                updateProgressBar();
+            } else {
+                console.error('❌ Server returned error:', result);
+            }
 
         } catch (error) {
-            console.error('Gagal menyimpan progress:', error);
+            console.error('❌ Failed to save progress:', error);
         }
     }
+
+    function updateProgressBar() {
+        // ✅ Hitung progress baru
+        const completedCount = completedModuls.size;
+        const totalCount = totalModulsCount;
+        const newPercentage = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
+        
+        // ✅ Cari elemen progress bar (sesuaikan selector dengan HTML kamu)
+        const progressBar = document.querySelector('.bg-indigo-500');
+        const progressText = document.querySelector('.absolute.inset-0.text-center');
+        
+        if (progressBar && progressText) {
+            // ✅ Update width progress bar dengan animasi smooth
+            progressBar.style.width = `${newPercentage}%`;
+            progressBar.style.transition = 'width 0.5s ease-in-out';
+            
+            // ✅ Update text progress
+            progressText.textContent = `${completedCount} / ${totalCount} Materi Selesai (${newPercentage}%)`;
+            
+            console.log(`🎯 Progress bar updated: ${completedCount}/${totalCount} (${newPercentage}%)`);
+        } else {
+            console.warn('⚠️ Progress bar elements not found!');
+        }
+    }
+
+    async function loadCompletedModuls() {
+        try {
+            // ✅ Endpoint API untuk ambil list modul yang sudah selesai
+            const response = await fetch('{{ route("murid.modul.completed") }}');
+            const result = await response.json();
+            
+            if (result.success && Array.isArray(result.completed_moduls)) {
+                // ✅ Masukkan ke Set
+                result.completed_moduls.forEach(modulId => {
+                    completedModuls.add(parseInt(modulId));
+                });
+                
+                console.log('✅ Loaded completed moduls:', completedModuls);
+            }
+        } catch (error) {
+            console.error('❌ Failed to load completed moduls:', error);
+        }
+    }
+
+
 
     // === INIT ===
     document.addEventListener('DOMContentLoaded', () => {
         // Inisialisasi tampilan pertama
         updateMateriDisplay(); 
+
+        loadCompletedModuls();
         
         // Keyboard Navigation
         document.addEventListener('keydown', (e) => {

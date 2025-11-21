@@ -8,7 +8,7 @@
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Titan One', "cursive-iwk";
     background: #FDF6E9;
     color: #333;
     overflow: hidden;
@@ -29,7 +29,7 @@ body {
 
 .welcome-title {
     font-size: 4rem;
-    font-weight: bold;
+    font-weight: normal;
     color: white;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     animation: welcomePulse 1.5s ease-in-out infinite;
@@ -133,7 +133,7 @@ body {
 
 .arabic-letter {
     font-size: 3rem;
-    font-weight: bold;
+    font-weight: normal;
     color: white;
 }
 
@@ -280,7 +280,7 @@ body {
     position: absolute;
     font-size: 8rem;
     color: rgba(0, 0, 0, 0.05);
-    font-weight: bold;
+    font-weight: normal;
     z-index: 0;
 }
 
@@ -336,7 +336,7 @@ body {
 }
 
 .progress-text {
-    font-weight: bold;
+    font-weight: normal;
     color: #7DD3FC;
     min-width: 50px;
     font-size: 1rem;
@@ -357,7 +357,7 @@ body {
 
 .score-display {
     font-size: 1.25rem;
-    font-weight: bold;
+    font-weight: normal;
     color: #7DD3FC;
 }
 
@@ -471,7 +471,7 @@ body {
     font-size: 3rem;
     color: #7DD3FC;
     margin-bottom: 1rem;
-    font-weight: bold;
+    font-weight: normal;
 }
 
 .final-stars {
@@ -487,7 +487,7 @@ body {
 
 .final-score {
     font-size: 1.75rem;
-    font-weight: bold;
+    font-weight: normal;
     color: #7DD3FC;
     margin-bottom: 2rem;
 }

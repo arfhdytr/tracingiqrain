@@ -2,33 +2,79 @@
 
 @section('title', 'Evaluasi & Leaderboard')
 
+{{-- STYLES --}}
+@push('styles')
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mooli&family=Titan+One&display=swap" rel="stylesheet">
+
+    <style>
+        /* Font Import */
+        @import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
+        
+        @font-face {
+            font-family: 'Tegak Bersambung_IWK';
+            src: url("{{ asset('fonts/TegakBersambung_IWK.ttf') }}") format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        /* Utility Classes */
+        .font-cursive-iwk {
+            font-family: 'Tegak Bersambung_IWK', cursive !important;
+        }
+
+        .font-titan {
+            font-family: 'Titan One', cursive !important;
+        }
+
+        .text-shadow-header {
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+        }
+    </style>
+@endpush
+
 @section('content')
-<div class="container mx-auto px-4 py-8">
+{{-- FIXED BACKGROUND LAYER --}}
+<div class="fixed inset-0 w-full h-full pointer-events-none"
+    style="background: linear-gradient(180deg, #56B1F3 0%, #D3F2FF 100%); z-index: -1;">
+    
+    {{-- Pattern Overlay --}}
+    <div class="absolute inset-0 w-full h-full"
+        style="background-image: url('{{ asset('images/games/game-pattern.webp') }}'); 
+                background-size: 500px;
+                background-repeat: repeat;
+                background-position: center; 
+                opacity: 0.3;">
+    </div>
+</div>
+
+<div class="w-full relative overflow-x-hidden" style="z-index: 10;">
     <div class="max-w-5xl mx-auto">
                 
         {{-- HEADER SECTION --}}
-            <div class="container mx-auto px-4 mt-8 mb-12">
-                <div class="flex flex-col-reverse md:flex-row items-center justify-center gap-4 md:gap-12 max-w-6xl mx-auto">
-                    {{-- Teks Header --}}
-                    <div class="text-center md:text-left mt-8 md:mt-32">
-                        <h1
-                            class="font-titan text-[40px] md:text-[55px] text-[#234275] leading-tight mb-2 text-shadow-header">
-                            Bagaimana Permainanya ? 
-                        </h1>
-                        <p
-                            class="font-cursive-iwk text-[35px] md:text-[60px] text-[#234275] leading-none text-shadow-header">
-                            Lihat kemajuan dan bersiap <br> Untuk tantangan berikutnya                
-                        </p>
-                    </div>
+            <div class="container mx-auto px-4 pt-8 pb-12">
+            <div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-12 max-w-6xl mx-auto">
+                
+                {{-- Maskot Gajah (KIRI) --}}
+                <div class="w-[180px] md:w-[280px] transform hover:rotate-3 transition-transform duration-500">
+                    <img src="{{ asset('images/maskot/ceria.webp') }}" alt="Qira Happy"
+                        class="w-full h-auto drop-shadow-2xl">
+                </div>
 
-                    {{-- Maskot Gajah --}}
-                    <div class="w-[180px] md:w-[280px] transform hover:rotate-3 transition-transform duration-500">
-                        <img src="{{ asset('images/maskot/ceria.webp') }}" alt="Qira Happy"
-                            class="w-full h-auto drop-shadow-2xl">
-                    </div>
+                {{-- Teks Header (KANAN) --}}
+                <div class="text-center md:text-left">
+                    <h1 class="font-titan text-[40px] md:text-[55px] text-[#234275] leading-tight mb-2 text-shadow-header">
+                        Bagaimana Permainannya?
+                    </h1>
+                    <p class="font-cursive-iwk text-[35px] md:text-[60px] text-[#234275] leading-none text-shadow-header">
+                        Lihat kemajuan dan bersiap<br>untuk tantangan berikutnya
+                    </p>
                 </div>
             </div>
+        </div>
         
+    
         <!-- Tab Toggle -->
         <div class="flex justify-center mb-4">
             <div class="bg-white rounded-full p-1 shadow-lg inline-flex">

@@ -5,14 +5,14 @@ namespace App\Http\Controllers\Murid;
 use App\Http\Controllers\Controller;
 use App\Models\TingkatanIqra;
 use App\Models\JenisGame;
-use App\Models\GameStatic;
-use App\Models\SoalDragDrop;
 use App\Models\HasilGame;
 use App\Models\Leaderboard;
 use App\Models\Murid;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+
+
 
 class GameController extends Controller
 {
@@ -27,27 +27,22 @@ class GameController extends Controller
     public function memoryCard($tingkatan_id)
     {
         $tingkatan = TingkatanIqra::with('materiPembelajarans')->findOrFail($tingkatan_id);
-        $gameStatic = GameStatic::where('tingkatan_id', $tingkatan_id)
-            ->whereHas('jenisGame', function ($q) {
-                $q->where('nama_game', 'Memory Card');
-            })->first();
+        $jenisGame = JenisGame::where('nama_game', 'Memory Card')->firstOrFail();
+        $materiPembelajarans = $tingkatan->materiPembelajarans->take(6); // 6 kombo untuk 12 kartu
 
-        $materiPembelajarans = $tingkatan->materiPembelajarans->take(6); // 6 pairs = 12 cards
+        return view('pages.murid.games.memory-card', compact('tingkatan', 'materiPembelajarans', 'jenisGame')); 
 
-        return view('pages.murid.games.memory-card', compact('tingkatan', 'materiPembelajarans', 'gameStatic'));
     }
 
     public function tracing($tingkatan_id)
     {
         $tingkatan = TingkatanIqra::with('materiPembelajarans')->findOrFail($tingkatan_id);
-        $gameStatic = GameStatic::where('tingkatan_id', $tingkatan_id)
-            ->whereHas('jenisGame', function ($q) {
-                $q->where('nama_game', 'Tracking');
-            })->first();
+        $jenisGame = JenisGame::where('nama_game', 'Tracking')->firstOrFail();
 
         $materiPembelajarans = $tingkatan->materiPembelajarans;
 
-        return view('pages.murid.games.tracing', compact('tingkatan', 'materiPembelajarans', 'gameStatic'));
+        return view('pages.murid.games.tracing', compact('tingkatan', 'materiPembelajarans', 'jenisGame'));
+
     }
 
     public function tracingStandalone(){
@@ -118,12 +113,9 @@ class GameController extends Controller
 
     public function labirin($tingkatan_id)
     {
-        $tingkatan = TingkatanIqra::findOrFail($tingkatan_id);
-        $gameStatic = GameStatic::where('tingkatan_id', $tingkatan_id)
-            ->whereHas('jenisGame', function ($q) {
-                $q->where('nama_game', 'Labirin');
-            })->first();
-
+        $tingkatan = TingkatanIqra::with('materiPembelajarans')->findOrFail($tingkatan_id);
+        $jenisGame = JenisGame::where('nama_game', 'Labirin')->firstOrFail();
+        
         // 1. Definisikan 3 map labirin (ukuran 8 baris x 9 kolom)
         $maps = [
             // Map 1
@@ -176,7 +168,7 @@ class GameController extends Controller
             'د' => 'Dal.webp',
             'ذ' => 'Dzal.webp',
             'ر' => 'Ra.webp',
-            'ز' => 'Zai.webp',
+            'ز' => 'Za.webp',
             'س' => 'Sin.webp',
             'ش' => 'Syin.webp',
             'ص' => 'Shod.webp',
@@ -213,12 +205,13 @@ class GameController extends Controller
         // 6. Kirim data ke View Blade
         return view('pages.murid.games.labirin', [
             'tingkatan' => $tingkatan,
-            'gameStatic' => $gameStatic,
+            'jenisGame'=>$jenisGame,
             'mapLayout' => $selectedMap,
             'targetLetters' => $targetNames,
             'targetFiles' => $targetFiles,
         ]);
     }
+
 
     public function dragDrop($tingkatan_id)
     {

@@ -7,122 +7,159 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Mooli&family=Titan+One&display=swap" rel="stylesheet">
     <style>
-        body {
-            background-image: 
-                url('{{ asset('images/pattern/pattern1-darker.webp') }}'),
-                linear-gradient(135deg, #56b1f3, #d3f2ff);
+       /* Font Import */
+        @import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
+        
+        @font-face {
+            font-family: 'Tegak Bersambung_IWK';
+            src: url("{{ asset('fonts/TegakBersambung_IWK.ttf') }}") format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
 
-            background-size: 
-                500px,       /* pattern */
-                cover;       /* gradient */
+        /* Utility Classes */
+        .font-cursive-iwk {
+            font-family: 'Tegak Bersambung_IWK', cursive !important;
+        }
 
-            background-repeat: 
-                repeat,      /* pattern */
-                no-repeat;   /* gradient */
+        .font-titan {
+            font-family: 'Titan One', cursive !important;
+        }
 
-            background-attachment: fixed;
-            background-position: center;
-            background-blend-mode: normal, overlay;
+        .text-shadow-header {
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
         }
     </style>
 
-{{-- OUTER BACKGROUND: BIRU --}}
-<div class="pt-15 sm:pt-25 pb-15 px-4 flex items-start justify-center relative overflow-hidden">
+{{-- FIXED BACKGROUND LAYER (z-index: -1 di belakang semua) --}}
+<div class="fixed inset-0 w-full h-full pointer-events-none"
+    style="background: linear-gradient(180deg, #56B1F3 0%, #D3F2FF 100%); z-index: -1;">
     
-    <!-- {{-- Pattern Background --}}
-    <img src="{{ asset('images/pattern/pattern1.webp') }}" class="absolute top-0 left-0 w-full h-full object-cover opacity-10 pointer-events-none mix-blend-overlay" alt="pattern"> -->
+    {{-- Pattern Overlay --}}
+    <div class="absolute inset-0 w-full h-full"
+        style="background-image: url('{{ asset('images/games/game-pattern.webp') }}'); 
+                background-size: 500px;
+                background-repeat: repeat;
+                background-position: center; 
+                opacity: 0.3;">
+    </div>
+</div>
 
-    {{-- KONTEN UTAMA: BLOK KREM BESAR --}}
-    <div class="w-full max-w-6xl bg-[#FDF6E9] rounded-[3rem] shadow-2xl border-[6px] border-white/30 relative z-10 overflow-hidden flex flex-col min-h-[75vh] mb-0">
-        
-        {{-- HEADER --}}
-        <div class="bg-white/50 backdrop-blur-sm p-6 border-b border-orange-100/50 text-center">
-            <h1 class="text-3xl font-titan text-indigo-900 inline-flex items-center gap-3">
-                <!-- <img src="{{ asset('images/icon/bintang.webp') }}" class="w-8 h-8 animate-spin-slow" alt="star"> -->
-                Modul Pembelajaran Iqra Jilid {{ $tingkatan->level }}
-                <!-- <img src="{{ asset('images/icon/bintang.webp') }}" class="w-8 h-8 animate-spin-slow" alt="star"> -->
-            </h1>
-        </div>
+{{-- CONTAINER KONTEN UTAMA (z-index: 10 di bawah footer z-20) --}}
+<div class="w-full relative overflow-x-hidden" style="z-index: 10;">
 
-        {{-- CONTENT AREA: TERINTEGRASI (VIDEO KIRI, MATERI KANAN) --}}
-        <div class="flex-1 p-6 md:p-10 overflow-y-auto relative flex flex-col justify-between">
+    {{-- WELCOMING SECTION (BARU!) --}}
+    <div class="container mx-auto px-4 pt-8 pb-12">
+        <div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-12 max-w-6xl mx-auto">
             
-            {{-- Navigation and Integrated View --}}
-            <div class="flex items-center justify-between w-full">
-                
-                {{-- Tombol PREV --}}
-                <button onclick="prevMateri()" class="group relative z-20 p-4 transition-transform hover:scale-110 focus:outline-none">
-                    <div class="absolute inset-0 bg-white rounded-full shadow-lg opacity-70 group-hover:opacity-100 transition-opacity"></div>
-                    <img src="{{ asset('images/icon/next.webp') }}" 
-                         class="w-12 h-12 relative z-10 transform rotate-180 opacity-80 filter drop-shadow-sm" 
-                         alt="Previous">
-                </button>
-
-                {{-- KONTEN UTAMA SPLIT (VIDEO KIRI, HURUF KANAN) --}}
-                <div class="flex flex-col lg:flex-row gap-6 w-full max-w-5xl mx-auto">
-                    
-                    {{-- KIRI: Main Player & Info (Sesuai Video Prototype) --}}
-                    <div class="w-full lg:w-2/3 flex flex-col gap-4">
-                        <div class="bg-black rounded-3xl overflow-hidden shadow-lg aspect-video border-4 border-white ring-1 ring-gray-200 relative">
-                            {{-- Video Player (Placeholder) --}}
-                            <iframe id="main-video-player" class="w-full h-full" src="" title="Video Player" frameborder="0" allowfullscreen></iframe>
-                        </div>
-                        
-                        <div class="bg-white p-4 rounded-xl shadow-sm border border-indigo-50">
-                            <h2 id="main-video-title" class="text-xl font-titan text-gray-800">Video Pembelajaran</h2>
-                            <p id="main-video-desc" class="text-white-600 font-cursive-iwk text-sm mt-1">Materi Video</p>
-                        </div>
-                    </div>
-
-                    {{-- KANAN: Kartu Materi Aktif (Sesuai Materi Prototype) --}}
-                    <div class="w-full lg:w-1/3 flex justify-center items-center">
-                        <div id="materi-card" class="relative bg-white rounded-3xl shadow-2xl border-4 border-white p-6 text-center transform transition-all duration-500 w-full aspect-square flex flex-col justify-center items-center">
-                            
-                            {{-- Image Container --}}
-                            <div class="relative h-32 w-32 flex items-center justify-center mb-4">
-                                <img id="materi-image" src="" class="h-full w-auto object-contain drop-shadow-lg relative z-10" alt="Huruf">
-                                <div id="materi-fallback" class="hidden text-6xl font-arabic text-indigo-600 font-bold">?</div>
-                            </div>
-
-                            {{-- Text Info --}}
-                            <h3 id="materi-title" class="text-3xl font-bold text-indigo-900 font-cursive-iwk tracking-wide mb-1">...</h3>
-                            <p id="materi-desc-short" class="text-white-600 font-cursive-iwk text-sm"></p>
-                            
-                            {{-- Progress Badge --}}
-                            <div class="absolute top-3 right-3 bg-white-500 text-white px-3 py-1 rounded-full text-xs font-bold">
-                                <!-- Huruf <span id="materi-counter">1/1</span> -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- Tombol NEXT --}}
-                <button onclick="nextMateri()" class="group relative z-20 p-4 transition-transform hover:scale-110 focus:outline-none">
-                    <div class="absolute inset-0 bg-white rounded-full shadow-lg opacity-70 group-hover:opacity-100 transition-opacity"></div>
-                    <img src="{{ asset('images/icon/next.webp') }}" 
-                         class="w-12 h-12 relative z-10 opacity-80 group-hover:opacity-100 filter drop-shadow-sm" 
-                         alt="Next">
-                </button>
+            {{-- Maskot Mengaji (KIRI) --}}
+            <div class="w-[180px] md:w-[280px] transform hover:rotate-3 transition-transform duration-500">
+                <img src="{{ asset('images/maskot/mengaji.webp') }}" alt="Mengaji"
+                    class="w-full h-auto drop-shadow-2xl">
             </div>
 
-            {{-- FOOTER KONTEN UTAMA: PROGRESS BAR --}}
-            <div class="w-full mt-8 pt-4 border-t border-gray-100">
-                <h3 class="text-lg font-titan text-gray-800 mb-2">
-                    Progres Tingkatan {{ $tingkatan->level }}
-                </h3>
-                <div class="bg-gray-200 rounded-full h-4 relative overflow-hidden">
-                    {{-- Progress Fill --}}
-                    <div class="bg-indigo-500 h-full rounded-full transition-all duration-500" style="width: {{ $progressPercentage }}%;"></div>
-                    
-                    {{-- Progress Text --}}
-                    <span class="absolute inset-0 text-center text-xs font-titan text-white leading-4 tracking-wider" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.2);">
-                        {{ $completedModulsCount }} / {{ $totalModuls }} Materi Selesai ({{ $progressPercentage }}%)
-                    </span>
-                </div>
+            {{-- Teks Header (KANAN) --}}
+            <div class="text-center md:text-left">
+                <h1 class="font-titan text-[40px] md:text-[55px] text-[#234275] leading-tight mb-2 text-shadow-header">
+                    Selamat Belajar!
+                </h1>
+                <p class="font-cursive-iwk text-[35px] md:text-[60px] text-[#234275] leading-none text-shadow-header">
+                    Ayo pelajari huruf Hijaiyah dengan<br>semangat dan penuh kegembiraan!
+                </p>
             </div>
-
         </div>
     </div>
+
+    {{-- BLOK KREM (Konten Utama) --}}
+    <div class="container mx-auto px-4 pb-24">
+        <div class="w-full max-w-6xl mx-auto bg-[#FDF6E9] rounded-[3rem] shadow-2xl border-[6px] border-white/30 overflow-hidden flex flex-col min-h-[75vh]">
+            
+            {{-- HEADER --}}
+            <div class="bg-white/50 backdrop-blur-sm p-6 border-b border-orange-100/50 text-center">
+                <h1 class="text-3xl font-titan text-indigo-900 inline-flex items-center gap-3">
+                    Modul Pembelajaran Iqra Jilid {{ $tingkatan->level }}
+                </h1>
+            </div>
+
+            {{-- CONTENT AREA: TERINTEGRASI (VIDEO KIRI, MATERI KANAN) --}}
+            <div class="flex-1 p-6 md:p-10 overflow-y-auto relative flex flex-col justify-between">
+                
+                {{-- Navigation and Integrated View --}}
+                <div class="flex items-center justify-between w-full">
+                    
+                    {{-- Tombol PREV --}}
+                    <button onclick="prevMateri()" class="group relative z-20 p-4 transition-transform hover:scale-110 focus:outline-none">
+                        <div class="absolute inset-0 bg-white rounded-full shadow-lg opacity-70 group-hover:opacity-100 transition-opacity"></div>
+                        <img src="{{ asset('images/icon/next.webp') }}" 
+                             class="w-12 h-12 relative z-10 transform rotate-180 opacity-80 filter drop-shadow-sm" 
+                             alt="Previous">
+                    </button>
+
+                    {{-- KONTEN UTAMA SPLIT (VIDEO KIRI, HURUF KANAN) --}}
+                    <div class="flex flex-col lg:flex-row gap-6 w-full max-w-5xl mx-auto">
+                        
+                        {{-- KIRI: Main Player & Info --}}
+                        <div class="w-full lg:w-2/3 flex flex-col gap-4">
+                            <div class="bg-black rounded-3xl overflow-hidden shadow-lg aspect-video border-4 border-white ring-1 ring-gray-200 relative">
+                                <iframe id="main-video-player" class="w-full h-full" src="" title="Video Player" frameborder="0" allowfullscreen></iframe>
+                            </div>
+                            
+                            <div class="bg-white p-4 rounded-xl shadow-sm border border-indigo-50">
+                                <h2 id="main-video-title" class="text-xl font-titan text-gray-800">Video Pembelajaran</h2>
+                                <p id="main-video-desc" class="text-white-600 font-cursive-iwk text-sm mt-1">Materi Video</p>
+                            </div>
+                        </div>
+
+                        {{-- KANAN: Kartu Materi Aktif --}}
+                        <div class="w-full lg:w-1/3 flex justify-center items-center">
+                            <div id="materi-card" class="relative bg-white rounded-3xl shadow-2xl border-4 border-white p-6 text-center transform transition-all duration-500 w-full aspect-square flex flex-col justify-center items-center">
+                                
+                                {{-- Image Container --}}
+                                <div class="relative h-32 w-32 flex items-center justify-center mb-4">
+                                    <img id="materi-image" src="" class="h-full w-auto object-contain drop-shadow-lg relative z-10" alt="Huruf">
+                                    <div id="materi-fallback" class="hidden text-6xl font-arabic text-indigo-600 font-bold">?</div>
+                                </div>
+
+                                {{-- Text Info --}}
+                                <h3 id="materi-title" class="text-3xl font-bold text-indigo-900 font-cursive-iwk tracking-wide mb-1">...</h3>
+                                <p id="materi-desc-short" class="text-white-600 font-cursive-iwk text-sm"></p>
+                                
+                                {{-- Progress Badge --}}
+                                <div class="absolute top-3 right-3 bg-white-500 text-white px-3 py-1 rounded-full text-xs font-bold">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Tombol NEXT --}}
+                    <button onclick="nextMateri()" class="group relative z-20 p-4 transition-transform hover:scale-110 focus:outline-none">
+                        <div class="absolute inset-0 bg-white rounded-full shadow-lg opacity-70 group-hover:opacity-100 transition-opacity"></div>
+                        <img src="{{ asset('images/icon/next.webp') }}" 
+                             class="w-12 h-12 relative z-10 opacity-80 group-hover:opacity-100 filter drop-shadow-sm" 
+                             alt="Next">
+                    </button>
+                </div>
+
+                {{-- FOOTER KONTEN UTAMA: PROGRESS BAR --}}
+                <div class="w-full mt-8 pt-4 border-t border-gray-100">
+                    <h3 class="text-lg font-titan text-gray-800 mb-2">
+                        Progres Tingkatan {{ $tingkatan->level }}
+                    </h3>
+                    <div class="bg-gray-200 rounded-full h-4 relative overflow-hidden">
+                        {{-- Progress Fill --}}
+                        <div class="bg-indigo-500 h-full rounded-full transition-all duration-500" style="width: {{ $progressPercentage }}%;"></div>
+                        
+                        {{-- Progress Text --}}
+                        <span class="absolute inset-0 text-center text-xs font-titan text-white leading-4 tracking-wider" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.2);">
+                            {{ $completedModulsCount }} / {{ $totalModuls }} Materi Selesai ({{ $progressPercentage }}%)
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 </div>
 
 

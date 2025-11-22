@@ -107,17 +107,6 @@
                             </a>
                         </li>
 
-                        <li class="pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 @if(request()->routeIs('admin.soal-management')) bg-iqrain-blue @endif">
-                            <a class="block truncate transition @if(request()->routeIs('admin.soal-management')) text-iqrain-yellow @else text-iqrain-blue dark:text-iqrain-blue hover:text-iqrain-dark-blue dark:hover:text-iqrain-dark-blue @endif" href="{{ route('admin.soal.management') }}">
-                                <div class="flex items-center">
-                                    <svg class="shrink-0 fill-current text-iqrain-pink" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-                                        <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2ZM3 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5Zm0-3a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5Zm0-3a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5Z" />
-                                    </svg>
-                                    <span class="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Soal</span>
-                                </div>
-                            </a>
-                        </li>
-
                         <li class="pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 @if(request()->routeIs('admin.tracking.index') || request()->routeIs('admin.tracking.detail')) bg-iqrain-blue @endif">
                             <a class="block truncate transition @if(request()->routeIs('admin.tracking.index') || request()->routeIs('admin.tracking.detail')) text-iqrain-yellow @else text-iqrain-blue dark:text-iqrain-blue hover:text-iqrain-dark-blue dark:hover:text-iqrain-dark-blue @endif" href="{{ route('admin.tracking.index') }}">
                                 <div class="flex items-center">

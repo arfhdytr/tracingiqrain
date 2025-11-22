@@ -1,9 +1,9 @@
 <?php
+// app/Actions/Fortify/UpdateUserProfileInformation.php
 
 namespace App\Actions\Fortify;
 
 use App\Models\User;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
@@ -17,40 +17,45 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
      */
     public function update(User $user, array $input): void
     {
-        Validator::make($input, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
+        // Validation rules
+        $rules = [
+            'username' => [
+                'required',
+                'string',
+                'max:255',
+                'alpha_dash',
+                Rule::unique('users')->ignore($user->id)
+            ],
             'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
-        ])->validateWithBag('updateProfileInformation');
+        ];
 
+        // No WA hanya untuk mentor
+        if ($user->hasRole('mentor')) {
+            $rules['no_wa'] = [
+                'nullable',
+                'string',
+                'max:20',
+                'regex:/^[0-9+\-\s()]+$/' // Format nomor telepon
+            ];
+        }
+
+        Validator::make($input, $rules)->validateWithBag('updateProfileInformation');
+
+        // Update photo jika ada
         if (isset($input['photo'])) {
             $user->updateProfilePhoto($input['photo']);
         }
 
-        if ($input['email'] !== $user->email &&
-            $user instanceof MustVerifyEmail) {
-            $this->updateVerifiedUser($user, $input);
-        } else {
-            $user->forceFill([
-                'name' => $input['name'],
-                'email' => $input['email'],
-            ])->save();
-        }
-    }
-
-    /**
-     * Update the given verified user's profile information.
-     *
-     * @param  array<string, string>  $input
-     */
-    protected function updateVerifiedUser(User $user, array $input): void
-    {
+        // Update username
         $user->forceFill([
-            'name' => $input['name'],
-            'email' => $input['email'],
-            'email_verified_at' => null,
+            'username' => $input['username'],
         ])->save();
 
-        $user->sendEmailVerificationNotification();
+        // Update no_wa untuk mentor
+        if ($user->hasRole('mentor') && $user->mentor) {
+            $user->mentor->forceFill([
+                'no_wa' => $input['no_wa'] ?? null,
+            ])->save();
+        }
     }
 }

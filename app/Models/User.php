@@ -59,6 +59,6 @@ class User extends Authenticatable
 
     public function getAvatarUrlAttribute()
     {
-        return $this->avatar_path ? asset('storage/' . $this->avatar_path) : asset('images/avatar-default.jpg');
+        return $this->avatar_path ? asset('storage/' . $this->avatar_path) : asset('images/avatar/cowo.webp');
     }
 }

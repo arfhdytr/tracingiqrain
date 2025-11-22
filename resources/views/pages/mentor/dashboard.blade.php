@@ -4,102 +4,116 @@
         
         {{-- Welcome Header --}}
         <div class="mb-8">
-            <h1 class="text-3xl md:text-4xl text-white font-black mb-2">
-                Selamat datang, {{ Auth::user()->mentor->nama_lengkap ?? 'Mentor' }}! 👋
+            <h1 class="text-3xl md:text-4xl text-white dark:text-white font-bold mb-2">
+                Selamat datang, <span class="text-iqrain-yellow"> {{ Auth::user()->mentor->nama_lengkap ?? 'Mentor' }}!</span>
             </h1>
+            <p class="text-white dark:text-gray-400">Kelola dan pantau progres murid Anda</p>
         </div>
 
-        {{-- Stats Cards Row --}}
+        {{-- Stats Cards Row - Clean Design --}}
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             {{-- Total Murid (Pink) --}}
-            <div class="bg-gradient-to-br from-pink-400 to-pink-500 rounded-2xl shadow-xl p-6 text-white transform hover:scale-105 transition-transform duration-200">
-                <div class="flex items-center justify-between mb-4">
-                    <div>
-                        <p class="text-pink-100 text-sm font-medium mb-1">Total Murid</p>
-                        <h3 class="text-4xl font-black">{{ $totalMurids }}</h3>
-                    </div>
-                    <div class="bg-white/20 backdrop-blur-sm rounded-xl p-4">
-                        <i class="fas fa-users text-3xl"></i>
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 transform transition-all duration-300 hover:shadow-xl relative overflow-hidden">
+                <div class="absolute top-4 right-4">
+                    <div class="bg-iqrain-pink/10 rounded-full p-3 w-14 h-14 flex items-center justify-center">
+                        <i class="fas fa-users text-xl text-iqrain-pink"></i>
                     </div>
                 </div>
-                <div class="flex items-center text-pink-100 text-xs">
-                    <i class="fas fa-arrow-up mr-1"></i>
-                    <span>Murid yang Anda bimbing</span>
+                
+                <div class="mt-2 pr-16">
+                    <h3 class="text-4xl font-bold text-gray-800 dark:text-white mb-2 leading-none">
+                        {{ number_format($totalMurids) }}
+                    </h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm font-medium mb-3">Total Murid</p>
+                    
+                    <div class="flex items-center text-xs">
+                        <span class="text-gray-500 dark:text-gray-400">Murid yang Anda bimbing</span>
+                    </div>
                 </div>
             </div>
 
-            {{-- Permintaan Pending (Putih) --}}
-            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 border-2 border-pink-200 dark:border-pink-900 transform hover:scale-105 transition-transform duration-200">
-                <div class="flex items-center justify-between mb-4">
-                    <div>
-                        <p class="text-gray-500 dark:text-gray-400 text-sm font-medium mb-1">Permintaan Baru</p>
-                        <h3 class="text-4xl font-black text-pink-500">{{ $totalPendingRequests }}</h3>
-                    </div>
-                    <div class="bg-pink-100 dark:bg-pink-900/30 rounded-xl p-4">
-                        <i class="fas fa-bell text-3xl text-pink-500"></i>
+            {{-- Permintaan Pending (Blue) --}}
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 transform transition-all duration-300 hover:shadow-xl relative overflow-hidden">
+                <div class="absolute top-4 right-4">
+                    <div class="bg-iqrain-blue/10 rounded-full p-3 w-14 h-14 flex items-center justify-center">
+                        <i class="fas fa-bell text-xl text-iqrain-blue"></i>
                     </div>
                 </div>
-                @if($totalPendingRequests > 0)
-                    <a href="{{ route('mentor.permintaan.index') }}" class="flex items-center text-pink-600 dark:text-pink-400 text-xs font-medium hover:underline">
-                        <span>Lihat permintaan</span>
-                        <i class="fas fa-arrow-right ml-1"></i>
-                    </a>
-                @else
-                    <p class="text-gray-400 text-xs">Tidak ada permintaan baru</p>
-                @endif
-            </div>
-
-            {{-- Aktivitas Minggu Ini (Diubah menjadi Pink) --}}
-            <div class="bg-gradient-to-br from-pink-500 to-pink-600 rounded-2xl shadow-xl p-6 text-white transform hover:scale-105 transition-transform duration-200">
-                <div class="flex items-center justify-between mb-4">
-                    <div>
-                        <p class="text-pink-100 text-sm font-medium mb-1">Game Minggu Ini</p>
-                        <h3 class="text-4xl font-black">{{ $totalGamesWeek }}</h3>
-                    </div>
-                    <div class="bg-white/20 backdrop-blur-sm rounded-xl p-4">
-                        <i class="fas fa-gamepad text-3xl"></i>
-                    </div>
-                </div>
-                <div class="flex items-center text-pink-100 text-xs">
-                    @if($growthPercentage > 0)
-                        <i class="fas fa-arrow-up mr-1"></i>
-                        <span>+{{ $growthPercentage }}% dari minggu lalu</span>
-                    @elseif($growthPercentage < 0)
-                        <i class="fas fa-arrow-down mr-1"></i>
-                        <span>{{ $growthPercentage }}% dari minggu lalu</span>
+                
+                <div class="mt-2 pr-16">
+                    <h3 class="text-4xl font-bold text-gray-800 dark:text-white mb-2 leading-none">
+                        {{ number_format($totalPendingRequests) }}
+                    </h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm font-medium mb-3">Permintaan Baru</p>
+                    
+                    @if($totalPendingRequests > 0)
+                        <a href="{{ route('mentor.permintaan.index') }}" class="flex items-center text-xs text-iqrain-blue hover:underline">
+                            <span>Lihat permintaan</span>
+                            <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
                     @else
-                        <i class="fas fa-minus mr-1"></i>
-                        <span>Sama dengan minggu lalu</span>
+                        <p class="text-gray-400 text-xs">Tidak ada permintaan baru</p>
                     @endif
                 </div>
             </div>
 
-            {{-- Rata-rata Progress (Diubah menjadi Putih) --}}
-            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 border-2 border-pink-200 dark:border-pink-900 transform hover:scale-105 transition-transform duration-200">
-                <div class="flex items-center justify-between mb-4">
-                    <div>
-                        {{-- Mengubah teks menjadi gelap karena latar belakang putih --}}
-                        <p class="text-gray-500 dark:text-gray-400 text-sm font-medium mb-1">Rata-rata Progress</p>
-                        <h3 class="text-4xl font-black text-pink-500">{{ $avgProgress }}%</h3>
-                    </div>
-                    <div class="bg-pink-100 dark:bg-pink-900/30 rounded-xl p-4">
-                        {{-- Mengubah ikon menjadi pink agar kontras dengan latar belakang putih --}}
-                        <i class="fas fa-chart-line text-3xl text-pink-500"></i>
+            {{-- Aktivitas Minggu Ini (Pink) --}}
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 transform transition-all duration-300 hover:shadow-xl relative overflow-hidden">
+                <div class="absolute top-4 right-4">
+                    <div class="bg-iqrain-pink/10 rounded-full p-3 w-14 h-14 flex items-center justify-center">
+                        <i class="fas fa-gamepad text-xl text-iqrain-pink"></i>
                     </div>
                 </div>
-                {{-- Mengubah progress bar menjadi pink --}}
-                <div class="w-full bg-pink-100/50 rounded-full h-2 mt-2">
-                    <div class="bg-pink-500 h-2 rounded-full" style="width: {{ $avgProgress }}%"></div>
+                
+                <div class="mt-2 pr-16">
+                    <h3 class="text-4xl font-bold text-gray-800 dark:text-white mb-2 leading-none">
+                        {{ number_format($totalGamesWeek) }}
+                    </h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm font-medium mb-3">Game Minggu Ini</p>
+                    
+                    <div class="flex items-center text-xs">
+                        @if($growthPercentage > 0)
+                            <i class="fas fa-arrow-up text-green-500 mr-1"></i>
+                            <span class="text-green-500 font-semibold">+{{ $growthPercentage }}%</span>
+                        @elseif($growthPercentage < 0)
+                            <i class="fas fa-arrow-down text-red-500 mr-1"></i>
+                            <span class="text-red-500 font-semibold">{{ $growthPercentage }}%</span>
+                        @else
+                            <i class="fas fa-minus text-gray-500 mr-1"></i>
+                            <span class="text-gray-500 font-semibold">0%</span>
+                        @endif
+                        <span class="text-gray-500 dark:text-gray-400 ml-1">dari minggu lalu</span>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Rata-rata Progress (Blue) --}}
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 transform transition-all duration-300 hover:shadow-xl relative overflow-hidden">
+                <div class="absolute top-4 right-4">
+                    <div class="bg-iqrain-blue/10 rounded-full p-3 w-14 h-14 flex items-center justify-center">
+                        <i class="fas fa-chart-line text-xl text-iqrain-blue"></i>
+                    </div>
+                </div>
+                
+                <div class="mt-2 pr-16">
+                    <h3 class="text-4xl font-bold text-gray-800 dark:text-white mb-2 leading-none">
+                        {{ $avgProgress }}%
+                    </h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm font-medium mb-3">Rata-rata Progress</p>
+                    
+                    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                        <div class="bg-iqrain-blue h-2 rounded-full transition-all duration-300" style="width: {{ $avgProgress }}%"></div>
+                    </div>
                 </div>
             </div>
         </div>
 
         {{-- Quick Actions --}}
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-            <a href="{{ route('mentor.murid.create') }}" class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 hover:shadow-2xl transition-shadow duration-200 group">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <a href="{{ route('mentor.murid.create') }}" class="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 hover:shadow-xl transition-all duration-300 group">
                 <div class="flex items-center gap-4">
-                    <div class="bg-pink-100 dark:bg-pink-900/30 rounded-xl p-4 group-hover:bg-pink-500 transition-colors duration-200">
-                        <i class="fas fa-user-plus text-2xl text-pink-500 group-hover:text-white transition-colors duration-200"></i>
+                    <div class="bg-iqrain-pink/10 rounded-xl p-4 group-hover:bg-iqrain-pink transition-colors duration-200">
+                        <i class="fas fa-user-plus text-2xl text-iqrain-pink group-hover:text-white transition-colors duration-200"></i>
                     </div>
                     <div>
                         <h4 class="font-bold text-gray-900 dark:text-white">Tambah Murid</h4>
@@ -108,10 +122,10 @@
                 </div>
             </a>
 
-            <a href="{{ route('mentor.laporan-murid.index') }}" class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 hover:shadow-2xl transition-shadow duration-200 group">
+            <a href="{{ route('mentor.laporan-murid.index') }}" class="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 hover:shadow-xl transition-all duration-300 group">
                 <div class="flex items-center gap-4">
-                    <div class="bg-purple-100 dark:bg-purple-900/30 rounded-xl p-4 group-hover:bg-purple-500 transition-colors duration-200">
-                        <i class="fas fa-chart-bar text-2xl text-purple-500 group-hover:text-white transition-colors duration-200"></i>
+                    <div class="bg-iqrain-blue/10 rounded-xl p-4 group-hover:bg-iqrain-blue transition-colors duration-200">
+                        <i class="fas fa-chart-bar text-2xl text-iqrain-blue group-hover:text-white transition-colors duration-200"></i>
                     </div>
                     <div>
                         <h4 class="font-bold text-gray-900 dark:text-white">Lihat Laporan</h4>
@@ -120,11 +134,10 @@
                 </div>
             </a>
 
-            <a href="{{ route('mentor.laporan-kelas.index') }}" class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 hover:shadow-2xl transition-shadow duration-200 group">
+            <a href="{{ route('mentor.laporan-kelas.index') }}" class="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 hover:shadow-xl transition-all duration-300 group">
                 <div class="flex items-center gap-4">
-                    <div class="bg-blue-100 dark:bg-blue-900/30 rounded-xl p-4 group-hover:bg-blue-500 transition-colors duration-200">
-                        
-                        <i class="fas fa-chart-bar text-2xl text-blue-500 group-hover:text-white transition-colors duration-200"></i>
+                    <div class="bg-iqrain-pink/10 rounded-xl p-4 group-hover:bg-iqrain-pink transition-colors duration-200">
+                        <i class="fas fa-users text-2xl text-iqrain-pink group-hover:text-white transition-colors duration-200"></i>
                     </div>
                     <div>
                         <h4 class="font-bold text-gray-900 dark:text-white">Statistik Kelas</h4>
@@ -137,10 +150,13 @@
         {{-- Main Content Grid --}}
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
             {{-- Aktivitas Harian Chart (2 columns) --}}
-            <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6">
+            <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6">
                 <div class="flex items-center justify-between mb-6">
-                    <h3 class="text-xl font-black text-gray-900 dark:text-white">Aktivitas 7 Hari Terakhir</h3>
-                    <div class="text-sm text-gray-500 dark:text-gray-400">
+                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white flex items-center">
+                        <i class="fas fa-chart-bar text-iqrain-pink mr-2"></i>
+                        Aktivitas 7 Hari Terakhir
+                    </h3>
+                    <div class="text-xs text-gray-500 dark:text-gray-400">
                         <i class="fas fa-calendar mr-1"></i>
                         {{ Carbon\Carbon::now()->format('d M Y') }}
                     </div>
@@ -151,40 +167,43 @@
             </div>
 
             {{-- Top 3 Murid --}}
-            <div class="bg-gradient-to-br from-pink-400 to-pink-500 rounded-2xl shadow-xl p-6 text-white">
-                <h3 class="text-xl font-black mb-6 flex items-center">
-                    <i class="fas fa-trophy mr-2"></i>
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6">
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-6 flex items-center">
+                    <i class="fas fa-trophy text-iqrain-pink mr-2"></i>
                     Top 3 Murid
                 </h3>
-                <div class="space-y-4">
+                <div class="space-y-3">
                     @forelse($topMurids as $index => $top)
-                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4">
+                        <div class="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4 hover:bg-iqrain-pink/5 dark:hover:bg-gray-700 transition">
                             <div class="flex items-center gap-3">
                                 <div class="flex-shrink-0">
                                     @if($index === 0)
-                                        <div class="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center text-2xl font-black">
-                                            🥇
+                                        <div class="w-12 h-12 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center text-white font-bold shadow-lg">
+                                            <i class="fas fa-crown"></i>
                                         </div>
                                     @elseif($index === 1)
-                                        <div class="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center text-2xl font-black">
-                                            🥈
+                                        <div class="w-12 h-12 bg-gray-400 rounded-full flex items-center justify-center text-white font-bold">
+                                            <i class="fas fa-medal"></i>
                                         </div>
                                     @else
-                                        <div class="w-12 h-12 bg-orange-400 rounded-full flex items-center justify-center text-2xl font-black">
-                                            🥉
+                                        <div class="w-12 h-12 bg-orange-400 rounded-full flex items-center justify-center text-white font-bold">
+                                            <i class="fas fa-medal"></i>
                                         </div>
                                     @endif
                                 </div>
                                 <div class="flex-1 min-w-0">
-                                    <p class="font-bold truncate">{{ $top['murid']->user->username ?? 'Murid' }}</p>
-                                    <p class="text-sm text-pink-100">{{ number_format($top['poin']) }} poin</p>
+                                    <p class="font-semibold text-gray-900 dark:text-white truncate">{{ $top['murid']->user->username ?? 'Murid' }}</p>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                                        <i class="fas fa-star text-iqrain-pink text-xs mr-1"></i>
+                                        {{ number_format($top['poin']) }} poin
+                                    </p>
                                 </div>
                             </div>
                         </div>
                     @empty
                         <div class="text-center py-8">
-                            <i class="fas fa-users text-4xl text-pink-200 mb-2"></i>
-                            <p class="text-pink-100 text-sm">Belum ada murid</p>
+                            <i class="fas fa-users text-4xl text-gray-300 dark:text-gray-600 mb-2"></i>
+                            <p class="text-gray-500 dark:text-gray-400 text-sm">Belum ada murid</p>
                         </div>
                     @endforelse
                 </div>
@@ -194,34 +213,37 @@
         {{-- Second Row Grid --}}
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
             {{-- Game Populer --}}
-            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6">
-                <h3 class="text-xl font-black text-gray-900 dark:text-white mb-6">Game Paling Populer</h3>
-                <div class="space-y-4">
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6">
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-6 flex items-center">
+                    <i class="fas fa-gamepad text-iqrain-pink mr-2"></i>
+                    Game Paling Populer
+                </h3>
+                <div class="space-y-3">
                     @php
                         $gameIcons = [
-                            'Tracking' => ['icon' => 'fa-pencil-alt', 'color' => 'purple'],
-                            'Labirin' => ['icon' => 'fa-map-signs', 'color' => 'cyan'],
-                            'Memory Card' => ['icon' => 'fa-th', 'color' => 'pink'],
-                            'Kuis Drag & Drop' => ['icon' => 'fa-puzzle-piece', 'color' => 'orange'],
+                            'Tracking' => ['icon' => 'fa-pencil-alt', 'color' => 'iqrain-pink'],
+                            'Labirin' => ['icon' => 'fa-map-signs', 'color' => 'iqrain-blue'],
+                            'Memory Card' => ['icon' => 'fa-th', 'color' => 'iqrain-pink'],
+                            'Kuis Drag & Drop' => ['icon' => 'fa-puzzle-piece', 'color' => 'iqrain-blue'],
                         ];
                     @endphp
                     
                     @forelse($popularGames as $game)
                         @php
-                            $gameInfo = $gameIcons[$game['name']] ?? ['icon' => 'fa-gamepad', 'color' => 'gray'];
+                            $gameInfo = $gameIcons[$game['name']] ?? ['icon' => 'fa-gamepad', 'color' => 'iqrain-pink'];
                         @endphp
-                        <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-xl">
+                        <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700/50 rounded-xl hover:bg-iqrain-pink/5 dark:hover:bg-gray-700 transition">
                             <div class="flex items-center gap-3">
-                                <div class="w-12 h-12 bg-{{ $gameInfo['color'] }}-100 dark:bg-{{ $gameInfo['color'] }}-900/30 rounded-xl flex items-center justify-center">
-                                    <i class="fas {{ $gameInfo['icon'] }} text-xl text-{{ $gameInfo['color'] }}-500"></i>
+                                <div class="w-12 h-12 bg-{{ $gameInfo['color'] }}/10 rounded-xl flex items-center justify-center">
+                                    <i class="fas {{ $gameInfo['icon'] }} text-xl text-{{ $gameInfo['color'] }}"></i>
                                 </div>
                                 <div>
-                                    <p class="font-bold text-gray-900 dark:text-white">{{ $game['name'] }}</p>
+                                    <p class="font-semibold text-gray-900 dark:text-white">{{ $game['name'] }}</p>
                                     <p class="text-sm text-gray-500 dark:text-gray-400">{{ $game['total'] }} kali dimainkan</p>
                                 </div>
                             </div>
                             <div class="text-right">
-                                <div class="text-2xl font-black text-pink-500">{{ $game['total'] }}</div>
+                                <div class="text-2xl font-bold text-iqrain-pink">{{ $game['total'] }}</div>
                             </div>
                         </div>
                     @empty
@@ -234,13 +256,16 @@
             </div>
 
             {{-- Murid Terbaru --}}
-            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6">
-                <h3 class="text-xl font-black text-gray-900 dark:text-white mb-6">Murid Terbaru</h3>
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6">
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-6 flex items-center">
+                    <i class="fas fa-user-plus text-iqrain-blue mr-2"></i>
+                    Murid Terbaru
+                </h3>
                 <div class="space-y-3">
                     @forelse($recentMurids as $murid)
-                        <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-xl">
+                        <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700/50 rounded-xl hover:bg-iqrain-blue/5 dark:hover:bg-gray-700 transition">
                             <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">
+                                <div class="w-10 h-10 bg-gradient-to-br from-iqrain-pink to-iqrain-blue rounded-full flex items-center justify-center text-white font-bold">
                                     {{ strtoupper(substr($murid->user->username ?? 'M', 0, 1)) }}
                                 </div>
                                 <div>
@@ -248,7 +273,7 @@
                                     <p class="text-xs text-gray-500 dark:text-gray-400">Bergabung {{ $murid->created_at->diffForHumans() }}</p>
                                 </div>
                             </div>
-                            <a href="{{ route('mentor.laporan-murid.detail', $murid->murid_id) }}" class="text-pink-500 hover:text-pink-600">
+                            <a href="{{ route('mentor.laporan-murid.detail', $murid->murid_id) }}" class="text-iqrain-blue hover:text-iqrain-pink transition">
                                 <i class="fas fa-arrow-right"></i>
                             </a>
                         </div>
@@ -263,17 +288,20 @@
         </div>
 
         {{-- Aktivitas Terbaru --}}
-        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6">
-            <h3 class="text-xl font-black text-gray-900 dark:text-white mb-6">Aktivitas Terbaru</h3>
-            <div class="space-y-3">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6">
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-6 flex items-center">
+                <i class="fas fa-history text-iqrain-pink mr-2"></i>
+                Aktivitas Terbaru
+            </h3>
+            <div class="space-y-3 max-h-[500px] overflow-y-auto custom-scrollbar">
                 @forelse($recentActivities as $activity)
-                    <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-xl hover:shadow-md transition-shadow duration-200">
+                    <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700/50 rounded-xl hover:bg-iqrain-pink/5 dark:hover:bg-gray-700 transition">
                         <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 bg-pink-100 dark:bg-pink-900/30 rounded-xl flex items-center justify-center">
-                                <i class="fas fa-gamepad text-xl text-pink-500"></i>
+                            <div class="w-12 h-12 bg-iqrain-pink/10 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-gamepad text-xl text-iqrain-pink"></i>
                             </div>
                             <div>
-                                <p class="font-bold text-gray-900 dark:text-white">
+                                <p class="font-semibold text-gray-900 dark:text-white">
                                     {{ $activity->murid->user->username ?? 'Murid' }}
                                 </p>
                                 <p class="text-sm text-gray-500 dark:text-gray-400">
@@ -282,7 +310,7 @@
                             </div>
                         </div>
                         <div class="text-right">
-                            <p class="font-bold text-pink-500">+{{ $activity->total_poin }} poin</p>
+                            <p class="font-bold text-iqrain-pink">+{{ $activity->total_poin }} poin</p>
                             <p class="text-xs text-gray-500 dark:text-gray-400">
                                 {{ $activity->dimainkan_at->diffForHumans() }}
                             </p>

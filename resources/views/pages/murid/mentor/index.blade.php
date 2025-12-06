@@ -8,6 +8,7 @@
         /* Import Font */
         @import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap');
 
         @font-face {
             font-family: 'Tegak Bersambung_IWK';
@@ -17,6 +18,10 @@
         }
 
         /* Utility Classes */
+        .font-fredoka { 
+            font-family: 'Fredoka', sans-serif; 
+        }
+
         .font-cursive-iwk {
             font-family: 'Tegak Bersambung_IWK', cursive !important;
         }
@@ -120,22 +125,26 @@
         <div class="relative z-10 flex-grow flex flex-col">
 
             {{-- HEADER SECTION --}}
-            <div class="container mx-auto px-4 mt-8 mb-12">
-                <div
-                    class="flex flex-col-reverse md:flex-row items-center justify-center gap-4 md:gap-12 max-w-6xl mx-auto">
-                    {{-- Teks Header --}}
-                    <div class="text-center md:text-left mt-8 md:mt-32">
-                        <h1
-                            class="font-titan text-[40px] md:text-[55px] text-[#234275] leading-tight mb-2 text-shadow-header">
+            <div class="container mx-auto px-4 pt-8 pb-12">
+                <div class="flex flex-col-reverse md:flex-row items-center justify-center gap-4 md:gap-12 max-w-6xl mx-auto">
+
+                    {{-- Teks Header (KIRI) --}}
+                    <div class="text-center md:text-left">
+                        <h1 class="font-titan text-[40px] md:text-[55px] text-[#234275] leading-tight mb-2 text-shadow-header">
                             Kenalan sama Para Mentor!
                         </h1>
-                        <p
-                            class="font-cursive-iwk text-[35px] md:text-[60px] text-[#234275] leading-none text-shadow-header">
-                            Belajar akan jadi lebih seru dengan<br>bimbingan para mentor!
+                        <p class="text-[35px] md:text-[40px] text-[#234275] my-5 leading-none text-shadow-header">
+                            <span class="font-cursive-iwk phrase-biru-tua">Belajar</span>
+                            <span class="font-cursive-iwk phrase-biru-tua">lebih</span>
+                            <span class="font-cursive-iwk phrase-biru-tua">seru</span>
+                            <span class="font-cursive-iwk phrase-biru-tua">dengan</span>
+                            <span class="font-cursive-iwk phrase-biru-tua">bimbingan</span>
+                            <span class="font-cursive-iwk phrase-biru-tua">para</span>
+                            <span class="font-cursive-iwk phrase-biru-tua">mentor!</span>
                         </p>
                     </div>
 
-                    {{-- Maskot Gajah --}}
+                    {{-- Maskot Gajah (KANAN) --}}
                     <div class="w-[180px] md:w-[280px] transform hover:rotate-3 transition-transform duration-500">
                         <img src="{{ asset('images/maskot/qira-happy.webp') }}" alt="Qira Happy"
                             class="w-full h-auto drop-shadow-2xl">
@@ -161,7 +170,7 @@
             @endif
 
             {{-- MENTOR SECTION --}}
-            <div class="container mx-auto px-4 relative z-10 mb-24">
+            <div class="container mx-auto px-40 relative z-10 mb-24">
                 <div class="w-full bg-[#F387A9] rounded-[50px] py-16 px-4 shadow-xl">
                     <div class="max-w-7xl mx-auto">
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-20 gap-x-10 justify-items-center">
@@ -204,10 +213,10 @@
                                     </div>
 
                                     <div class="text-center z-10 -mt-2">
-                                        <h3 class="font-titan text-[30px] text-white leading-none mb-1 text-shadow-white">
+                                        <h3 class="font-fredoka font-bold text-3xl text-white leading-none mb-4 text-shadow-white">
                                             Kak {{ $mentor->user->username }}
                                         </h3>
-                                        <p class="font-cursive-iwk text-[40px] text-white leading-tight text-shadow-white">
+                                        <p class="font-cursive-iwk text-[27px] text-white leading-tight text-shadow-white">
                                             Kelas {{ $mentor->nama_lengkap }}
                                         </p>
                                     </div>

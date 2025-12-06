@@ -19,39 +19,7 @@ body {
 /* ========================================
    WELCOME ANIMATION STYLES
    ======================================== */
-.welcome-backdrop {
-    position: fixed;
-    inset: 0;
-    z-index: -40;
-    transition: opacity 1s;
-    background-color: rgba(255, 255, 255, 0.4);
-}
-
-/* untuk h1 container */
-.welcome-message {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 50;
-    /* dari z-50 */
-    opacity: 0;
-    /* dari opacity-0 */
-    transition: opacity 1s ease-out;
-    /* duration-1000 + ease-out */
-    font-family: 'TegakBersambung';
-}
-
-/* untuk style teks */
-.welcome-title {
-    font-size: 4rem;
-    /* text-7xl */
-    font-weight: bold;
-    /* font-bold */
-    color: #f472b6;
-    /* text-pink-400 */
-    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-}
+/* Removed - using Tailwind classes in HTML instead */
 
 
 @font-face {

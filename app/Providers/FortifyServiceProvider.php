@@ -123,7 +123,7 @@ class CustomLoginResponse implements LoginResponseContract
             // [MODIFIKASI] Cek apakah preferensi sudah terisi
             if ($user->murid && !$user->murid->preferensi_terisi) {
                 // Jika belum, arahkan ke halaman setup preferensi
-                return redirect()->route('murid.setup.preferensi');
+                return redirect()->route('murid.preferensi.form');
             }
 
             // Jika sudah, lanjut ke pilih iqra

@@ -61,6 +61,10 @@ Route::middleware('guest')->group(function () {
         return view('auth.register-success');
     })->name('register.success');
 
+    // Auto Login Route (dipanggil dari tombol di success page)
+    Route::get('/auto-login', [App\Http\Controllers\Auth\AutoLoginController::class, 'autoLogin'])
+        ->name('auto.login');
+
     // 1. Halaman Input Username Awal
     Route::get('/forgot-password', [ForgotPasswordController::class, 'showUsernameForm'])
         ->name('password.request');
@@ -157,48 +161,56 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     // Murid Routes
     Route::middleware(['auth', 'role:murid'])->prefix('murid')->name('murid.')->group(function () {
 
-        Route::get('/pilih-iqra', function () {
-            $tingkatans = TingkatanIqra::orderBy('level')->get();
-            return view('pages.murid.pilih-iqra', compact('tingkatans'));
-        })->name('pilih-iqra');
-
+        // Route untuk isi preferensi (tanpa middleware check preferensi)
         Route::get('/lengkapi-data', [RegisterMuridController::class, 'showSetupPreferensiForm'])
-        ->name('setup.preferensi');
-    
+            ->name('preferensi.form');
+
         Route::post('/lengkapi-data', [RegisterMuridController::class, 'storeSetupPreferensi'])
-            ->name('setup.preferensi.post');
+            ->name('preferensi.store');
 
-        // Update profile
-        Route::get('/profile', MuridUpdateProfile::class)->name('profile');
+        Route::get('/selamat-datang', function () {
+            return view('auth.register-murid-success');
+        })->name('register.success');
 
-        // Modul
-        Route::post('/modul/progress', [ModulController::class, 'updateProgress'])->name('modul.progress');
-        Route::get('/modul/completed', [ModulController::class, 'getCompletedModuls'])->name('modul.completed');
+        // Semua route lainnya HARUS sudah isi preferensi
+        Route::middleware(['murid.preferensi'])->group(function () {
 
-        Route::get('/modul/{tingkatan_id}', [ModulController::class, 'index'])->name('modul.index');
-        Route::get('/modul/{tingkatan_id}/video', [ModulController::class, 'video'])->name('modul.video');
-        Route::get('/modul/{tingkatan_id}/materi/{materi_id}', [ModulController::class, 'materi'])->name('modul.materi');
+            Route::get('/pilih-iqra', function () {
+                $tingkatans = TingkatanIqra::orderBy('level')->get();
+                return view('pages.murid.pilih-iqra', compact('tingkatans'));
+            })->name('pilih-iqra');
 
-        // Games
-        Route::get('/games/{tingkatan_id}', [GameController::class, 'index'])->name('games.index');
+            // Update profile
+            Route::get('/profile', MuridUpdateProfile::class)->name('profile');
 
-        Route::get('/games/{tingkatan_id}/memory-card', [GameController::class, 'memoryCard'])->name('games.memory-card');
-        Route::post('/game/save-score', [GameController::class, 'saveScore'])->name('game.saveScore');
+            // Modul
+            Route::post('/modul/progress', [ModulController::class, 'updateProgress'])->name('modul.progress');
+            Route::get('/modul/completed', [ModulController::class, 'getCompletedModuls'])->name('modul.completed');
 
-        Route::get('/games/{tingkatan_id}/tracing', [GameController::class, 'tracing'])->name('games.tracing');
-        Route::get('/games/{tingkatan_id}/labirin', [GameController::class, 'labirin'])->name('games.labirin');
-        Route::get('/games/{tingkatan_id}/drag-drop', [GameController::class, 'dragDrop'])->name('games.drag-drop');
+            Route::get('/modul/{tingkatan_id}', [ModulController::class, 'index'])->name('modul.index');
+            Route::get('/modul/{tingkatan_id}/video', [ModulController::class, 'video'])->name('modul.video');
+            Route::get('/modul/{tingkatan_id}/materi/{materi_id}', [ModulController::class, 'materi'])->name('modul.materi');
 
-        // Evaluasi
-        Route::get('/evaluasi/{tingkatan_id}', [EvaluasiController::class, 'index'])->name('evaluasi.index');
-        Route::get('/evaluasi/{tingkatan_id}/leaderboard', [EvaluasiController::class, 'leaderboard'])->name('evaluasi.leaderboard');
+            // Games
+            Route::get('/games/{tingkatan_id}', [GameController::class, 'index'])->name('games.index');
 
-        // Mentor
-        Route::get('/mentor', [MentorController::class, 'index'])->name('mentor.index');
-        Route::post('/mentor/request/{mentor_id}', [MentorController::class, 'requestBimbingan'])->name('mentor.request');
+            Route::get('/games/{tingkatan_id}/memory-card', [GameController::class, 'memoryCard'])->name('games.memory-card');
+            Route::post('/game/save-score', [GameController::class, 'saveScore'])->name('game.saveScore');
+
+            Route::get('/games/{tingkatan_id}/tracing', [GameController::class, 'tracing'])->name('games.tracing');
+            Route::get('/games/{tingkatan_id}/labirin', [GameController::class, 'labirin'])->name('games.labirin');
+            Route::get('/games/{tingkatan_id}/drag-drop', [GameController::class, 'dragDrop'])->name('games.drag-drop');
+
+            // Evaluasi
+            Route::get('/evaluasi/{tingkatan_id}', [EvaluasiController::class, 'index'])->name('evaluasi.index');
+            Route::get('/evaluasi/{tingkatan_id}/leaderboard', [EvaluasiController::class, 'leaderboard'])->name('evaluasi.leaderboard');
+
+            // Mentor
+            Route::get('/mentor', [MentorController::class, 'index'])->name('mentor.index');
+            Route::post('/mentor/request/{mentor_id}', [MentorController::class, 'requestBimbingan'])->name('mentor.request');
+
+        });
     });
-
-
 });
 
 

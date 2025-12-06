@@ -77,6 +77,7 @@
             transform: scale(1.05);
         }
     </style>
+    
 @endpush
 
 {{-- 2. Konten Utama --}}
@@ -166,22 +167,25 @@
     {{-- ========================================= --}}
     {{-- HEADER HALAMAN --}}
     {{-- ========================================= --}}
-    <div class="container mx-auto px-6 py-12">
-        <div class="flex flex-col md:flex-row items-center justify-between gap-8">
-            
-            {{-- Text Header (KIRI) --}}
-            <div class="md:w-1/2 text-center md:text-left">
-                <h1 class="font-titan text-[50px] lg:text-[80px] text-[#234275] leading-none">
+    <div class="container mx-auto px-4 pt-8 pb-12">
+        <div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-12 max-w-6xl mx-auto">
+
+            {{-- Maskot Qira Game (KIRI) --}}
+            <div class="w-[180px] md:w-[280px] transform hover:rotate-3 transition-transform duration-500">
+                <img src="{{ asset('images/games/qira-game.webp') }}" alt="Qira Game" class="w-full h-auto drop-shadow-2xl">
+            </div>
+
+            {{-- Text Header (KANAN) --}}
+            <div class="text-center md:text-left">
+                <h1 class="font-titan text-[40px] md:text-[55px] text-[#234275] leading-tight mb-2 text-shadow-header">
                     Siap untuk Berpetualang?
                 </h1>
-                <h2 class="font-cursive-iwk text-[35px] lg:text-[55px] text-[#234275] leading-tight mt-2">
-                    Mainkan dan Raih Skormu
-                </h2>
-            </div>
-            
-            {{-- Maskot Qira Game (KANAN) --}}
-            <div class="md:w-1/2 flex justify-center md:justify-end">
-                <img src="{{ asset('images/games/qira-game.webp') }}" alt="Qira Game" class="max-w-xs md:max-w-md drop-shadow-xl">
+                <p class="text-[35px] md:text-[40px] text-[#234275] my-5 leading-none text-shadow-header">
+                    <span class="font-cursive-iwk phrase-biru-tua">Mainkan</span>
+                    <span class="font-cursive-iwk phrase-biru-tua">dan</span>
+                    <span class="font-cursive-iwk phrase-biru-tua">Raih</span>
+                    <span class="font-cursive-iwk phrase-biru-tua">Skormu!</span>
+                </p>
             </div>
         </div>
     </div>
@@ -192,70 +196,110 @@
     <div class="container mx-auto px-6 pb-20">
         
         {{-- ✨ CONTAINER PUTIH (Untuk wrap semua game cards) ✨ --}}
-        <div class="bg-white rounded-[40px] shadow-2xl p-6 md:p-12">
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="bg-white rounded-[40px] shadow-2xl p-5 md:p-10 max-w-7xl mx-auto">
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                 {{-- Kartu 1: Kartu Memori (Biru) --}}
-                <div class="block p-6 md:p-8 rounded-[20px] shadow-lg bg-[#6DC2FF] text-[#234275] transition-transform hover:scale-105 cursor-pointer"
+                <div class="block p-5 md:p-6 rounded-[20px] shadow-lg bg-[#6DC2FF] text-[#234275] transition-transform hover:scale-105 cursor-pointer"
                     onclick="showGameModal('memory-card')">
-                    <div class="flex flex-col md:flex-row items-center justify-between gap-6 h-full">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-4 h-full">
                         <div class="md:w-1/2 text-center md:text-left">
-                            <h3 class="font-titan text-3xl mb-3">Kartu Memori</h3>
-                            <p class="font-cursive-iwk text-2xl md:text-3xl leading-snug">
-                                Yuk cocokin huruf yang sama. Buka kartunya dan ingat letaknya!
+                            <h3 class="font-titan text-2xl md:text-3xl mb-2">Kartu Memori</h3>
+                            <p class="leading-tight">
+                                <span class="mr-1 font-cursive-iwk text-xl md:text-3xl phrase-biru-tua">Yuk</span>
+                                <span class="mr-1 font-cursive-iwk text-xl md:text-3xl phrase-biru-tua">cocokin</span>
+                                <span class="mr-1 font-cursive-iwk text-xl md:text-3xl phrase-biru-tua">huruf</span>
+                                <span class="mr-1 font-cursive-iwk text-xl md:text-3xl phrase-biru-tua">yang</span>
+                                <span class="mr-1 font-cursive-iwk text-xl md:text-3xl phrase-biru-tua">sama.</span>
+                                <span class="mr-1 font-cursive-iwk text-xl md:text-3xl phrase-biru-tua">Buka</span>
+                                <span class="mr-1 font-cursive-iwk text-xl md:text-3xl phrase-biru-tua">kartunya</span>
+                                <span class="mr-1 font-cursive-iwk text-xl md:text-3xl phrase-biru-tua">dan</span>
+                                <span class="mr-1 font-cursive-iwk text-xl md:text-3xl phrase-biru-tua">ingat</span>
+                                <span class="font-cursive-iwk text-xl md:text-3xl phrase-biru-tua">letaknya</span>
+                                <span class="font-nanum text-xl md:text-3xl">!</span>
                             </p>
                         </div>
                         <div class="md:w-1/2 flex justify-center">
-                            <img src="{{ asset('images/games/KartuMemori.webp') }}" alt="Kartu Memori" class="max-w-[160px] md:max-w-[180px]">
+                            <img src="{{ asset('images/games/KartuMemori.webp') }}" alt="Kartu Memori" class="max-w-[140px] md:max-w-[160px]">
                         </div>
                     </div>
                 </div>
 
                 {{-- Kartu 2: Labirin Hijaiyah (Kuning) --}}
-                <div class="block p-6 md:p-8 rounded-[20px] shadow-lg bg-[#FFCE6B] text-[#234275] transition-transform hover:scale-105 cursor-pointer"
+                <div class="block p-5 md:p-6 rounded-[20px] shadow-lg bg-[#FFCE6B] text-[#234275] transition-transform hover:scale-105 cursor-pointer"
                     onclick="showGameModal('labirin')">
-                    <div class="flex flex-col md:flex-row-reverse items-center justify-between gap-6 h-full">
+                    <div class="flex flex-col md:flex-row-reverse items-center justify-between gap-4 h-full">
                         <div class="md:w-1/2 text-center md:text-left">
-                            <h3 class="font-titan text-3xl mb-3">Labirin Hijaiyah</h3>
-                            <p class="font-cursive-iwk text-2xl md:text-3xl leading-snug">
-                                Temukan jalan menuju huruf hijaiyah! Hati-hati jangan tersesat.
+                            <h3 class="font-titan text-2xl md:text-3xl mb-2">Labirin Hijaiyah</h3>
+                            <p class="leading-tight">
+                                <span class="mr-1 font-cursive-iwk text-xl md:text-3xl phrase-biru-tua">Temukan</span>
+                                <span class="mr-1 font-cursive-iwk text-xl md:text-3xl phrase-biru-tua">jalan</span>
+                                <span class="mr-1 font-cursive-iwk text-xl md:text-3xl phrase-biru-tua">menuju</span>
+                                <span class="mr-1 font-cursive-iwk text-xl md:text-3xl phrase-biru-tua">huruf</span>
+                                <span class="font-cursive-iwk text-xl md:text-3xl phrase-biru-tua">hijaiyah</span>
+                                <span class="mr-2 font-nanum text-xl md:text-3xl">!</span>
+                                <span class="mr-1 font-cursive-iwk text-xl md:text-3xl phrase-biru-tua">Hati</span>
+                                <span class="mr-1 font-cursive-iwk text-xl md:text-3xl">-</span>
+                                <span class="mr-1 font-cursive-iwk text-xl md:text-3xl phrase-biru-tua">hati</span>
+                                <span class="mr-1 font-cursive-iwk text-xl md:text-3xl phrase-biru-tua">jangan</span>
+                                <span class="mr-1 font-cursive-iwk text-xl md:text-3xl phrase-biru-tua">tersesat.</span>
                             </p>
                         </div>
                         <div class="md:w-1/2 flex justify-center">
-                            <img src="{{ asset('images/games/LabirinHijaiyah.webp') }}" alt="Labirin Hijaiyah" class="max-w-[160px] md:max-w-[180px]">
+                            <img src="{{ asset('images/games/LabirinHijaiyah.webp') }}" alt="Labirin Hijaiyah" class="max-w-[140px] md:max-w-[160px]">
                         </div>
                     </div>
                 </div>
 
                 {{-- Kartu 3: Seret & Lepas (Pink) --}}
-                <div class="block p-6 md:p-8 rounded-[20px] shadow-lg bg-[#F387A9] text-[#234275] transition-transform hover:scale-105 cursor-pointer"
+                <div class="block p-5 md:p-6 rounded-[20px] shadow-lg bg-[#F387A9] text-[#234275] transition-transform hover:scale-105 cursor-pointer"
                     onclick="showGameModal('drag-drop')">
-                    <div class="flex flex-col md:flex-row items-center justify-between gap-6 h-full">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-4 h-full">
                         <div class="md:w-1/2 text-center md:text-left">
-                            <h3 class="font-titan text-3xl mb-3">Seret & Lepas</h3>
-                            <p class="font-cursive-iwk text-2xl md:text-3xl leading-snug">
-                                Seret huruf hijaiyah ke tempat yang cocok. Pasangkan dengan benar!
+                            <h3 class="font-titan text-2xl md:text-3xl mb-2">Seret & Lepas</h3>
+                            <p class="leading-tight">
+                                <span class="mr-1 font-cursive-iwk text-xl md:text-3xl phrase-biru-tua">Seret</span>
+                                <span class="mr-1 font-cursive-iwk text-xl md:text-3xl phrase-biru-tua">huruf</span>
+                                <span class="mr-1 font-cursive-iwk text-xl md:text-3xl phrase-biru-tua">hijaiyah</span>
+                                <span class="mr-1 font-cursive-iwk text-xl md:text-3xl phrase-biru-tua">ke</span>
+                                <span class="mr-1 font-cursive-iwk text-xl md:text-3xl phrase-biru-tua">tempat</span>
+                                <span class="mr-1 font-cursive-iwk text-xl md:text-3xl phrase-biru-tua">yang</span>
+                                <span class="mr-1 font-cursive-iwk text-xl md:text-3xl phrase-biru-tua">cocok.</span>
+                                <span class="mr-1 font-cursive-iwk text-xl md:text-3xl phrase-biru-tua">Pasangkan</span>
+                                <span class="mr-1 font-cursive-iwk text-xl md:text-3xl phrase-biru-tua">dengan</span>
+                                <span class="mr-1 font-cursive-iwk text-xl md:text-3xl phrase-biru-tua">benar</span>
+                                <span class="font-nanum text-xl md:text-3xl">!</span>
                             </p>
                         </div>
                         <div class="md:w-1/2 flex justify-center">
-                            <img src="{{ asset('images/games/SeretLepas.webp') }}" alt="Seret & Lepas" class="max-w-[160px] md:max-w-[180px]">
+                            <img src="{{ asset('images/games/SeretLepas.webp') }}" alt="Seret & Lepas" class="max-w-[140px] md:max-w-[160px]">
                         </div>
                     </div>
                 </div>
 
                 {{-- Kartu 4: Tulis Huruf (Hijau) --}}
-                <div class="block p-6 md:p-8 rounded-[20px] shadow-lg bg-[#BEFA70] text-[#234275] transition-transform hover:scale-105 cursor-pointer"
+                <div class="block p-5 md:p-6 rounded-[20px] shadow-lg bg-[#BEFA70] text-[#234275] transition-transform hover:scale-105 cursor-pointer"
                     onclick="showGameModal('tracing')">
-                    <div class="flex flex-col md:flex-row-reverse items-center justify-between gap-6 h-full">
+                    <div class="flex flex-col md:flex-row-reverse items-center justify-between gap-4 h-full">
                         <div class="md:w-1/2 text-center md:text-left">
-                            <h3 class="font-titan text-3xl mb-3">Tulis Huruf</h3>
-                            <p class="font-cursive-iwk text-2xl md:text-3xl leading-snug">
-                                Ikuti garis titik-titik dan tulis huruf hijaiyah dengan rapi.
+                            <h3 class="font-titan text-2xl md:text-3xl mb-2">Tulis Huruf</h3>
+                            <p class="leading-tight">
+                                <span class="mr-1 font-cursive-iwk text-xl md:text-3xl phrase-biru-tua">Ikuti</span>
+                                <span class="mr-1 font-cursive-iwk text-xl md:text-3xl phrase-biru-tua">garis</span>
+                                <span class="font-cursive-iwk text-xl md:text-3xl phrase-biru-tua">titik</span>
+                                <span class="font-cursive-iwk text-xl md:text-3xl">-</span>
+                                <span class="mr-1 font-cursive-iwk text-xl md:text-3xl phrase-biru-tua">titik</span>
+                                <span class="mr-1 font-cursive-iwk text-xl md:text-3xl phrase-biru-tua">dan</span>
+                                <span class="mr-1 font-cursive-iwk text-xl md:text-3xl phrase-biru-tua">tulis</span>
+                                <span class="mr-1 font-cursive-iwk text-xl md:text-3xl phrase-biru-tua">huruf</span>
+                                <span class="mr-1 font-cursive-iwk text-xl md:text-3xl phrase-biru-tua">hijaiyah</span>
+                                <span class="mr-1 font-cursive-iwk text-xl md:text-3xl phrase-biru-tua">dengan</span>
+                                <span class="mr-1 font-cursive-iwk text-xl md:text-3xl phrase-biru-tua">rapi.</span>
                             </p>
                         </div>
                         <div class="md:w-1/2 flex justify-center">
-                            <img src="{{ asset('images/games/TulisHuruf.webp') }}" alt="Tulis Huruf" class="max-w-[160px] md:max-w-[180px]">
+                            <img src="{{ asset('images/games/TulisHuruf.webp') }}" alt="Tulis Huruf" class="max-w-[140px] md:max-w-[160px]">
                         </div>
                     </div>
                 </div>

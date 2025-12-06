@@ -252,7 +252,7 @@
             // window.gameAccuracyPercentage = accuracyPercentage;
 
             // // 1. Update Tampilan Modal
-            // document.getElementById('final-accuracy').innerText = `Akurasi: ${accuracyPercentage}%`; 
+            // document.getElementById('final-accuracy').innerText = Akurasi: ${accuracyPercentage}%; 
             // document.getElementById('success-modal').style.display = 'flex'; 
 
             // // 2. Langsung Panggil Fungsi Penyimpanan Skor

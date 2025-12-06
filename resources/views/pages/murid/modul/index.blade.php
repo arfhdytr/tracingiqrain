@@ -45,7 +45,6 @@
     </div>
 </div>
 
-{{-- CONTAINER KONTEN UTAMA (z-index: 10 di bawah footer z-20) --}}
 <div class="w-full relative overflow-x-hidden" style="z-index: 10;">
 
     {{-- WELCOMING SECTION (BARU!) --}}
@@ -63,8 +62,16 @@
                 <h1 class="font-titan text-[40px] md:text-[55px] text-[#234275] leading-tight mb-2 text-shadow-header">
                     Selamat Belajar!
                 </h1>
-                <p class="font-cursive-iwk text-[35px] md:text-[60px] text-[#234275] leading-none text-shadow-header">
-                    Ayo pelajari huruf Hijaiyah dengan<br>semangat dan penuh kegembiraan!
+                <p class="text-[35px] md:text-[40px] text-[#234275] my-5 leading-none text-shadow-header">
+                    <span class="font-cursive-iwk phrase-biru-tua">Ayo</span> 
+                    <span class="font-cursive-iwk phrase-biru-tua">belajar</span> 
+                    <span class="font-cursive-iwk phrase-biru-tua">Huruf</span> 
+                    <span class="font-cursive-iwk phrase-biru-tua">Hijaiyah</span> 
+                    <span class="font-cursive-iwk phrase-biru-tua">dengan</span><br>
+                    <span class="font-cursive-iwk phrase-biru-tua">semangat</span> 
+                    <span class="font-cursive-iwk phrase-biru-tua">dan</span> 
+                    <span class="font-cursive-iwk phrase-biru-tua">penuh</span> 
+                    <span class="font-cursive-iwk phrase-biru-tua">kegembiraan!</span>
                 </p>
             </div>
         </div>
@@ -72,90 +79,108 @@
 
     {{-- BLOK KREM (Konten Utama) --}}
     <div class="container mx-auto px-4 pb-24">
-        <div class="w-full max-w-6xl mx-auto bg-[#FDF6E9] rounded-[3rem] shadow-2xl border-[6px] border-white/30 overflow-hidden flex flex-col min-h-[75vh]">
+        <div class="w-full max-w-6xl mx-auto bg-[#FFD0DF] rounded-[3rem] shadow-2xl border-[6px] border-white/30 overflow-hidden flex flex-col min-h-[75vh]">
             
             {{-- HEADER --}}
             <div class="bg-white/50 backdrop-blur-sm p-6 border-b border-orange-100/50 text-center">
-                <h1 class="text-3xl font-titan text-indigo-900 inline-flex items-center gap-3">
-                    Modul Pembelajaran Iqra Jilid {{ $tingkatan->level }}
+                <h1 class="text-3xl font-titan text-[#D75C82] inline-flex items-center gap-3">
+                    Modul Belajar Huruf Hijaiyah - Iqra {{ $tingkatan->level }}
                 </h1>
             </div>
 
             {{-- CONTENT AREA: TERINTEGRASI (VIDEO KIRI, MATERI KANAN) --}}
             <div class="flex-1 p-6 md:p-10 overflow-y-auto relative flex flex-col justify-between">
                 
-                {{-- Navigation and Integrated View --}}
-                <div class="flex items-center justify-between w-full">
+                {{-- Container Utama (Hapus justify-between lama karena tombol pindah ke dalam) --}}
+                <div class="w-full max-w-5xl mx-auto">
                     
-                    {{-- Tombol PREV --}}
-                    <button onclick="prevMateri()" class="group relative z-20 p-4 transition-transform hover:scale-110 focus:outline-none">
-                        <div class="absolute inset-0 bg-white rounded-full shadow-lg opacity-70 group-hover:opacity-100 transition-opacity"></div>
-                        <img src="{{ asset('images/icon/next.webp') }}" 
-                             class="w-12 h-12 relative z-10 transform rotate-180 opacity-80 filter drop-shadow-sm" 
-                             alt="Previous">
-                    </button>
-
-                    {{-- KONTEN UTAMA SPLIT (VIDEO KIRI, HURUF KANAN) --}}
-                    <div class="flex flex-col lg:flex-row gap-6 w-full max-w-5xl mx-auto">
+                    <div class="flex flex-col lg:flex-row gap-8 w-full items-center justify-center">
                         
-                        {{-- KIRI: Main Player & Info --}}
-                        <div class="w-full lg:w-2/3 flex flex-col gap-4">
+                        {{-- KIRI: Main Player & Info (Lebar disesuaikan) --}}
+                        <div class="w-full lg:w-7/12 xl:w-2/3 flex flex-col gap-4">
                             <div class="bg-black rounded-3xl overflow-hidden shadow-lg aspect-video border-4 border-white ring-1 ring-gray-200 relative">
                                 <iframe id="main-video-player" class="w-full h-full" src="" title="Video Player" frameborder="0" allowfullscreen></iframe>
                             </div>
                             
                             <div class="bg-white p-4 rounded-xl shadow-sm border border-indigo-50">
-                                <h2 id="main-video-title" class="text-xl font-titan text-gray-800">Video Pembelajaran</h2>
-                                <p id="main-video-desc" class="text-white-600 font-cursive-iwk text-sm mt-1">Materi Video</p>
+                                <h2 id="main-video-title" class="text-3xl font-cursive-iwk font-semibold text-[#D75C82]">Video Pembelajaran</h2>
+                                <p id="main-video-desc" class="text-[#D75C82] font-cursive-iwk text-xl mt-1 hidden">Materi Video</p>
+                                <p class="text-[#D75C82] mt-1 hidden">
+                                    <span class="text-2xl font-cursive-iwk phrase-pink">Pengenalan</span>
+                                    <span class="text-2xl font-cursive-iwk phrase-pink">Huruf</span>
+                                    <span class="text-2xl font-cursive-iwk phrase-pink">Hijaiyah</span>
+                                </p>
                             </div>
                         </div>
 
-                        {{-- KANAN: Kartu Materi Aktif --}}
-                        <div class="w-full lg:w-1/3 flex justify-center items-center">
-                            <div id="materi-card" class="relative bg-white rounded-3xl shadow-2xl border-4 border-white p-6 text-center transform transition-all duration-500 w-full aspect-square flex flex-col justify-center items-center">
+                        {{-- KANAN: Navigasi Vertikal & Kartu --}}
+                        <div class="w-full lg:w-5/12 xl:w-1/3 flex flex-col justify-center items-center gap-4">
+                            
+                            {{-- Tombol PREV (Panah Atas) --}}
+                            <button onclick="prevMateri()" class="group relative z-20 p-2 transition-transform hover:scale-110 focus:outline-none hover:-translate-y-1">
+                                <div class="absolute inset-0 bg-white rounded-full shadow-lg opacity-70 group-hover:opacity-100 transition-opacity"></div>
+                                {{-- Rotate -90deg untuk panah ke atas --}}
+                                <img src="{{ asset('images/icon/next.webp') }}" 
+                                     class="w-12 h-12 relative z-10 transform -rotate-90 opacity-80 filter drop-shadow-sm" 
+                                     alt="Previous">
+                            </button>
+
+                            {{-- Kartu Materi --}}
+                            <div id="materi-card" 
+                                 class="relative bg-white rounded-[2.5rem] shadow-[0_10px_30px_rgba(215,92,130,0.3)] border-[6px] border-[#D75C82] text-center transform transition-all duration-500 w-full aspect-square flex flex-col overflow-hidden">
                                 
-                                {{-- Image Container --}}
-                                <div class="relative h-32 w-32 flex items-center justify-center mb-4">
-                                    <img id="materi-image" src="" class="h-full w-auto object-contain drop-shadow-lg relative z-10" alt="Huruf">
-                                    <div id="materi-fallback" class="hidden text-6xl font-arabic text-indigo-600 font-bold">?</div>
+                                {{-- SECTION ATAS (70%): Area Gambar Hijaiyah --}}
+                                <div class="relative w-full h-[70%] flex items-center justify-center bg-white">
+                                    {{-- Pattern Background --}}
+                                    <div class="absolute inset-0 opacity-10 pointer-events-none" 
+                                         style="background-image: radial-gradient(#D75C82 1.5px, transparent 1.5px); background-size: 24px 24px;">
+                                    </div>
+
+                                    {{-- Image Container --}}
+                                    <div class="relative h-4/5 w-4/5 flex items-center justify-center z-10 transition-transform duration-300 hover:scale-110">
+                                        <img id="materi-image" src="" class="h-full w-auto object-contain drop-shadow-xl relative z-10" alt="Huruf">
+                                        <div id="materi-fallback" class="hidden text-8xl font-arabic text-[#234275] font-bold">?</div>
+                                    </div>
                                 </div>
 
-                                {{-- Text Info --}}
-                                <h3 id="materi-title" class="text-3xl font-bold text-indigo-900 font-cursive-iwk tracking-wide mb-1">...</h3>
-                                <p id="materi-desc-short" class="text-white-600 font-cursive-iwk text-sm"></p>
-                                
-                                {{-- Progress Badge --}}
-                                <div class="absolute top-3 right-3 bg-white-500 text-white px-3 py-1 rounded-full text-xs font-bold">
+                                {{-- SECTION BAWAH (30%): Area Teks Latin --}}
+                                <div class="relative w-full h-[30%] bg-[#D75C82] flex flex-col items-center justify-center px-2">
+                                    <h3 id="materi-title" class="text-4xl lg:text-5xl font-bold text-white font-cursive-iwk phrase-putih tracking-wide mb-0 leading-tight" 
+                                        style="text-shadow: 2px 2px 0px rgba(0,0,0,0.1);">
+                                    </h3>
+                                    <p id="materi-desc-short" class="text-white/90 font-cursive-iwk text-lg hidden mt-1"></p>
                                 </div>
 
                                 {{-- Loading Overlay --}}
-                                <div id="loading-overlay" class="absolute inset-0 bg-white/80 backdrop-blur-sm z-50 flex items-center justify-center rounded-3xl hidden transition-opacity duration-300">
+                                <div id="loading-overlay" class="absolute inset-0 bg-white/90 backdrop-blur-sm z-50 flex items-center justify-center hidden transition-opacity duration-300">
                                     <div class="flex flex-col items-center">
-                                        <div class="w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mb-2"></div>
-                                        <span class="text-indigo-800 font-bold font-titan text-sm">Memuat...</span>
+                                        <div class="w-14 h-14 border-[6px] border-[#FFD0DF] border-t-[#D75C82] rounded-full animate-spin mb-3"></div>
+                                        <span class="text-[#D75C82] font-bold font-titan text-lg tracking-widest">MEMUAT...</span>
                                     </div>
                                 </div>
                             </div>
+
+                            {{-- Tombol NEXT (Panah Bawah) --}}
+                            <button onclick="nextMateri()" class="group relative z-20 p-2 transition-transform hover:scale-110 focus:outline-none hover:translate-y-1">
+                                <div class="absolute inset-0 bg-white rounded-full shadow-lg opacity-70 group-hover:opacity-100 transition-opacity"></div>
+                                {{-- Rotate 90deg untuk panah ke bawah --}}
+                                <img src="{{ asset('images/icon/next.webp') }}" 
+                                     class="w-12 h-12 relative z-10 transform rotate-90 opacity-80 group-hover:opacity-100 filter drop-shadow-sm" 
+                                     alt="Next">
+                            </button>
+
                         </div>
                     </div>
-
-                    {{-- Tombol NEXT --}}
-                    <button onclick="nextMateri()" class="group relative z-20 p-4 transition-transform hover:scale-110 focus:outline-none">
-                        <div class="absolute inset-0 bg-white rounded-full shadow-lg opacity-70 group-hover:opacity-100 transition-opacity"></div>
-                        <img src="{{ asset('images/icon/next.webp') }}" 
-                             class="w-12 h-12 relative z-10 opacity-80 group-hover:opacity-100 filter drop-shadow-sm" 
-                             alt="Next">
-                    </button>
                 </div>
 
                 {{-- FOOTER KONTEN UTAMA: PROGRESS BAR --}}
                 <div class="w-full mt-8 pt-4 border-t border-gray-100">
-                    <h3 class="text-lg font-titan text-gray-800 mb-2">
-                        Progres Tingkatan {{ $tingkatan->level }}
+                    <h3 class="text-lg font-titan text-[#D75C82] mb-2">
+                        Capaian Belajar
                     </h3>
                     <div class="bg-gray-200 rounded-full h-4 relative overflow-hidden">
                         {{-- Progress Fill --}}
-                        <div class="bg-indigo-500 h-full rounded-full transition-all duration-500" style="width: {{ $progressPercentage }}%;"></div>
+                        <div class="bg-[#FFBA2E] h-full rounded-full transition-all duration-500" style="width: {{ $progressPercentage }}%;"></div>
                         
                         {{-- Progress Text --}}
                         <span class="absolute inset-0 text-center text-xs font-titan text-white leading-4 tracking-wider" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.2);">
@@ -226,6 +251,13 @@
             if (materi.video) {
                 document.getElementById('main-video-player').src = materi.video;
                 document.getElementById('main-video-title').innerText = `Video Pembelajaran: Huruf ${materi.judul}`;
+                document.getElementById('main-video-title').innerHTML = `
+                    <span class="phrase-pink font-cursive-iwk">Video</span> 
+                    <span class="phrase-pink font-cursive-iwk">Pembelajaran</span> 
+                    <span class="font-nanum">:</span>
+                    <span class="phrase-pink font-cursive-iwk">Huruf</span> 
+                    <span class="phrase-pink font-cursive-iwk">${materi.judul}</span>`;
+
                 document.getElementById('main-video-desc').innerText = materi.desc;
             } else {
                 document.getElementById('main-video-player').src = ''; // Clear video
@@ -408,7 +440,7 @@
         const newPercentage = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
         
         // ✅ Cari elemen progress bar (sesuaikan selector dengan HTML kamu)
-        const progressBar = document.querySelector('.bg-indigo-500');
+        const progressBar = document.querySelector('.bg-\\[\\#FFBA2E\\]'); 
         const progressText = document.querySelector('.absolute.inset-0.text-center');
         
         if (progressBar && progressText) {

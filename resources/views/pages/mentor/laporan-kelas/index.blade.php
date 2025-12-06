@@ -40,7 +40,7 @@
             <div class="bg-iqrain-pink-cerah rounded-xl shadow-lg p-6 text-white">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-white/90 text-sm font-medium">Game Dimainkan</p>
+                        <p class="text-white/90 text-sm font-medium">Sesi Game Dimainkan</p>
                         <h3 class="text-3xl font-black mt-2">{{ $totalGamesPlayed }}</h3>
                     </div>
                     <div class="bg-white/20 rounded-full p-4">
@@ -49,16 +49,16 @@
                 </div>
             </div>
 
-            {{-- Total Waktu Belajar --}}
+            {{-- Murid Paling Aktif --}}
             <div class="bg-iqrain-pink-cerah rounded-xl shadow-lg p-6 text-white">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-white/90 text-sm font-medium">Waktu Belajar</p>
-                        <h3 class="text-3xl font-black mt-2">{{ $totalHours }}</h3>
-                        <p class="text-white/90 text-xs mt-1">jam</p>
+                        <p class="text-white/90 text-sm font-medium">Murid Paling Aktif</p>
+                        <h3 class="text-xl font-black mt-2">{{ $mostActiveMuridName }}</h3>
+                        <p class="text-white/90 text-xs mt-1">paling rajin</p>
                     </div>
                     <div class="bg-white/20 rounded-full p-4">
-                        <i class="fas fa-clock text-2xl"></i>
+                        <i class="fas fa-star text-2xl"></i>
                     </div>
                 </div>
             </div>
@@ -95,42 +95,13 @@
 
             {{-- Progress Harian --}}
             <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
-                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Progres harian bulan ini</h3>
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Progres harian dalam 1 minggu</h3>
                 <div style="height: 300px;">
                     <canvas id="dailyChart"></canvas>
                 </div>
             </div>
         </div>
 
-        {{-- Info Cards Row --}}
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {{-- Murid Paling Aktif --}}
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-                <div class="flex items-center justify-between mb-2">
-                    <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400">Murid Paling Aktif</h4>
-                    <i class="fas fa-star text-yellow-500 text-xl"></i>
-                </div>
-                <p class="text-2xl font-black text-gray-900 dark:text-white">{{ $mostActiveMuridName }}</p>
-            </div>
-
-            {{-- Level Populer --}}
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-                <div class="flex items-center justify-between mb-2">
-                    <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400">Level Populer</h4>
-                    <i class="fas fa-fire text-orange-500 text-xl"></i>
-                </div>
-                <p class="text-2xl font-black text-gray-900 dark:text-white">{{ $popularLevelName }}</p>
-            </div>
-
-            {{-- Rata-rata Progress --}}
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-                <div class="flex items-center justify-between mb-2">
-                    <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400">Rata-rata Progress</h4>
-                    <i class="fas fa-chart-pie text-blue-500 text-xl"></i>
-                </div>
-                <p class="text-2xl font-black" style="color: #E91E63;">{{ $avgProgress }}%</p>
-            </div>
-        </div>
     </div>
 
     {{-- Chart.js Scripts --}}

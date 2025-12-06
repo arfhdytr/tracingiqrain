@@ -28,6 +28,8 @@
         @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap');
         /* Import Font Fredoka dari Google Fonts secara global */
         @import url('https://fonts.googleapis.com/css2?family=Fredoka&display=swap');
+        /* Import Font Mooli dari Google Fonts secara global */
+        @import url('https://fonts.googleapis.com/css2?family=Mooli&display=swap');
 
 
         /* Default Font for everything */
@@ -168,6 +170,10 @@
             font-family: 'Titan One', sans-serif !important;
         }
 
+        .font-mooli { 
+            font-family: 'Mooli', sans-serif !important;
+        }
+
         .font-cursive-iwk {
             font-family: 'Tegak Bersambung IWK', cursive !important;
         }
@@ -216,9 +222,7 @@
                 {{-- Desktop Navigation --}}
                 <div class="hidden md:flex items-center justify-between max-w-4xl mx-auto">
                     <a href="{{ route('murid.pilih-iqra') }}" class="flex items-center space-x-2">
-                        <div class="bg-white rounded-full w-12 h-12 flex items-center justify-center">
-                            <span class="text-2xl font-bold text-pink-500">IQ</span>
-                        </div>
+                        <img src="{{ asset('images/asset/logo.webp') }}" alt="Logo IQRAIN" class="w-12 h-12 object-contain">
                     </a>
 
                     <div class="flex items-center space-x-2">
@@ -259,7 +263,7 @@
 
                             {{-- Edit Profil --}}
                             <a href="{{ route('murid.profile') }}"
-                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-600 font-medium transition-colors">
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-600 font-mooli font-medium transition-colors">
                                 <i class="fas fa-user-edit mr-2"></i>Edit Profil
                             </a>
 
@@ -267,7 +271,7 @@
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit"
-                                    class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 font-medium transition-colors">
+                                    class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 font-medium font-mooli transition-colors">
                                     <i class="fas fa-sign-out-alt mr-2"></i>Logout
                                 </button>
                             </form>
@@ -280,9 +284,7 @@
                     <div class="flex items-center justify-between">
                         {{-- Logo --}}
                         <a href="{{ route('murid.pilih-iqra') }}" class="flex items-center space-x-2">
-                            <div class="bg-white rounded-full w-10 h-10 flex items-center justify-center">
-                                <span class="text-xl font-bold text-pink-500">IQ</span>
-                            </div>
+                            <img src="{{ asset('images/asset/logo.webp') }}" alt="Logo IQRAIN" class="w-10 h-10 object-contain">
                         </a>
 
                         <div class="flex items-center space-x-3">

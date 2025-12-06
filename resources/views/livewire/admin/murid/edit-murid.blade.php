@@ -5,12 +5,12 @@
     <div class="mb-6">
         <div class="flex items-center gap-3 mb-2">
             <a href="{{ route('admin.murid.index') }}" 
-               class="text-gray-400 hover:text-white transition-colors">
+               class="text-iqrain-yellow hover:text-white transition-colors">
                 <i class="fas fa-arrow-left"></i>
             </a>
             <h1 class="text-3xl text-white font-bold">Edit Murid</h1>
         </div>
-        <p class="text-gray-400">Perbarui informasi murid {{ $murid->user->username }}</p>
+        <p class="text-iqrain-yellow">Perbarui informasi murid {{ $murid->user->username }}</p>
     </div>
 
     {{-- Alert Messages --}}

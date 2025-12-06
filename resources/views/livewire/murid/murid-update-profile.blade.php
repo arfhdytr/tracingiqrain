@@ -1,5 +1,22 @@
 {{-- resources/views/livewire/murid/murid-update-profile.blade.php --}}
-<div class="h-screen w-full overflow-hidden relative flex flex-col">
+<div class="h-screen w-full overflow-y-auto relative flex flex-col">
+    <style>
+        /* Menggunakan Font Mooli & Fredoka */
+        @import url('https://fonts.googleapis.com/css2?family=Mooli&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
+
+        /* Definisi Font Tegak Bersambung */
+        @font-face {
+            font-family: 'Tegak Bersambung_IWK';
+            src: url("{{ asset('fonts/TegakBersambung_IWK.ttf') }}") format('truetype');
+        }
+
+        .font-fredoka { font-family: 'Fredoka', sans-serif; }
+        .font-mooli { font-family: 'Mooli', sans-serif; }
+        .font-titan { font-family: 'Titan One', sans-serif; }
+        .font-cursive { font-family: 'Tegak Bersambung_IWK', cursive; }
+    </style>
     
     {{-- Background with Pattern --}}
     <div class="fixed inset-0 w-full h-full z-0 pointer-events-none"
@@ -20,11 +37,11 @@
         class="absolute top-6 left-6 z-[100] flex items-center space-x-2 px-4 py-2 bg-white border-2 border-iqrain-blue text-iqrain-blue rounded-lg hover:bg-iqrain-blue hover:text-white transition-all shadow-md cursor-pointer"
     >
         <i class="fas fa-arrow-left"></i>
-        <span class="font-medium">Kembali</span>
+        <span class="font-mooli font-semibold font-medium ">Kembali</span>
     </a>
 
     {{-- Main Content Container with padding for footer --}}
-    <div class="flex-1 flex items-center justify-center px-4 relative z-10 pb-32">
+    <div class="flex-1 flex items-center justify-center px-4 relative z-10 py-24">
         <div class="w-full max-w-4xl">
             
             {{-- Form Container --}}
@@ -33,7 +50,7 @@
                     
                     {{-- Title --}}
                     <div class="text-center mb-6">
-                        <h1 class="text-3xl font-bold text-iqrain-blue flex items-center justify-center space-x-3">
+                        <h1 class="text-4xl font-fredoka font-bold text-iqrain-blue flex items-center justify-center space-x-3">
                             <span>Ubah Profil Saya</span>
                         </h1>
                     </div>
@@ -75,7 +92,7 @@
                                 <button 
                                     type="button"
                                     @click="$refs.photoInput.click()"
-                                    class="w-full px-4 py-2 bg-iqrain-blue text-white rounded-lg hover:opacity-90 transition shadow"
+                                    class="w-full px-4 py-2 bg-iqrain-blue font-mooli font-semibold text-white rounded-lg hover:opacity-90 transition shadow"
                                 >
                                     <i class="fas fa-camera mr-2"></i>Pilih Foto
                                 </button>
@@ -95,8 +112,9 @@
                             
                             {{-- Username --}}
                             <div>
-                                <label class="block text-iqrain-blue font-semibold mb-2">
-                                    <i class="fas fa-user mr-2"></i>Username
+                                <label class="block text-3xl font-cursive text-iqrain-blue mb-2">
+                                    <i class="fas fa-user mr-2"></i>
+                                    <span class="phrase-pink">Username</span>
                                 </label>
                                 <input 
                                     type="text" 
@@ -111,8 +129,9 @@
 
                             {{-- Sekolah --}}
                             <div>
-                                <label class="block text-iqrain-blue font-semibold mb-2">
-                                    <i class="fas fa-school mr-2"></i>Sekolah
+                                <label class="block text-iqrain-blue text-3xl font-cursive mb-2">
+                                    <i class="fas fa-school mr-2"></i>
+                                    <span class="phrase-pink">Sekolah</span>
                                 </label>
                                 <input 
                                     type="text" 
@@ -124,8 +143,10 @@
 
                             {{-- Warna Kesukaan --}}
                             <div>
-                                <label class="block text-iqrain-blue font-semibold mb-2">
-                                    <i class="fas fa-palette mr-2"></i>Warna Kesukaan
+                                <label class="block text-3xl font-cursive text-iqrain-blue mb-2">
+                                    <i class="fas fa-palette mr-2"></i>
+                                    <span class="phrase-pink">Warna</span>
+                                    <span class="phrase-pink">Kesukaan</span>
                                 </label>
 
                                 {{-- Color Grid --}}
@@ -160,7 +181,7 @@
                                             }}"></div>
                                             
                                             {{-- Label --}}
-                                            <p class="text-xs font-medium text-gray-700">{{ $warna }}</p>
+                                            <p class="text-xl font-cursive font-medium text-gray-700 phrase-pink">{{ $warna }}</p>
                                         </button>
                                     @endforeach
                                 </div>
@@ -169,7 +190,7 @@
                                     <p class="mt-2 text-red-500 text-sm">{{ $message }}</p>
                                 @enderror
                                 
-                                <p class="mt-2 text-gray-500 text-xs">
+                                <p class="mt-2 text-gray-500 text-xs font-mooli font-semibold">
                                     <i class="fas fa-lock mr-1"></i>Untuk pemulihan akun jika lupa password
                                 </p>
                             </div>
@@ -182,7 +203,7 @@
                     <div class="flex justify-center pt-4">
                         <button 
                             type="submit" 
-                            class="px-8 py-3 bg-iqrain-blue text-white font-bold rounded-lg hover:opacity-90 transition shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                            class="px-8 py-3 bg-iqrain-blue text-white font-mooli font-semibold rounded-lg hover:opacity-90 transition shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                             wire:loading.attr="disabled"
                         >
                             <span wire:loading.remove wire:target="updateProfile">

@@ -39,20 +39,21 @@ class MentorDashboardController extends Controller
             ->count();
 
         // 5. Rata-rata Progress Kelas
-        $totalModuls = 0;
+        $totalHurufHijaiyah = 30; // Total huruf hijaiyah yang harus dipelajari
+        $totalMurid = $murids->count();
         $completedModuls = 0;
 
         foreach ($murids as $murid) {
-            $total = ProgressModul::where('murid_id', $murid->murid_id)->count();
             $completed = ProgressModul::where('murid_id', $murid->murid_id)
                 ->where('status', 'selesai')
                 ->count();
 
-            $totalModuls += $total;
             $completedModuls += $completed;
         }
 
-        $avgProgress = $totalModuls > 0 ? round(($completedModuls / $totalModuls) * 100) : 0;
+        // Rata-rata progress = total modul selesai semua murid / (total murid * 30 huruf)
+        $totalExpectedModuls = $totalMurid * $totalHurufHijaiyah;
+        $avgProgress = $totalExpectedModuls > 0 ? round(($completedModuls / $totalExpectedModuls) * 100) : 0;
 
         // 6. Aktivitas Harian (7 hari terakhir)
         $dailyActivity = [];
@@ -112,22 +113,6 @@ class MentorDashboardController extends Controller
             ->take(10)
             ->get();
 
-        // 11. Perbandingan Growth (minggu ini vs minggu lalu)
-        $thisWeekGames = HasilGame::whereIn('murid_id', $muridIds)
-            ->whereBetween('dimainkan_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
-            ->count();
-
-        $lastWeekGames = HasilGame::whereIn('murid_id', $muridIds)
-            ->whereBetween('dimainkan_at', [
-                Carbon::now()->subWeek()->startOfWeek(),
-                Carbon::now()->subWeek()->endOfWeek()
-            ])
-            ->count();
-
-        $growthPercentage = $lastWeekGames > 0
-            ? round((($thisWeekGames - $lastWeekGames) / $lastWeekGames) * 100)
-            : 0;
-
         return view('pages.mentor.dashboard', compact(
             'totalMurids',
             'totalPendingRequests',
@@ -137,8 +122,7 @@ class MentorDashboardController extends Controller
             'popularGames',
             'recentMurids',
             'topMurids',
-            'recentActivities',
-            'growthPercentage'
+            'recentActivities'
         ));
     }
 
@@ -232,35 +216,35 @@ class MentorDashboardController extends Controller
                 ];
             });
 
-        // 2. Progress Harian Bulan Ini (30 hari terakhir)
+        // 2. Progress Harian 1 Minggu (7 hari terakhir)
         $dailyProgress = [];
-        $startDate = Carbon::now()->subDays(29)->startOfDay();
+        $startDate = Carbon::now()->subDays(6)->startOfDay();
 
-        for ($i = 0; $i < 30; $i++) {
+        for ($i = 0; $i < 7; $i++) {
             $date = $startDate->copy()->addDays($i);
             $count = HasilGame::whereIn('murid_id', $muridIds)
                 ->whereDate('dimainkan_at', $date)
                 ->count();
 
             $dailyProgress[] = [
-                'date' => $date->format('d M'),
+                'date' => $date->format('D, d M'),
                 'count' => $count
             ];
         }
 
         // 3. Rata-rata Progress (persentase modul selesai)
-        $totalModuls = 0;
+        $totalHurufHijaiyah = 30; // Total huruf hijaiyah yang harus dipelajari
+        $totalMurid = $murids->count();
         $completedModuls = 0;
 
         foreach ($murids as $murid) {
-            $total = $murid->progressModuls->count();
             $completed = $murid->progressModuls->where('status', 'selesai')->count();
-
-            $totalModuls += $total;
             $completedModuls += $completed;
         }
 
-        $avgProgress = $totalModuls > 0 ? round(($completedModuls / $totalModuls) * 100) : 0;
+        // Rata-rata progress = total modul selesai semua murid / (total murid * 30 huruf)
+        $totalExpectedModuls = $totalMurid * $totalHurufHijaiyah;
+        $avgProgress = $totalExpectedModuls > 0 ? round(($completedModuls / $totalExpectedModuls) * 100) : 0;
 
         // 4. Murid Paling Aktif (berdasarkan jumlah game dimainkan)
         $mostActiveMurid = HasilGame::whereIn('murid_id', $muridIds)
@@ -275,34 +259,10 @@ class MentorDashboardController extends Controller
             $mostActiveMuridName = $murid->user->username ?? 'Unknown';
         }
 
-        // 5. Level/Tingkatan Paling Populer (berdasarkan progress modul)
-        $popularLevel = ProgressModul::whereIn('murid_id', $muridIds)
-            ->select('modul_id')
-            ->groupBy('modul_id')
-            ->orderByRaw('COUNT(*) DESC')
-            ->first();
-
-        $popularLevelName = 'Iqra 1'; // Default
-        if ($popularLevel) {
-            $modul = \App\Models\Modul::find($popularLevel->modul_id);
-            if ($modul && $modul->materiPembelajaran && $modul->materiPembelajaran->tingkatanIqra) {
-                $popularLevelName = $modul->materiPembelajaran->tingkatanIqra->nama_tingkatan;
-            }
-        }
-
-        // 6. Total Waktu Belajar (estimasi: setiap game = 5 menit, setiap modul = 10 menit)
-        $totalGames = HasilGame::whereIn('murid_id', $muridIds)->count();
-        $totalModulProgress = ProgressModul::whereIn('murid_id', $muridIds)
-            ->where('status', 'selesai')
-            ->count();
-
-        $totalMinutes = ($totalGames * 5) + ($totalModulProgress * 10);
-        $totalHours = round($totalMinutes / 60, 1);
-
-        // 7. Total Murid
+        // 5. Total Murid
         $totalMurids = $murids->count();
 
-        // 8. Total Game Dimainkan
+        // 6. Total Game Dimainkan
         $totalGamesPlayed = HasilGame::whereIn('murid_id', $muridIds)->count();
 
         return view('pages.mentor.laporan-kelas.index', compact(
@@ -310,8 +270,6 @@ class MentorDashboardController extends Controller
             'dailyProgress',
             'avgProgress',
             'mostActiveMuridName',
-            'popularLevelName',
-            'totalHours',
             'totalMurids',
             'totalGamesPlayed'
         ));

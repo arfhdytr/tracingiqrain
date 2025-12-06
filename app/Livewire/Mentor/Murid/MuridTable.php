@@ -72,15 +72,6 @@ class MuridTable extends DataTableComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Email', 'user.username')
-                ->sortable()
-                ->searchable()
-                ->format(function ($value) {
-                    $email = $value . '@gmail.com';
-                    return '<a href="mailto:' . $email . '" class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">' . $email . '</a>';
-                })
-                ->html(),
-
             Column::make('Password', 'murid_id')
                 ->format(fn() => '<span class="text-gray-500">••••••••</span>')
                 ->html(),

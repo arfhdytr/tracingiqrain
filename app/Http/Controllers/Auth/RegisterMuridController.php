@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class RegisterMuridController extends Controller
 {
@@ -138,4 +139,69 @@ class RegisterMuridController extends Controller
 
         return view('auth.register-murid-preferensi', compact('pertanyaanOptions'));
     }
+
+    /**
+     * Menampilkan form preferensi untuk murid yang sudah login tapi belum setup.
+     */
+    public function showSetupPreferensiForm()
+    {
+        $user = Auth::user();
+        
+        // Pastikan hanya murid dan yang belum mengisi preferensi
+        if (!$user->hasRole('murid') || ($user->murid && $user->murid->preferensi_terisi)) {
+            return redirect()->route('murid.pilih-iqra');
+        }
+
+        $pertanyaanOptions = ['Apa warna kesukaanmu?'];
+        
+        // Kita kirim variabel actionRoute agar view tahu kemana harus submit
+        return view('auth.register-murid-preferensi', [
+            'pertanyaanOptions' => $pertanyaanOptions,
+            'actionRoute' => route('murid.setup.preferensi.post') // Route baru
+        ]);
+    }
+
+    /**
+     * [BARU] Menyimpan preferensi dari murid yang sudah login.
+     */
+    public function storeSetupPreferensi(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'pertanyaan' => ['required', 'string'],
+            'jawaban' => ['required', 'string', 'max:255'],
+        ], [
+            'pertanyaan.required' => 'Pertanyaan harus dipilih',
+            'jawaban.required' => 'Jawaban harus diisi',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        DB::beginTransaction();
+        try {
+            $user = Auth::user();
+            $murid = $user->murid;
+
+            // Simpan Preferensi
+            PreferensiPertanyaan::create([
+                'murid_id' => $murid->murid_id,
+                'pertanyaan' => $request->pertanyaan,
+                'jawaban' => $request->jawaban,
+            ]);
+
+            // Update status murid
+            $murid->update(['preferensi_terisi' => true]);
+
+            DB::commit();
+
+            return redirect()->route('murid.pilih-iqra')
+                ->with('success', 'Selamat datang! Akunmu sudah siap digunakan.');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
 }

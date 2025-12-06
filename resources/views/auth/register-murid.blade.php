@@ -89,8 +89,7 @@
                         <input type="password"
                             name="password"
                             required
-                            class="w-full px-4 py-3 rounded-xl border-2 {{ $errors->has('password') ? 'border-red-500' : 'border-white' }} bg-white text-gray-800 focus:ring-2 focus:ring-yellow-300"
-                            placeholder="Masukkan password">
+                            class="w-full px-4 py-3 rounded-xl border-2 {{ $errors->has('password') ? 'border-red-500' : 'border-white' }} bg-white text-gray-800 focus:ring-2 focus:ring-yellow-300 font-['Verdana']"
                         {{-- Pesan Error untuk Password --}}
                         @error('password')
                             <p class="text-red-300 text-sm mt-1">{{ $message }}</p>

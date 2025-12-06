@@ -102,55 +102,38 @@ class FortifyServiceProvider extends ServiceProvider
 */
 class CustomLoginResponse implements LoginResponseContract
 {
-    /**
-     * Membuat HTTP response berdasarkan role user yang login.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
     public function toResponse($request)
     {
-        // Ambil instance user yang terautentikasi.
         $user = auth()->user();
-
-        // Tentukan URL redirect default (fallback).
         $redirectUrl = route('landing');
 
-        // Logika Redirect Berdasarkan Role
         if ($user->hasRole('admin')) {
-            // Role Admin: Arahkan ke dashboard admin.
             $redirectUrl = route('admin.dashboard');
         } elseif ($user->hasRole('mentor')) {
-            // Role Mentor: Periksa status approval.
             if ($user->mentor && $user->mentor->status_approval === 'approved') {
-                // Jika disetujui, arahkan ke dashboard mentor.
                 $redirectUrl = route('mentor.dashboard');
             } else {
-                // Jika status 'pending' atau 'rejected', lakukan logout paksa.
                 auth()->logout();
                 $request->session()->invalidate();
                 $request->session()->regenerateToken();
-
-                // Kembalikan ke halaman login dengan pesan error.
                 return redirect()->route('login')
                     ->with('error', 'Akun Anda masih menunggu persetujuan admin.');
             }
         } elseif ($user->hasRole('murid')) {
-            // Role Murid: Arahkan ke halaman 'pilih-iqra'.
+            // [MODIFIKASI] Cek apakah preferensi sudah terisi
+            if ($user->murid && !$user->murid->preferensi_terisi) {
+                // Jika belum, arahkan ke halaman setup preferensi
+                return redirect()->route('murid.setup.preferensi');
+            }
+
+            // Jika sudah, lanjut ke pilih iqra
             $redirectUrl = route('murid.pilih-iqra');
 
-            // Untuk role 'murid', lakukan redirect langsung ke 'pilih-iqra'.
-            // Metode `intended()` sengaja tidak digunakan di sini untuk
-            // memastikan murid tidak diarahkan ke rute fallback (spt /dashboard)
-            // yang mungkin mereka coba akses sebelum login.
             return $request->wantsJson()
                 ? new JsonResponse(['two_factor' => false])
                 : redirect($redirectUrl);
         }
 
-        // Default Response (untuk Admin, Mentor, dan Fallback)
-        // Gunakan `intended()` agar user diarahkan ke halaman yang
-        // mereka tuju sebelumnya (jika ada).
         return $request->wantsJson()
             ? new JsonResponse(['two_factor' => false])
             : redirect()->intended($redirectUrl);

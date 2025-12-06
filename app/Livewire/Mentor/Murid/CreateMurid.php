@@ -40,7 +40,7 @@ class CreateMurid extends Component
                 'username' => 'required|string|min:3|max:50|unique:users,username',
                 'password' => 'required|string|min:6',
                 'sekolah' => 'nullable|string|max:100',
-                'jawaban_preferensi' => 'required|string|max:255',
+                'jawaban_preferensi' => 'nullable|string|max:255',
             ];
         } else {
             return [
@@ -93,29 +93,32 @@ class CreateMurid extends Component
             // 2. Assign role murid
             $user->assignRole('murid');
 
+            // Cek apakah jawaban diisi
+            $isPreferensiTerisi = !empty($this->jawaban_preferensi);
+
             // 3. Create Murid profile
             $murid = Murid::create([
                 'user_id' => $user->user_id,
                 'mentor_id' => $mentor->mentor_id,
                 'sekolah' => $this->sekolah ?: null,
-                'preferensi_terisi' => true,
+                'preferensi_terisi' => $isPreferensiTerisi,
             ]);
 
             // 4. Create Preferensi Pertanyaan dengan pertanyaan fixed
-            PreferensiPertanyaan::create([
-                'murid_id' => $murid->murid_id,
-                'pertanyaan' => self::PERTANYAAN_PREFERENSI,
-                'jawaban' => $this->jawaban_preferensi,
-            ]);
+            if ($isPreferensiTerisi) {
+                PreferensiPertanyaan::create([
+                    'murid_id' => $murid->murid_id,
+                    'pertanyaan' => self::PERTANYAAN_PREFERENSI,
+                    'jawaban' => $this->jawaban_preferensi,
+                ]);
+            }
 
-            DB::commit();
+            DB::commit();   
 
             session()->flash('success', 'Murid "' . $this->username . '" berhasil ditambahkan!');
-
             return redirect()->route('mentor.murid.index');
         } catch (\Exception $e) {
             DB::rollBack();
-
             session()->flash('error', 'Gagal menambahkan murid: ' . $e->getMessage());
         }
     }
@@ -124,14 +127,11 @@ class CreateMurid extends Component
     {
         try {
             $mentor = Auth::user()->mentor;
-
-            // Read CSV
             $csv = Reader::createFromPath($this->csv_file->getRealPath(), 'r');
             $csv->setDelimiter(',');
             $csv->setHeaderOffset(0);
 
             $records = $csv->getRecords();
-
             $successCount = 0;
             $failedCount = 0;
             $errors = [];
@@ -139,43 +139,40 @@ class CreateMurid extends Component
             DB::beginTransaction();
 
             foreach ($records as $index => $record) {
-                // dd($record);
                 try {
-                    // Validasi required fields (tanpa pertanyaan_preferensi)
-                    if (
-                        empty($record['username']) || empty($record['password']) ||
-                        empty($record['jawaban_preferensi'])
-                    ) {
-                        throw new \Exception('Data tidak lengkap');
+                    // Validasi required fields (jawaban_preferensi dihapus dari sini)
+                    if (empty($record['username']) || empty($record['password'])) {
+                        throw new \Exception('Data username/password tidak lengkap');
                     }
 
-                    // Check username duplicate
                     if (User::where('username', $record['username'])->exists()) {
                         throw new \Exception('Username sudah digunakan');
                     }
 
-                    // Create User
                     $user = User::create([
                         'username' => $record['username'],
                         'password' => Hash::make($record['password']),
                     ]);
-
                     $user->assignRole('murid');
 
-                    // Create Murid
+                    // Cek ketersediaan jawaban di CSV
+                    $jawabanCsv = isset($record['jawaban_preferensi']) ? trim($record['jawaban_preferensi']) : '';
+                    $isPreferensiTerisi = !empty($jawabanCsv);
+
                     $murid = Murid::create([
                         'user_id' => $user->user_id,
                         'mentor_id' => $mentor->mentor_id,
                         'sekolah' => $record['sekolah'] ?? null,
-                        'preferensi_terisi' => true,
+                        'preferensi_terisi' => $isPreferensiTerisi,
                     ]);
 
-                    // Create Preferensi dengan pertanyaan fixed
-                    PreferensiPertanyaan::create([
-                        'murid_id' => $murid->murid_id,
-                        'pertanyaan' => self::PERTANYAAN_PREFERENSI,
-                        'jawaban' => $record['jawaban_preferensi'],
-                    ]);
+                    if ($isPreferensiTerisi) {
+                        PreferensiPertanyaan::create([
+                            'murid_id' => $murid->murid_id,
+                            'pertanyaan' => self::PERTANYAAN_PREFERENSI,
+                            'jawaban' => $jawabanCsv,
+                        ]);
+                    }
 
                     $successCount++;
                 } catch (\Exception $e) {

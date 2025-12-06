@@ -17,6 +17,7 @@
         // ID Game (Dari $jenisGame)
         var JENIS_GAME_ID = {{ $jenisGame->jenis_game_id }};
         var TINGKATAN_ID = {{ $tingkatan->tingkatan_id }};
+        var HASIL_GAME_ID = {{ $sessionGame->hasil_game_id }};
 
         // Data Huruf (Convert PHP Array ke JSON)
         // Asumsi: materiPembelajarans punya kolom 'huruf_arab' dan 'nama_latin'
@@ -26,27 +27,66 @@
 </head>
 
 <body>
-    <div id="welcome-backdrop" class="welcome-backdrop"></div>
+    {{-- Ucapan selamat bermain --}}
+    <div id="welcome-backdrop" class="fixed inset-0 z-40 transition-all duration-1000 opacity-0"
+        style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(214, 93, 177, 0.3) 100%); backdrop-filter: blur(8px);">
+    </div>
 
-    <h1 id="welcome-message" class="welcome-message welcome-title">Selamat Bermain</h1>
+    <div id="welcome-message-container"
+        class="fixed inset-0 z-50 flex items-center justify-center opacity-0 transition-all duration-1000 pointer-events-none">
+        <h1 id="welcome-message"
+            class="font-['TegakBersambung'] text-7xl md:text-8xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 transform scale-75 transition-all duration-1000 p-4 leading-normal"
+            style="text-shadow: 0 8px 24px rgba(236, 72, 153, 0.6), 0 0 40px rgba(236, 72, 153, 0.4);">
+            Selamat Bermain
+        </h1>
+    </div>
 
 
-    <!-- Game Container -->
-    <div id="game-container" class="game-container">
+    <!-- Letter Menu Container (Initial View) -->
+    <div id="letter-menu-container" class="letter-menu-container">
+        <!-- Header Menu -->
+        <div class="menu-header">
+            <a href="{{ route('murid.games.index', $tingkatan->tingkatan_id) }}" class="btn-kembali">
+                <div class="btn-kembali-icon">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                </div>
+                <span class="btn-kembali-text">Kembali</span>
+            </a>
+
+            <div class="menu-title-wrapper">
+                <h1 class="menu-title">
+                    Pilih Huruf Hijaiyah
+                </h1>
+            </div>
+
+            <div class="w-[140px]"></div> <!-- Spacer for centering (matches btn-kembali width) -->
+        </div>
+
+        <!-- Grid Container -->
+        <div id="letter-grid"
+            class="w-full max-w-6xl px-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6">
+            <!-- Cards will be populated by JS -->
+        </div>
+    </div>
+
+    <!-- Game Container (Hidden by Default) -->
+    <div id="game-container" class="game-container" style="display: none;">
 
         <!-- Header with Exit Button -->
         <div class="game-header">
-            <a href="{{ route('murid.games.index', $tingkatan->tingkatan_id) }}" class="btn-kembali">
+            <!-- Tombol Kembali ke Menu -->
+            <button onclick="showMenu()" class="btn-kembali">
                 <div class="btn-kembali-icon">
-                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
                     </svg>
                 </div>
                 <span class="btn-kembali-text">
-                    Kembali
+                    Menu
                 </span>
-            </a>
+            </button>
             <div class="letter-info-display">
                 <span id="current-letter-arabic" class="arabic-letter" style="color:white;">ا</span>
                 <span id="current-letter-name" class="letter-name-display" style="color: white;">Alif</span>

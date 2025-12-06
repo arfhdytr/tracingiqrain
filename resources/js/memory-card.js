@@ -2,10 +2,13 @@ import confetti from 'canvas-confetti';
 
 var poinBenar = 0;
 var pasanganDitemukan = 0;
-var totalPasangan = 6; 
+var totalPasangan = 6;
 
 // var gameStaticId = typeof GAME_STATIC_ID !== 'undefined' ? GAME_STATIC_ID : null;
 var jenisGameId = typeof JENIS_GAME_ID !== 'undefined' ? JENIS_GAME_ID : null;
+
+var SESSION_ID = window.SESSION_ID || null;
+
 var poinMaksimal = typeof POIN_MAKSIMAL !== 'undefined' ? POIN_MAKSIMAL : 60;
 var POIN_PER_MATCH = poinMaksimal / totalPasangan;
 
@@ -45,51 +48,61 @@ var cardMasterList = [
 ];
 
 
-var cardSet; 
+var cardSet;
 
 var card1Selected = null;
 var card2Selected = null;
-var lockBoard = false; 
+var lockBoard = false;
 
 window.onload = function () {
     shuffleCards();
     startGame();
-    
+
     document.getElementById("current-matches").innerText = pasanganDitemukan;
-    
+
     // Untuk mengatur murid pas mau restart
     document.getElementById("reset-button").addEventListener("click", () => {
         shuffleCards();
         startGame();
     });
 
-    // Welcome message
+    // Welcome Animation
     const welcomeBackdrop = document.getElementById("welcome-backdrop");
+    const welcomeContainer = document.getElementById("welcome-message-container");
     const welcomeMessage = document.getElementById("welcome-message");
 
-    if (welcomeBackdrop && welcomeMessage) {
-        // 1. Tampilkan teks (fade in)
-        // Kita beri sedikit delay biar CSS awal opacity-0 kebaca dulu
+    if (welcomeBackdrop && welcomeContainer && welcomeMessage) {
+        // Step 1: Fade in backdrop (100ms)
         setTimeout(() => {
-            welcomeMessage.classList.remove("opacity-0"); // Tampilkan teks
-            welcomeMessage.classList.add("opacity-100"); // Pastikan opacity penuh
-        }, 100); // Delay kecil agar transisi opacity-0 -> opacity-100 bekerja
+            welcomeBackdrop.classList.remove("opacity-0");
+            welcomeBackdrop.classList.add("opacity-100");
+        }, 100);
 
-        // 2. Setel alarm untuk menyembunyikan (fade out)
+        // Step 2: Show message with scale animation (200ms)
         setTimeout(() => {
-            welcomeMessage.classList.remove("opacity-100"); // Mulai fade out teks
-            welcomeMessage.classList.add("opacity-0"); // Pastikan opacity nol
-            
-            welcomeBackdrop.classList.remove("opacity-100"); // Mulai fade out backdrop
-            welcomeBackdrop.classList.add("opacity-0"); // Pastikan opacity nol
+            welcomeContainer.classList.remove("opacity-0");
+            welcomeContainer.classList.add("opacity-100");
 
-            // 3. Setelah animasi fade out selesai, baru sembunyikan sepenuhnya (display: none)
-            setTimeout(() => {
-                welcomeBackdrop.classList.add("hidden");
-                welcomeMessage.classList.add("hidden");
-            }, 1000); // Tunggu selama durasi animasi (duration-1000ms = 1 detik)
-            
-        }, 2000); // Alarm utama: mulai fade out setelah 2 detik
+            welcomeMessage.classList.remove("scale-75");
+            welcomeMessage.classList.add("scale-100");
+        }, 200);
+
+        // Step 3: Start fade out (2.5s)
+        setTimeout(() => {
+            welcomeMessage.classList.remove("scale-100");
+            welcomeMessage.classList.add("scale-110");
+            welcomeContainer.classList.remove("opacity-100");
+            welcomeContainer.classList.add("opacity-0");
+
+            welcomeBackdrop.classList.remove("opacity-100");
+            welcomeBackdrop.classList.add("opacity-0");
+        }, 2500);
+
+        // Step 4: Hide completely (3.5s total)
+        setTimeout(() => {
+            welcomeBackdrop.classList.add("hidden");
+            welcomeContainer.classList.add("hidden");
+        }, 3500);
     }
 };
 
@@ -99,8 +112,8 @@ function shuffleCards() {
     cardMasterList.sort(() => 0.5 - Math.random());
 
     // 2. Ambil 6 kartu pertama
-    let gameCards = cardMasterList.slice(0, totalPasangan); 
-    
+    let gameCards = cardMasterList.slice(0, totalPasangan);
+
     // 3. Buat "cardSet" (isi 12 kartu)
     cardSet = [];
     let basePath = (typeof ASSET_BASE !== "undefined" ? ASSET_BASE : "");
@@ -112,7 +125,7 @@ function shuffleCards() {
             type: "hijaiyah",
             content: `<img src="${basePath}images/hijaiyah/${kartu.id}.webp" alt="${kartu.id}">`
         });
-        
+
         // Tambah kartu Tipe LATIN (Teks)
         cardSet.push({
             id: kartu.id,
@@ -132,9 +145,9 @@ function startGame() {
     // Reset papan & skor
     pasanganDitemukan = 0;
     poinBenar = 0;
-    lockBoard = true; 
-        
-    document.getElementById("poin-benar").innerText = 0;    
+    lockBoard = true;
+
+    document.getElementById("poin-benar").innerText = 0;
     document.getElementById("current-matches").innerText = pasanganDitemukan;
 
     const boardEl = document.getElementById("board");
@@ -142,14 +155,14 @@ function startGame() {
 
     // Loop untuk 12 kartu
     for (let cardData of cardSet) {
-        
+
         // --- Bikin Kartu ---
         let card = document.createElement("div");
         card.classList.add("card");
-        
+
         // ▼▼▼ TAMBAHAN BARU ▼▼▼
         card.classList.add("is-flipped"); // <-- 2. KARTU LANGSUNG KEBUKA
-        
+
         card.dataset.id = cardData.id;
         card.dataset.type = cardData.type;
 
@@ -158,8 +171,8 @@ function startGame() {
 
         let front = document.createElement("div");
         front.classList.add("card-front");
-        let basePath = (typeof ASSET_BASE !== "undefined" ? ASSET_BASE : ""); 
-        
+        let basePath = (typeof ASSET_BASE !== "undefined" ? ASSET_BASE : "");
+
         front.innerHTML = `
             <img src="${basePath}images/icon/tanda-tanya.webp" 
                  alt="?" 
@@ -169,35 +182,35 @@ function startGame() {
 
         let back = document.createElement("div");
         back.classList.add("card-back");
-        back.innerHTML = cardData.content; 
+        back.innerHTML = cardData.content;
 
         // Rakit
         inner.appendChild(front);
         inner.appendChild(back);
         card.appendChild(inner);
-        
+
         card.addEventListener("click", selectCard);
         boardEl.append(card);
     }
 
     // Ngintip 2 detik
     setTimeout(() => {
-                        
-        let allCards = document.querySelectorAll('#board .card'); 
-        
-        allCards.forEach(card => {        
+
+        let allCards = document.querySelectorAll('#board .card');
+
+        allCards.forEach(card => {
             card.classList.remove("is-flipped");
         });
 
         // 5. BUKA KUNCI PAPAN, game siap dimainkan!
-        lockBoard = false; 
-        
-    }, 3000); 
-} 
+        lockBoard = false;
+
+    }, 3000);
+}
 
 function selectCard() {
     // 'this' sekarang adalah <div class="card">
-    
+
     // Pengecekan baru: Jangan klik jika papan dikunci ATAU kartu sudah kebuka
     if (lockBoard || this.classList.contains("is-flipped")) {
         return;
@@ -219,9 +232,9 @@ function selectCard() {
 
 // Fungsi update
 async function update() {
-        
+
     let isMatch = false;
-    
+
     // Cek: Apakah ID-nya sama? (misal: 'alif' === 'alif')
     if (card1Selected.dataset.id === card2Selected.dataset.id) {
         // Cek: Apakah tipenya BEDA? (misal: 'hijaiyah' !== 'latin')
@@ -230,55 +243,64 @@ async function update() {
         }
     }
 
-    if (!isMatch) { 
+    if (!isMatch) {
         // Jika kedua kartu tidak cocok
         card1Selected.classList.remove("is-flipped");
-        card2Selected.classList.remove("is-flipped");               
-        
-    } else { 
+        card2Selected.classList.remove("is-flipped");
+
+    } else {
         // --- JIKA COCOK! ---
         // "Matikan" kartu biar nggak bisa diklik lagi
         card1Selected.removeEventListener("click", selectCard);
         card2Selected.removeEventListener("click", selectCard);
-        
+
         // Update skor
         pasanganDitemukan += 1;
         poinBenar += POIN_PER_MATCH; // (Nanti bisa diubah skornya, misal +10)
-        
+
         document.getElementById("poin-benar").innerText = Math.round(poinBenar);
         document.getElementById("current-matches").innerText = pasanganDitemukan;
 
         // Cek Menang
         if (pasanganDitemukan === totalPasangan) {
             // Langsung diberitahu kemenangan dahulu baru cek database
-            showSuccessModal(Math.round(poinBenar)); 
+            showSuccessModal(Math.round(poinBenar));
 
             const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-                        
-            fetch('/murid/game/save-score', { 
+
+            fetch('/murid/game/save-score', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Accept': 'application/json', // Force JSON response
                     'X-CSRF-TOKEN': csrfToken
                 },
                 body: JSON.stringify({
-                    jenis_game_id: jenisGameId, 
-                    skor: pasanganDitemukan,
-                    total_poin: Math.round(poinBenar)
+                    hasil_game_id: SESSION_ID,
+                    skor: Math.round(poinBenar)
+
                 })
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    console.log("Data berhasil disimpan ke database!");                     
-                } else {
-                    console.error("Gagal simpan:", data);
-                }
-            })
-            .catch(error => {
-                console.error("Error koneksi:", error);
-            });
-            
+                .then(response => {
+                    if (!response.ok) {
+                        // Jika response bukan 2xx, lempar error agar masuk ke catch
+                        return response.text().then(text => {
+                            throw new Error(`Server error: ${response.status} ${text}`);
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        console.log("Data berhasil disimpan ke database!");
+                    } else {
+                        console.error("Gagal simpan:", data);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error koneksi:", error);
+                });
+
         }
     }
 
@@ -294,13 +316,13 @@ async function update() {
 function showSuccessModal(skorAkhir) {
     const modal = document.getElementById('success-modal');
     const scoreText = document.getElementById('modal-score');
-    
+
     // Update teks skor di dalam modal
     if (scoreText) scoreText.innerText = skorAkhir;
 
     // Tampilkan Modal (Hapus class hidden)
     modal.classList.remove('hidden');
-    
+
     // Animasi Masuk (Opsional, biar smooth)
     const modalBox = modal.querySelector('div.relative');
     setTimeout(() => {
@@ -314,30 +336,29 @@ function showSuccessModal(skorAkhir) {
     var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 60 };
 
     function randomInOut(min, max) {
-      return Math.random() * (max - min) + min;
+        return Math.random() * (max - min) + min;
     }
 
-    var interval = setInterval(function() {
-      var timeLeft = animationEnd - Date.now();
+    var interval = setInterval(function () {
+        var timeLeft = animationEnd - Date.now();
 
-      if (timeLeft <= 0) {
-        return clearInterval(interval);
-      }
+        if (timeLeft <= 0) {
+            return clearInterval(interval);
+        }
 
-      var particleCount = 50 * (timeLeft / duration);
-      // Tembak dari kiri dan kanan
-      confetti({ ...defaults, particleCount, origin: { x: randomInOut(0.1, 0.3), y: Math.random() - 0.2 } });
-      confetti({ ...defaults, particleCount, origin: { x: randomInOut(0.7, 0.9), y: Math.random() - 0.2 } });
+        var particleCount = 50 * (timeLeft / duration);
+        // Tembak dari kiri dan kanan
+        confetti({ ...defaults, particleCount, origin: { x: randomInOut(0.1, 0.3), y: Math.random() - 0.2 } });
+        confetti({ ...defaults, particleCount, origin: { x: randomInOut(0.7, 0.9), y: Math.random() - 0.2 } });
     }, 250);
 }
 
 // 2. Fungsi Restart Game (Dipanggil tombol di modal)
 // Kita bikin global biar bisa dipanggil onclick HTML
-window.restartGame = function() {
+window.restartGame = function () {
     const modal = document.getElementById('success-modal');
     modal.classList.add('hidden'); // Sembunyikan modal
-    
-    // Reset logika game
-    shuffleCards();
-    startGame();
+
+    // Reload halaman agar membuat sesi game baru di database
+    window.location.reload();
 }

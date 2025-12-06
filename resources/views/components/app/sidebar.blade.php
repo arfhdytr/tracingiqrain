@@ -21,11 +21,9 @@
                     <path d="M10.7 18.7l1.4-1.4L7.8 13H20v-2H7.8l4.3-4.3-1.4-1.4L4 12z" />
                 </svg>
             </button>
-            <a class="block" href="{{ route('admin.dashboard') }}">
+            <a class="block" href="{{ auth()->user()->hasRole('admin') ? route('admin.dashboard') : (auth()->user()->hasRole('mentor') ? route('mentor.dashboard'):'#') }}">
                 <div class="flex items-center space-x-2">
-                    <div class="w-8 h-8 bg-iqrain-blue rounded-lg flex items-center justify-center">
-                        <span class="text-white font-bold text-sm">IQ</span>
-                    </div>
+                    <img src="{{ asset('images/asset/logo.webp') }}" alt="Logo IQRAIN" class="w-8 h-8 object-contain">
                     <span class="text-xl font-bold text-gray-900 dark:text-white lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                         IQRAIN
                     </span>

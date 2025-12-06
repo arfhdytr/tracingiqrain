@@ -56,7 +56,7 @@ class EditMurid extends Component
             'username' => 'required|string|min:3|max:50|unique:users,username,' . $this->murid->user_id . ',user_id',
             'new_password' => 'nullable|string|min:6|confirmed',
             'sekolah' => 'nullable|string|max:100',
-            'jawaban_preferensi' => 'required|string|max:255',
+            'jawaban_preferensi' => 'nullable|string|max:255',
         ];
     }
 
@@ -66,7 +66,6 @@ class EditMurid extends Component
         'username.min' => 'Username minimal 3 karakter',
         'new_password.min' => 'Password minimal 6 karakter',
         'new_password.confirmed' => 'Konfirmasi password tidak cocok',
-        'jawaban_preferensi.required' => 'Jawaban preferensi wajib diisi',
     ];
 
     public function updated($propertyName)

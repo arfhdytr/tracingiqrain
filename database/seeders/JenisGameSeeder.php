@@ -13,7 +13,7 @@ class JenisGameSeeder extends Seeder
             [
                 'nama_game' => 'Tracking',
                 'tingkatan_id' => 1,
-                'poin_maksimal' => 100,
+                'poin_maksimal' => 10000,
                 'deskripsi' => 'Menelusuri bentuk huruf hijaiyah'
             ],
             [

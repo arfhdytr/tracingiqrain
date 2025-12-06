@@ -45,7 +45,6 @@
             content: "";
             position: absolute;
             inset: 0;
-            background-image: url('images/pattern/game-pattern.webp');
             background-size: 500px;
             background-repeat: repeat;
             opacity: 0.4; 
@@ -155,7 +154,6 @@
                         required 
                         autofocus
                         class="w-full px-5 py-4 border-0 rounded-xl text-gray-800 text-lg @error('username') border-2 border-red-500 ring-2 ring-red-500 @enderror"
-                        placeholder="Masukkan username"
                         style="background-color: white;"
                     >
                     @error('username')
@@ -173,8 +171,7 @@
                         type="password" 
                         name="password" 
                         required
-                        class="w-full px-5 py-4 border-0 rounded-xl text-gray-800 text-lg"
-                        placeholder="Masukkan password"
+                        class="w-full px-5 py-4 border-0 rounded-xl text-gray-800 text-lg font-['Verdana']"
                         style="background-color: white;"
                     >
                     

@@ -1208,28 +1208,8 @@
             <div class="navbar-hero container">
                 <div class="navbar-logo">
                     {{-- LOGO DUMMY --}}
-                    <div
-                        style="
-                    background-color: var(--color-white); 
-                    width: 50px; 
-                    height: 50px; 
-                    border-radius: 50%; 
-                    display: flex; 
-                    align-items: center; 
-                    justify-content: center;
-                    border: 2px solid var(--color-white);
-                    box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
-
-                        <span
-                            style="
-                        color: var(--color-pink-accent); 
-                        font-family: 'Titan One', sans-serif; 
-                        font-size: 22px; 
-                        line-height: 1;
-                        transform: translateY(2px);">
-                            IQ
-                        </span>
-                    </div>
+                    <img src="{{ asset('images/asset/logo.webp') }}" style="height: 50px; width: auto; object-fit: contain;"
+                        alt="IQRAIN Logo">
                 </div>
                 <div class="navbar-box-wrapper">
                     <nav class="navbar-links">

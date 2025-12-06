@@ -8,6 +8,8 @@ use App\Models\User;
 use App\Models\Admin;
 use App\Models\Mentor;
 use App\Models\Murid;
+use App\Models\PermintaanBimbingan;
+use App\Models\PreferensiPertanyaan;
 
 class UserSeeder extends Seeder
 {
@@ -65,13 +67,39 @@ class UserSeeder extends Seeder
         ]);
 
         // Buat murid profile
-        Murid::create([
+        $murid = Murid::create([
             'user_id' => $muridUser->user_id,
             'sekolah' => 'SDN 1 Maju Jaya',
-            'preferensi_terisi' => false,
+            'preferensi_terisi' => true,
         ]);
 
         // Assign rolenya murid
         $muridUser->assignRole('murid');
+
+        // ---------------------------------
+        // 4. Buat Preferensi Pertanyaan untuk Murid
+        // ---------------------------------
+        PreferensiPertanyaan::create([
+            'murid_id' => $murid->murid_id,
+            'pertanyaan' => 'Apa warna kesukaan kamu?',
+            'jawaban' => Hash::make('merah'),
+        ]);
+
+        // ---------------------------------
+        // 5. Buat Permintaan Bimbingan yang Sudah Disetujui
+        // ---------------------------------
+        $mentor = Mentor::where('user_id', $mentorUser->user_id)->first();
+
+        PermintaanBimbingan::create([
+            'murid_id' => $murid->murid_id,
+            'mentor_id' => $mentor->mentor_id,
+            'status' => 'approved',
+            'tanggal_permintaan' => now()->subDays(7), // 7 hari yang lalu
+            'tanggal_respons' => now()->subDays(6),    // 6 hari yang lalu
+            'catatan' => 'Saya ingin belajar Iqra dengan Anda',
+        ]);
+
+        // Update mentor_id di tabel murid setelah permintaan disetujui
+        $murid->update(['mentor_id' => $mentor->mentor_id]);
     }
 }

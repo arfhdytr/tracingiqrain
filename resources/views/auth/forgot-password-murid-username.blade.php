@@ -31,7 +31,7 @@
         }
 
         .forgot-card-single {
-            background: linear-gradient(135deg, #56B1F3, #D3F2FF); 
+            background: #56B1F3;
             border-radius: 1.5rem;
             box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
             position: relative;
@@ -77,7 +77,7 @@
         
         <div class="forgot-card-single p-8 sm:p-10">
 
-            <h2 class="text-3xl font-bold text-gray-800 text-center mb-6">
+            <h2 class="text-3xl font-bold text-white text-center mb-6">
                 Lupa Password
             </h2>
 
@@ -116,7 +116,7 @@
                         value="{{ old('username') }}"
                         required 
                         autofocus
-                        class="w-full px-5 py-4 border-0 rounded-xl text-gray-800 text-lg {{ $errors->has('username') ? 'input-error' : '' }}"
+                        class="w-full px-5 py-3 border-0 rounded-xl text-gray-800 text-md {{ $errors->has('username') ? 'input-error' : '' }}"
                         style="background-color: white;"
                     >
                     {{-- Pesan Error Validasi Spesifik untuk Username --}}

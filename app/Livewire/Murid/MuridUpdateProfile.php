@@ -19,6 +19,8 @@ class MuridUpdateProfile extends Component
     public $photo;
     public $currentPhoto;
 
+    public $previousUrl;
+
     protected function rules()
     {
         return [
@@ -59,6 +61,16 @@ class MuridUpdateProfile extends Component
             $this->warna_kesukaan = $murid->preferensiPertanyaan->jawaban ?? '';
         } else {
             $this->warna_kesukaan = '';
+        }
+
+        $previous = url()->previous();
+        $current = route('murid.profile'); // Asumsi route name profile adalah 'murid.profile'
+
+        // Cek agar tidak terjadi loop (jika previous URL sama dengan halaman profile, set default ke pilih-iqra)
+        if ($previous === $current || $previous === url()->current()) {
+            $this->previousUrl = route('murid.pilih-iqra');
+        } else {
+            $this->previousUrl = $previous;
         }
     }
 
@@ -103,8 +115,10 @@ class MuridUpdateProfile extends Component
             $this->currentPhoto = Storage::url($path);
         }
 
-        // Dispatch event untuk SweetAlert
-        $this->dispatch('show-success', message: 'Profil berhasil diperbarui! 🎉');
+        session()->flash('message', 'Profil berhasil diperbarui! 🎉');
+        
+        // Redirect dinamis ke URL yang sudah disimpan di mount()
+        return redirect()->to($this->previousUrl);
     }
 
     public function deletePhoto()

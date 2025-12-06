@@ -101,6 +101,20 @@
 <body
     class="min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-b from-[#56B1F3] to-[#D3F2FF] relative">
 
+    {{-- Ucapan selamat bermain --}}
+    <div id="welcome-backdrop" class="fixed inset-0 z-40 transition-all duration-1000 opacity-0"
+        style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(214, 93, 177, 0.3) 100%); backdrop-filter: blur(8px);">
+    </div>
+
+    <div id="welcome-message-container"
+        class="fixed inset-0 z-50 flex items-center justify-center opacity-0 transition-all duration-1000 pointer-events-none">
+        <h1 id="welcome-message"
+            class="font-['TegakBersambung'] text-7xl md:text-8xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 transform scale-75 transition-all duration-1000 p-4 leading-normal"
+            style="text-shadow: 0 8px 24px rgba(236, 72, 153, 0.6), 0 0 40px rgba(236, 72, 153, 0.4);">
+            Selamat Bermain
+        </h1>
+    </div>
+
     {{-- Balon kiri --}}
     <div class="fixed left-0 top-1/3 w-40 md:w-50 h-auto animate-bounce-slow z-0 pointer-events-none">
         <img src="{{ asset('images/icon/balon.webp') }}" alt="Balon Kiri" class="w-full h-auto drop-shadow-lg">
@@ -123,7 +137,7 @@
     </div>
 
     <div class="absolute top-6 right-6 z-20 flex items-center gap-4">
-        <button onclick="initGame()"
+        <button onclick="window.location.reload()"
             class="font-cursive flex items-center gap-2 bg-yellow-400 hover:bg-yellow-500 text-white text-xl px-6 py-2 rounded-full shadow-md transition-all hover:scale-105 active:scale-95 border-2 border-yellow-200">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
@@ -196,7 +210,7 @@
             </div>
 
             <div class="flex flex-col gap-3">
-                <button onclick="initGame()"
+                <button onclick="window.location.reload()"
                     class="w-full py-3 bg-gradient-to-r from-pink-400 to-pink-500 text-white rounded-xl font-bold text-xl shadow-lg hover:scale-105 transition-transform font-cursive">
                     Main Lagi ↻
                 </button>
@@ -227,6 +241,45 @@
         const modalScore = document.getElementById('modal-score');
 
         document.addEventListener('DOMContentLoaded', () => {
+            // Welcome Animation
+            const welcomeBackdrop = document.getElementById("welcome-backdrop");
+            const welcomeContainer = document.getElementById("welcome-message-container");
+            const welcomeMessage = document.getElementById("welcome-message");
+
+            if (welcomeBackdrop && welcomeContainer && welcomeMessage) {
+                // Step 1: Fade in backdrop (100ms)
+                setTimeout(() => {
+                    welcomeBackdrop.classList.remove("opacity-0");
+                    welcomeBackdrop.classList.add("opacity-100");
+                }, 100);
+
+                // Step 2: Show message with scale animation (200ms)
+                setTimeout(() => {
+                    welcomeContainer.classList.remove("opacity-0");
+                    welcomeContainer.classList.add("opacity-100");
+
+                    welcomeMessage.classList.remove("scale-75");
+                    welcomeMessage.classList.add("scale-100");
+                }, 200);
+
+                // Step 3: Start fade out (2.5s)
+                setTimeout(() => {
+                    welcomeMessage.classList.remove("scale-100");
+                    welcomeMessage.classList.add("scale-110");
+                    welcomeContainer.classList.remove("opacity-100");
+                    welcomeContainer.classList.add("opacity-0");
+
+                    welcomeBackdrop.classList.remove("opacity-100");
+                    welcomeBackdrop.classList.add("opacity-0");
+                }, 2500);
+
+                // Step 4: Hide completely (3.5s total)
+                setTimeout(() => {
+                    welcomeBackdrop.classList.add("hidden");
+                    welcomeContainer.classList.add("hidden");
+                }, 3500);
+            }
+
             initGame();
         });
 
@@ -394,12 +447,13 @@
 
         async function saveScoreToServer(score) {
             const url = "{{ route('murid.game.saveScore') }}";
-            const jenisGameId = "{{ $jenisGame ? $jenisGame->jenis_game_id : 1 }}";
+            const sessionId = "{{ $sessionGame->hasil_game_id }}";
+
             try {
                 const response = await fetch(url, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-                    body: JSON.stringify({ jenis_game_id: jenisGameId, skor: score })
+                    body: JSON.stringify({ hasil_game_id: sessionId, skor: score })
                 });
             } catch (error) { console.error('Failed to save score:', error); }
         }

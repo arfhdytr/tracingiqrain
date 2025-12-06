@@ -70,8 +70,6 @@ class ForgotPasswordController extends Controller
         $preferensi = $user->murid->preferensiPertanyaan;
 
         // Verifikasi jawaban (Case Insensitive sesuai logika di MODEL (1).txt atau manual check)
-        // Asumsi jawaban di DB plain text atau di-hash, sesuaikan disini.
-        // Contoh sederhana case-insensitive check:
         if (strtolower($request->jawaban) === strtolower($preferensi->jawaban)) {
             // Jika benar, beri akses reset
             session(['can_reset_password' => true]);
@@ -119,72 +117,89 @@ class ForgotPasswordController extends Controller
         
         } catch (\Exception $e) {
             \Log::error('Gagal mengirim email reset password Mentor: ' . $e->getMessage());
-            return back()->with('error', 'Gagal mengirim email reset password. Silakan coba lagi.');
+            return back()->with('error', 'Gagal mengirim email reset password. Silakan coba lagi.'); 
         }
     }
 
     public function showResetForm(Request $request)
-{
-    $isMuridApproved = session('can_reset_password');
-    $token = $request->route('token');
+    {
+        $isMuridApproved = session('can_reset_password');
+        $token = $request->route('token');
 
-    if (!$isMuridApproved && !$token) {
-        return redirect()->route('login');
-    }
+        if (!$isMuridApproved && !$token) {
+            return redirect()->route('login');
+        }
 
-    if ($token) {
-        return view('auth.reset-password', [
-            'token' => $token, 
-            'email' => $request->email 
-        ]);
-    }
+        if ($token) {
+            return view('auth.reset-password', [
+                'token' => $token, 
+                'email' => $request->email 
+            ]);
+        }
 
-    if ($isMuridApproved) {
-        return view('auth.forgot-password-murid-reset', [
-            'username' => session('reset_username'),
-            'token' => null, // Dibuat null agar tidak terjadi error Undefined
-            'email' => null, // Dibuat null
-        ]);
+        if ($isMuridApproved) {
+            return view('auth.forgot-password-murid-reset', [
+                'username' => session('reset_username'),
+                'token' => null, 
+                'email' => null, 
+            ]);
+        }
+        
+        return redirect()->route('login')->with('error', 'Akses reset password tidak valid.');
     }
-    
-    return redirect()->route('login')->with('error', 'Akses reset password tidak valid.');
-}
 
     public function updatePassword(Request $request)
     {
         $request->validate([
+            'token' => 'required',
+            'email' => 'required|email',
             'password' => 'required|confirmed|min:8',
         ]);
 
-        // LOGIKA MENYIMPAN PASSWORD BARU
-        
-        // KASUS 1: MURID (Via Session)
+        // KASUS 1: MURID 
         if (session('can_reset_password')) {
             $username = session('reset_username');
-            $user = User::where('username', $username)->first();
-            
-            $user->forceFill([
-                'password' => Hash::make($request->password)
-            ])->save();
+            $user = \App\Models\User::where('username', $username)->first();
 
-            // Bersihkan session
-            session()->forget(['reset_username', 'can_reset_password']);
+            if ($user) {
+                $user->forceFill([
+                    'password' => Hash::make($request->password)
+                ])->save();
 
-            return redirect()->route('login')->with('status', 'Password berhasil diperbarui. Silakan login kembali.');
+                session()->forget(['reset_username', 'can_reset_password']);
+
+                return redirect()->route('login')->with('status', 'Password berhasil diperbarui. Silakan login kembali.');
+            }
         }
 
-        // KASUS 2: MENTOR (Via Token Laravel Standard)
-        $status = Password::broker()->reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user, $password) {
-                $user->forceFill([
-                    'password' => Hash::make($password)
-                ])->save();
-            }
-        );
+        // KASUS 2: MENTOR 
 
-        return $status == Password::PASSWORD_RESET
-            ? redirect()->route('login')->with('status', 'Password berhasil diperbarui. Silakan login kembali.')
-            : back()->withErrors(['email' => __($status)]);
+        // 1. Cari data Mentor berdasarkan email inputan
+        // Kita cari di tabel 'mentors', BUKAN 'users' agar tidak error column not found
+        $mentor = \App\Models\Mentor::where('email', $request->email)->first();
+
+        // 2. Jika mentor tidak ditemukan atau tidak punya relasi user, kembalikan error
+        if (!$mentor || !$mentor->user) {
+            return back()->withErrors(['email' => 'Email tidak ditemukan di data Mentor.']);
+        }
+
+        $user = $mentor->user;
+
+        // 3. Cek apakah Token Valid?
+        // Fungsi ini aman karena User.php sudah di-override getEmailForPasswordReset-nya
+        if (!Password::broker()->tokenExists($user, $request->token)) {
+            return back()->withErrors(['email' => 'Token password tidak valid atau sudah kadaluarsa.']);
+        }
+
+        // 4. Update Password User secara Manual
+        $user->forceFill([
+            'password' => Hash::make($request->password),
+        ])->save();
+
+        // 5. Hapus Token dari database (agar tidak bisa dipakai ulang)
+        Password::broker()->deleteToken($user);
+
+        // 6. Sukses & Redirect
+        return redirect()->route('login')->with('success', 'Password berhasil diperbarui. Silakan login kembali.');
     }
 }

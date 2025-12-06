@@ -6,12 +6,12 @@
         <div class="mb-6">
             <div class="flex items-center gap-3 mb-2">
                 <a href="{{ route('mentor.laporan-murid.index') }}" 
-                   class="text-gray-400 hover:text-white transition-colors">
+                   class="text-pink-500 hover:text-white transition-colors">
                     <i class="fas fa-arrow-left"></i>
                 </a>
                 <h1 class="text-3xl text-white font-bold">Progres {{ $murid->user->username ?? 'Murid' }}</h1>
             </div>
-            <p class="text-gray-400">Detail perkembangan murid bimbingan Anda</p>
+            <p class="text-pink-500">Detail perkembangan murid bimbingan Anda</p>
         </div>
 
         @php
@@ -28,10 +28,10 @@
                 'drag_drop' => $hasilGames->where('jenis_game_id', 2)->sum('total_poin'),
             ];
             
-            // Progress modul
-            $totalModul = $murid->progressModuls->count();
+            // Progress modul (Total huruf hijaiyah = 30)
+            $totalModul = 30; // Total huruf hijaiyah yang harus dipelajari
             $modulSelesai = $murid->progressModuls->where('status', 'selesai')->count();
-            $progressModul = $totalModul > 0 ? round(($modulSelesai / $totalModul) * 100) : 0;
+            $progressModul = round(($modulSelesai / $totalModul) * 100);
             
             // Game per type count
             $gameCount = [
@@ -41,10 +41,9 @@
                 'drag_drop' => $hasilGames->where('jenis_game_id', 2)->count(),
             ];
             
-            // Total waktu belajar (estimasi: setiap game = 5 menit, setiap modul = 10 menit)
+            // Ranking Global
             $totalGames = $hasilGames->count();
-            $totalMinutes = ($totalGames * 5) + ($modulSelesai * 10);
-            $totalHours = round($totalMinutes / 60, 1);
+            $rankingGlobal = $leaderboard ? $leaderboard->ranking_global : '-';
             
             // Level terakhir dipelajari
             $lastProgress = $murid->progressModuls()
@@ -64,9 +63,9 @@
                 <div class="flex items-start gap-4">
                     {{-- Avatar --}}
                     <div class="flex-shrink-0">
-                        <div class="w-20 h-20 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center text-white text-3xl font-bold shadow-lg">
-                            {{ strtoupper(substr($murid->user->username ?? 'M', 0, 1)) }}
-                        </div>
+                        <img src="{{ $murid->user->avatar_url }}"
+                             alt="{{ $murid->user->username }}"
+                             class="w-20 h-20 rounded-full object-cover border-4 border-iqrain-pink/30 shadow-lg">
                     </div>
                     
                     {{-- Info --}}
@@ -133,21 +132,21 @@
             {{-- Total Game --}}
             <div class="bg-gradient-to-br bg-iqrain-pink-cerah rounded-xl shadow-lg p-6 text-white">
                 <div class="flex items-center justify-between mb-3">
-                    <h3 class="text-sm font-medium opacity-90">Game Dimainkan</h3>
+                    <h3 class="text-sm font-medium opacity-90">Sesi Game Dimainkan</h3>
                     <i class="fas fa-gamepad text-2xl opacity-75"></i>
                 </div>
                 <div class="text-3xl font-black">{{ $totalGames }}</div>
                 <p class="text-xs opacity-75">kali bermain</p>
             </div>
 
-            {{-- Waktu Belajar --}}
+            {{-- Ranking Global --}}
             <div class="bg-gradient-to-br bg-iqrain-pink-cerah rounded-xl shadow-lg p-6 text-white">
                 <div class="flex items-center justify-between mb-3">
-                    <h3 class="text-sm font-medium opacity-90">Waktu Belajar</h3>
-                    <i class="fas fa-clock text-2xl opacity-75"></i>
+                    <h3 class="text-sm font-medium opacity-90">Ranking Global</h3>
+                    <i class="fas fa-trophy text-2xl opacity-75"></i>
                 </div>
-                <div class="text-3xl font-black">{{ $totalHours }}</div>
-                <p class="text-xs opacity-75">jam (estimasi)</p>
+                <div class="text-3xl font-black">{{ $rankingGlobal }}</div>
+                <p class="text-xs opacity-75">peringkat</p>
             </div>
         </div>
 

@@ -221,15 +221,19 @@
         <div class="h-24"></div>
     </div>
 
-    {{-- Ucapan selamat datang --}}
-    <div id="welcome-backdrop" class="fixed inset-0 z-40 transition-opacity duration-1000"
-        style="background-color: rgba(255, 255, 255, 0.4);"></div>
-    <h1 id="welcome-message" class="font-['TegakBersambung'] fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 
-                                        text-7xl md:text-8xl font-bold text-pink-400  
-                                        opacity-0 transition-opacity duration-1000 ease-out"
-        style="text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);">
-        Selamat Bermain
-    </h1>
+    {{-- Ucapan selamat bermain --}}
+    <div id="welcome-backdrop" class="fixed inset-0 z-40 transition-all duration-1000 opacity-0"
+        style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(214, 93, 177, 0.3) 100%); backdrop-filter: blur(8px);">
+    </div>
+
+    <div id="welcome-message-container"
+        class="fixed inset-0 z-50 flex items-center justify-center opacity-0 transition-all duration-1000 pointer-events-none">
+        <h1 id="welcome-message"
+            class="font-['TegakBersambung'] text-7xl md:text-8xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 transform scale-75 transition-all duration-1000 p-4 leading-normal"
+            style="text-shadow: 0 8px 24px rgba(236, 72, 153, 0.6), 0 0 40px rgba(236, 72, 153, 0.4);">
+            Selamat Bermain
+        </h1>
+    </div>
     </div>
 
     {{-- POP UP SELESAI BERMAIN --}}
@@ -303,7 +307,9 @@
         window.gameData = {
             mapLayout: @json($mapLayout),
             targetLetters: @json($targetLetters),
-            targetFiles: @json($targetFiles)
+            targetFiles: @json($targetFiles),
+            sessionId: {{ $currentSessionId }},
+            allMaps: @json($allMaps)
         };
 
         const jenisGameId = {{ $jenisGame->jenis_game_id }};
@@ -390,80 +396,109 @@
             }, 250);
         }
 
-        // D. Fungsi Simpan Skor (Background Process)
         async function saveScore(skor, poin) {
-            if (!jenisGameId) return console.error("Error: Jenis Game ID tidak ditemukan.");
+            const currentId = window.gameData.sessionId; // Ambil ID yang dibuat pas masuk
+            const timestamp = new Date().toLocaleTimeString();
+
+            console.log(`[${timestamp}] MENGUPDATE SKOR ID: ${currentId}...`, { skor, poin });
+
+            // ALERT DEBUG (Boleh dihapus nanti kalau sudah oke)
+            // alert(`[UPDATE MODE] Mengupdate data ID: ${currentId} menjadi skor ${skor}`);
+
+            if (!currentId) {
+                alert("ERROR FATAL: Session ID tidak ditemukan! Cek Controller.");
+                return;
+            }
 
             try {
-                // Kita tetap await fetch agar data terkirim rapi, TAPI UI tidak menunggu ini selesai
+                const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
                 const response = await fetch(saveScoreUrl, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': token
                     },
                     body: JSON.stringify({
-                        jenis_game_id: jenisGameId,
+                        // PERUBAHAN DISINI: Kirim ID Sesi, bukan Jenis Game lagi
+                        hasil_game_id: currentId,
                         skor: skor,
-                        total_poin: poin
+                        // total_poin dihitung ulang di backend biar aman, tapi kirim aja gapapa
                     })
                 });
 
                 const data = await response.json();
+                console.log(`[${timestamp}] RESPON SERVER:`, data);
 
-                // HAPUS showSuccessModal() DARI SINI
-                if (data.success) {
-                    console.log("Data tersimpan di background:", data);
+                if (!response.ok || (data.success === false)) {
+                    console.error("Gagal Update:", data);
+                    let pesanError = data.message || "Terjadi kesalahan server";
+                    alert("GAGAL MENGUPDATE SKOR!\n\n" + pesanError);
                 } else {
-                    console.warn("Gagal simpan di background:", data);
+                    console.log("Berhasil diupdate:", data);
+                    // alert(`SUKSES UPDATE!\nData ID: ${data.hasil_game_id} sekarang bernilai ${data.poin_didapat} poin.`);
                 }
 
             } catch (error) {
-                console.error('Error saving score in background:', error);
+                console.error('Error Jaringan:', error);
+                alert("ERROR JARINGAN!\n" + error.message);
             }
         }
 
         // --- 3. LOGIKA UTAMA GAME (Jalan saat Load) ---
         document.addEventListener("DOMContentLoaded", () => {
 
-            // === LOGIKA WELCOME MESSAGE (BARU DITAMBAHKAN) ===
+            // === WELCOME ANIMATION ===
             const welcomeBackdrop = document.getElementById("welcome-backdrop");
+            const welcomeContainer = document.getElementById("welcome-message-container");
             const welcomeMessage = document.getElementById("welcome-message");
 
-            if (welcomeBackdrop && welcomeMessage) {
-                // 1. Tampilkan teks (fade in)
+            if (welcomeBackdrop && welcomeContainer && welcomeMessage) {
+                // Step 1: Fade in backdrop (100ms)
                 setTimeout(() => {
-                    welcomeMessage.classList.remove("opacity-0");
-                    welcomeMessage.classList.add("opacity-100");
+                    welcomeBackdrop.classList.remove("opacity-0");
+                    welcomeBackdrop.classList.add("opacity-100");
                 }, 100);
 
-                // 2. Setel alarm untuk menyembunyikan (fade out)
+                // Step 2: Show message with scale animation (200ms)
                 setTimeout(() => {
-                    welcomeMessage.classList.remove("opacity-100");
-                    welcomeMessage.classList.add("opacity-0");
+                    welcomeContainer.classList.remove("opacity-0");
+                    welcomeContainer.classList.add("opacity-100");
+
+                    welcomeMessage.classList.remove("scale-75");
+                    welcomeMessage.classList.add("scale-100");
+                }, 200);
+
+                // Step 3: Start fade out (2.5s)
+                setTimeout(() => {
+                    welcomeMessage.classList.remove("scale-100");
+                    welcomeMessage.classList.add("scale-110");
+                    welcomeContainer.classList.remove("opacity-100");
+                    welcomeContainer.classList.add("opacity-0");
 
                     welcomeBackdrop.classList.remove("opacity-100");
                     welcomeBackdrop.classList.add("opacity-0");
+                }, 2500);
 
-                    // 3. Setelah animasi fade out selesai, baru sembunyikan sepenuhnya (display: none)
-                    setTimeout(() => {
-                        welcomeBackdrop.classList.add("hidden");
-                        welcomeMessage.classList.add("hidden");
-                    }, 1000);
-
-                }, 2000); // Teks muncul selama 2 detik sebelum hilang
+                // Step 4: Hide completely (3.5s total)
+                setTimeout(() => {
+                    welcomeBackdrop.classList.add("hidden");
+                    welcomeContainer.classList.add("hidden");
+                }, 3500);
             }
             // ==================================================
 
             const gridContainer = document.getElementById("maze-grid");
             const scoreDisplay = document.getElementById("skor-labirin-display");
 
-            const mapLayout = window.gameData.mapLayout;
+            let mapLayout = window.gameData.mapLayout;
             const targetFiles = window.gameData.targetFiles;
+            const allMaps = window.gameData.allMaps;
 
             // Dinamis Grid (Biar aman kalau map berubah ukuran)
-            const gridRows = mapLayout.length;
-            const gridCols = mapLayout[0].length;
+            let gridRows = mapLayout.length;
+            let gridCols = mapLayout[0].length;
 
             let playerPosition = { x: 0, y: 0 };
             let collectedLetters = [];
@@ -628,9 +663,29 @@
                 if (e.key === "ArrowRight") movePlayer(1, 0);
             });
 
-            document.getElementById("reset-button").onclick = () => location.reload();
+            // Fungsi Reset Game (Client Side)
+            function resetGame() {
+                // 1. Pilih Map Baru secara Acak
+                if (allMaps && allMaps.length > 0) {
+                    mapLayout = allMaps[Math.floor(Math.random() * allMaps.length)];
+                    gridRows = mapLayout.length;
+                    gridCols = mapLayout[0].length;
+                }
 
-            // Start
+                // 2. Reset State
+                collectedLetters = [];
+                gameItems = [];
+                playerPosition = { x: 0, y: 0 };
+
+                // 3. Reset UI Skor
+                scoreDisplay.textContent = `Huruf: 0/4`;
+
+                // 4. Init Ulang
+                initGame();
+            }
+
+            document.getElementById("reset-button").onclick = () => resetGame();
+
             initGame();
         });
     </script>

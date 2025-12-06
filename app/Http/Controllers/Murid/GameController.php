@@ -28,22 +28,42 @@ class GameController extends Controller
     {
         $tingkatan = TingkatanIqra::with('materiPembelajarans')->findOrFail($tingkatan_id);
         $jenisGame = JenisGame::where('nama_game', 'Memory Card')->firstOrFail();
-        $materiPembelajarans = $tingkatan->materiPembelajarans->take(6); // 6 kombo untuk 12 kartu
+        $materiPembelajarans = $tingkatan->materiPembelajarans->take(6); // 6 kombo untuk 12 kartu               
 
-        return view('pages.murid.games.memory-card', compact('tingkatan', 'materiPembelajarans', 'jenisGame'));     
+        $murid = Auth::user()->murid;
+
+        $sessionGame = HasilGame::create([
+            'murid_id' => $murid->murid_id,
+            'jenis_game_id' => $jenisGame->jenis_game_id,
+            'skor' => 0,
+            'total_poin' => 0,
+            'dimainkan_at' => now(),
+        ]);
+
+        return view('pages.murid.games.memory-card', compact('tingkatan', 'materiPembelajarans', 'jenisGame', 'sessionGame'));
     }
 
     public function tracing($tingkatan_id)
     {
         $tingkatan = TingkatanIqra::with('materiPembelajarans')->findOrFail($tingkatan_id);
         $jenisGame = JenisGame::where('nama_game', 'Tracking')->firstOrFail();
+        $murid = Auth::user()->murid;
+
+        $sessionGame = HasilGame::create([
+            'murid_id' => $murid->murid_id,
+            'jenis_game_id' => $jenisGame->jenis_game_id,
+            'skor' => 0,
+            'total_poin' => 0,
+            'dimainkan_at' => now(),
+        ]);
 
         $materiPembelajarans = $tingkatan->materiPembelajarans;
 
-        return view('pages.murid.games.tracing', compact('tingkatan', 'materiPembelajarans', 'jenisGame'));
+        return view('pages.murid.games.tracing', compact('tingkatan', 'materiPembelajarans', 'jenisGame', 'sessionGame'));
     }
 
-    public function tracingStandalone(){
+    public function tracingStandalone()
+    {
         return view('pages.murid.games.tracing');
     }
 
@@ -102,7 +122,7 @@ class GameController extends Controller
             ]);
 
         } catch (\Exception $e) {
-            DB::rollBack();            
+            DB::rollBack();
             return response()->json(['error' => 'Gagal menyimpan skor. Silakan coba lagi.'], 500);
         }
     }
@@ -112,7 +132,16 @@ class GameController extends Controller
     {
         $tingkatan = TingkatanIqra::with('materiPembelajarans')->findOrFail($tingkatan_id);
         $jenisGame = JenisGame::where('nama_game', 'Labirin')->firstOrFail();
-        
+        $murid = Auth::user()->murid;
+
+        $sessionGame = HasilGame::create([
+            'murid_id' => $murid->murid_id,
+            'jenis_game_id' => $jenisGame->jenis_game_id,
+            'skor' => 0,  // Skor awal 0
+            'total_poin' => 0,  // Poin awal 0
+            'dimainkan_at' => now(),
+        ]);
+
         // 1. Definisikan 3 map labirin (ukuran 8 baris x 9 kolom)
         $maps = [
             // Map 1
@@ -202,10 +231,12 @@ class GameController extends Controller
         // 6. Kirim data ke View Blade
         return view('pages.murid.games.labirin', [
             'tingkatan' => $tingkatan,
-            'jenisGame'=>$jenisGame,
+            'jenisGame' => $jenisGame,
             'mapLayout' => $selectedMap,
             'targetLetters' => $targetNames,
             'targetFiles' => $targetFiles,
+            'currentSessionId' => $sessionGame->hasil_game_id,
+            'allMaps' => $maps,
         ]);
     }
 
@@ -214,8 +245,8 @@ class GameController extends Controller
     {
         $tingkatan = TingkatanIqra::findOrFail($tingkatan_id);
 
-        $jenisGame = JenisGame::where('nama_game', 'Kuis Drag & Drop')->first(); 
-        
+        $jenisGame = JenisGame::where('nama_game', 'Kuis Drag & Drop')->first();
+
         $hijaiyahData = [
             ['file' => 'Alif', 'latin' => 'Alif'],
             ['file' => 'Ba', 'latin' => 'Ba'],
@@ -250,55 +281,72 @@ class GameController extends Controller
         ];
 
 
-        return view('pages.murid.games.drag-drop', compact('tingkatan', 'jenisGame', 'hijaiyahData'));
+        $murid = Auth::user()->murid;
+
+        $sessionGame = HasilGame::create([
+            'murid_id' => $murid->murid_id,
+            'jenis_game_id' => $jenisGame->jenis_game_id,
+            'skor' => 0,
+            'total_poin' => 0,
+            'dimainkan_at' => now(),
+        ]);
+
+        return view('pages.murid.games.drag-drop', compact('tingkatan', 'jenisGame', 'hijaiyahData', 'sessionGame'));
     }
 
 
     // ==== Untuk menyimpan nilai  ===
     public function saveScore(Request $request)
     {
-        // 1. Validasi Input
         $request->validate([
-            'jenis_game_id' => 'required|exists:jenis_games,jenis_game_id',
+            // Kita butuh ID Sesi untuk update, bukan create baru
+            'hasil_game_id' => 'required|exists:hasil_games,hasil_game_id',
             'skor' => 'required|integer|min:0',
         ]);
-
-        $murid = Auth::user()->murid;
-        
-        $jenisGame = JenisGame::findOrFail($request->jenis_game_id);
-        $poinMaksimal = $jenisGame->poin_maksimal;
-        $finalScore = min($request->skor, $poinMaksimal);
 
         try {
             DB::beginTransaction();
 
-            $hasilGame = HasilGame::create([
-                'murid_id' => $murid->murid_id,
-                'jenis_game_id' => $request->jenis_game_id,
-                'tingkatan_id' => $request->tingkatan_id ?? null, // Opsional
-                'skor' => $request->skor, // Skor mentah (misal jumlah kartu)
-                'total_poin' => $request->total_poin ?? $finalScore, // Poin yang dihitung
-                'dimainkan_at' => now(),
-                // Tambahan field lain jika ada (waktu_pengerjaan, dll)
-            ]);
+            // 1. Cari data sesi yang dibuat saat masuk halaman tadi
+            $hasilGame = HasilGame::findOrFail($request->hasil_game_id);
 
-            // 2. Update Leaderboard & Hitung Ulang Ranking
-            $this->updateLeaderboardAndRankings($murid->murid_id);
+            // 2. Pastikan yang update adalah pemilik data (Security Check)
+            if ($hasilGame->murid_id != Auth::user()->murid->murid_id) {
+                return response()->json(['success' => false, 'message' => 'Unauthorized Access'], 403);
+            }
+
+            // 3. Hitung Poin (Capped Max Poin)
+            $poinMaksimal = $hasilGame->jenisGame->poin_maksimal ?? 100;
+            $finalScore = min($request->skor, $poinMaksimal);
+
+            // 4. LAKUKAN UPDATE
+            // Saat di-update, Model Observer (booted/saved) akan otomatis jalan lagi
+            // untuk merevisi Leaderboard. Jadi Leaderboard aman.
+            $hasilGame->update([
+                'skor' => $finalScore, // Gunakan skor yang sudah dicap
+                'total_poin' => $finalScore,
+                // dimainkan_at tidak perlu diubah karena itu waktu mulai main
+            ]);
 
             DB::commit();
 
             return response()->json([
                 'success' => true,
                 'hasil_game_id' => $hasilGame->hasil_game_id,
-                'poin_didapat' => $finalScore
+                'poin_didapat' => $finalScore,
+                'message' => 'Skor berhasil diperbarui!'
             ]);
 
         } catch (\Exception $e) {
-            DB::rollBack();            
-            return response()->json(['success' => false, 'message' => 'Server Error'], 500);
+            DB::rollBack();
+            Log::error('Error saveScore: ' . $e->getMessage());
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal update: ' . $e->getMessage()
+            ], 500);
         }
     }
-
     // ==================================================================
     // FUNGSI LEADERBOARD (TIDAK BERUBAH)
     // ==================================================================
@@ -313,8 +361,8 @@ class GameController extends Controller
         Leaderboard::updateOrCreate(
             ['murid_id' => $murid_id], // Cari berdasarkan murid
             [
-                'mentor_id' => $murid->mentor_id, 
-                'total_poin_semua_game' => $totalPoin,                
+                'mentor_id' => $murid->mentor_id,
+                'total_poin_semua_game' => $totalPoin,
             ]
         );
 
@@ -339,11 +387,11 @@ class GameController extends Controller
             $mentorGroup = Leaderboard::where('mentor_id', $mentorId)
                 ->orderByDesc('total_poin_semua_game')
                 ->get();
-            
+
             foreach ($mentorGroup as $index => $lb) {
                 Leaderboard::updateOrCreate(
-                    ['leaderboard_id' => $lb->leaderboard_id], 
-                    ['ranking_mentor' => $index + 1]          
+                    ['leaderboard_id' => $lb->leaderboard_id],
+                    ['ranking_mentor' => $index + 1]
                 );
             }
         }

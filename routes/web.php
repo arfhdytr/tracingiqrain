@@ -162,6 +162,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             return view('pages.murid.pilih-iqra', compact('tingkatans'));
         })->name('pilih-iqra');
 
+        Route::get('/lengkapi-data', [RegisterMuridController::class, 'showSetupPreferensiForm'])
+        ->name('setup.preferensi');
+    
+        Route::post('/lengkapi-data', [RegisterMuridController::class, 'storeSetupPreferensi'])
+            ->name('setup.preferensi.post');
+
         // Update profile
         Route::get('/profile', MuridUpdateProfile::class)->name('profile');
 

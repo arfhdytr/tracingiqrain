@@ -69,21 +69,7 @@
                     <h3 class="text-4xl font-bold text-gray-800 dark:text-white mb-2 leading-none">
                         {{ number_format($totalGamesWeek) }}
                     </h3>
-                    <p class="text-gray-600 dark:text-gray-400 text-sm font-medium mb-3">Game Minggu Ini</p>
-                    
-                    <div class="flex items-center text-xs">
-                        @if($growthPercentage > 0)
-                            <i class="fas fa-arrow-up text-green-500 mr-1"></i>
-                            <span class="text-green-500 font-semibold">+{{ $growthPercentage }}%</span>
-                        @elseif($growthPercentage < 0)
-                            <i class="fas fa-arrow-down text-red-500 mr-1"></i>
-                            <span class="text-red-500 font-semibold">{{ $growthPercentage }}%</span>
-                        @else
-                            <i class="fas fa-minus text-gray-500 mr-1"></i>
-                            <span class="text-gray-500 font-semibold">0%</span>
-                        @endif
-                        <span class="text-gray-500 dark:text-gray-400 ml-1">dari minggu lalu</span>
-                    </div>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm font-medium">Sesi Game Minggu Ini</p>
                 </div>
             </div>
 
@@ -265,9 +251,9 @@
                     @forelse($recentMurids as $murid)
                         <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700/50 rounded-xl hover:bg-iqrain-blue/5 dark:hover:bg-gray-700 transition">
                             <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 bg-gradient-to-br from-iqrain-pink to-iqrain-blue rounded-full flex items-center justify-center text-white font-bold">
-                                    {{ strtoupper(substr($murid->user->username ?? 'M', 0, 1)) }}
-                                </div>
+                                <img src="{{ $murid->user->avatar_url }}"
+                                     alt="{{ $murid->user->username }}"
+                                     class="w-10 h-10 rounded-full object-cover border-2 border-iqrain-pink/20">
                                 <div>
                                     <p class="font-medium text-gray-900 dark:text-white">{{ $murid->user->username ?? 'Murid' }}</p>
                                     <p class="text-xs text-gray-500 dark:text-gray-400">Bergabung {{ $murid->created_at->diffForHumans() }}</p>

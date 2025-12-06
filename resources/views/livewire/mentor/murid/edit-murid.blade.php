@@ -5,12 +5,12 @@
     <div class="mb-6">
         <div class="flex items-center gap-3 mb-2">
             <a href="{{ route('mentor.murid.index') }}" 
-               class="text-gray-400 hover:text-white transition-colors">
+               class="text-iqrain-yellow hover:text-white transition-colors">
                 <i class="fas fa-arrow-left"></i>
             </a>
             <h1 class="text-3xl text-white font-bold">Edit Murid</h1>
         </div>
-        <p class="text-gray-400">Perbarui informasi murid {{ $murid->user->username }}</p>
+        <p class="text-iqrain-yellow">Perbarui informasi murid {{ $murid->user->username }}</p>
     </div>
 
     {{-- Alert Messages --}}
@@ -146,19 +146,68 @@
                         </div>
 
                         {{-- Jawaban Preferensi --}}
-                        <div>
+                        <div x-data="{
+                            open: false,
+                            selected: @entangle('jawaban_preferensi'),
+                            colors: {
+                                'Merah': 'bg-red-500',
+                                'Biru': 'bg-blue-500',
+                                'Hijau': 'bg-green-500',
+                                'Kuning': 'bg-yellow-400',
+                                'Ungu': 'bg-purple-500',
+                                'Pink': 'bg-pink-500',
+                                'Oranye': 'bg-orange-500',
+                                'Hitam': 'bg-gray-800'
+                            },
+                            selectColor(color) {
+                                this.selected = color;
+                                this.open = false;
+                            }
+                        }">
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                Jawaban <span class="text-red-500">*</span>
+                                Jawaban (Opsional)
                             </label>
-                            <input 
-                                type="text" 
-                                wire:model.blur="jawaban_preferensi"
-                                class="shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md @error('jawaban_preferensi') border-red-500 @enderror"
-                                placeholder="Contoh: Merah"
-                            >
+
+                            <div class="relative" @click.away="open = false">
+                                {{-- Dropdown Button --}}
+                                <button
+                                    type="button"
+                                    @click="open = !open"
+                                    class="w-full px-4 py-2 text-left rounded-md border @error('jawaban_preferensi') border-red-500 @else border-gray-300 dark:border-gray-600 @enderror bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-pink-500 flex items-center justify-between"
+                                >
+                                    <span class="flex items-center">
+                                        <template x-if="selected && colors[selected]">
+                                            <span class="w-4 h-4 rounded mr-2" :class="colors[selected]"></span>
+                                        </template>
+                                        <span x-text="selected || 'Pilih Warna Kesukaan'"></span>
+                                    </span>
+                                    <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+
+                                {{-- Dropdown Menu --}}
+                                <div
+                                    x-show="open"
+                                    x-transition
+                                    class="absolute z-10 mt-1 w-full bg-white dark:bg-gray-700 rounded-md shadow-lg border border-gray-200 dark:border-gray-600 max-h-60 overflow-y-auto"
+                                >
+                                    <template x-for="(colorClass, colorName) in colors" :key="colorName">
+                                        <div
+                                            @click="selectColor(colorName)"
+                                            class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer flex items-center"
+                                        >
+                                            <span class="w-4 h-4 rounded mr-2" :class="colorClass"></span>
+                                            <span x-text="colorName"></span>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+
                             @error('jawaban_preferensi')
                                 <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                             @enderror
+                            <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Jawaban ini digunakan untuk reset password</p>
                         </div>
                     </div>
                 </div>

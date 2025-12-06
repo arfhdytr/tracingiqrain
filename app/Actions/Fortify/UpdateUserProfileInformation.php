@@ -24,7 +24,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
                 'string',
                 'max:255',
                 'alpha_dash',
-                Rule::unique('users')->ignore($user->id)
+                Rule::unique('users')->ignore($user->user_id, 'user_id')
             ],
             'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
         ];

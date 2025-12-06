@@ -1,27 +1,45 @@
 // ========================================
-// WELCOME ANIMATION (WAJIB)
+// WELCOME ANIMATION
 // ========================================
 window.addEventListener("DOMContentLoaded", function () {
-    const backdrop = document.getElementById("welcome-backdrop");
-    const message = document.getElementById("welcome-message");
+    const welcomeBackdrop = document.getElementById("welcome-backdrop");
+    const welcomeContainer = document.getElementById("welcome-message-container");
+    const welcomeMessage = document.getElementById("welcome-message");
 
-    setTimeout(() => {
-        backdrop.classList.remove("opacity-0");
-        backdrop.classList.add("opacity-70");
-        message.classList.remove("opacity-0");
-        message.classList.add("opacity-100");
-    }, 100);
-
-    setTimeout(() => {
-        backdrop.classList.remove("opacity-70");
-        backdrop.classList.add("opacity-0");
-        message.classList.remove("opacity-100");
-        message.classList.add("opacity-0");
-
+    if (welcomeBackdrop && welcomeContainer && welcomeMessage) {
+        // Step 1: Fade in backdrop (100ms)
         setTimeout(() => {
+            welcomeBackdrop.classList.remove("opacity-0");
+            welcomeBackdrop.classList.add("opacity-100");
+        }, 100);
+
+        // Step 2: Show message with scale animation (200ms)
+        setTimeout(() => {
+            welcomeContainer.classList.remove("opacity-0");
+            welcomeContainer.classList.add("opacity-100");
+
+            welcomeMessage.classList.remove("scale-75");
+            welcomeMessage.classList.add("scale-100");
+        }, 200);
+
+        // Step 3: Start fade out (2.5s)
+        setTimeout(() => {
+            welcomeMessage.classList.remove("scale-100");
+            welcomeMessage.classList.add("scale-110");
+            welcomeContainer.classList.remove("opacity-100");
+            welcomeContainer.classList.add("opacity-0");
+
+            welcomeBackdrop.classList.remove("opacity-100");
+            welcomeBackdrop.classList.add("opacity-0");
+        }, 2500);
+
+        // Step 4: Hide completely and initialize game (3.5s total)
+        setTimeout(() => {
+            welcomeBackdrop.classList.add("hidden");
+            welcomeContainer.classList.add("hidden");
             initGame();
-        }, 500);
-    }, 2000);
+        }, 3500);
+    }
 });
 
 // ========================================
@@ -955,6 +973,8 @@ let gameState = {
     totalGameCorrectPoints: 0,
 };
 
+let totalSessionScore = 0;
+
 let guideCanvas, guideCtx;
 let tracingCanvas, tracingCtx;
 let animationCanvas, animationCtx;
@@ -963,6 +983,9 @@ let animationCanvas, animationCtx;
 let currentAnimationFrameID = null; // Menyimpan ID requestAnimationFrame
 let currentAnimationTimeoutID = null; // Menyimpan ID setTimeout (jeda antar stroke)
 
+// ========================================
+// INITIALIZE GAME
+// ========================================
 // ========================================
 // INITIALIZE GAME
 // ========================================
@@ -975,10 +998,73 @@ function initGame() {
     animationCtx = animationCanvas.getContext("2d");
 
     setupEventListeners();
-    loadGame(currentHurufIndex);
+    renderMenu(); // Render menu on load
+    // loadGame(currentHurufIndex); // Don't load game immediately
 }
 
-// ==========================================
+// ========================================
+// MENU & NAVIGATION FUNCTIONS
+// ========================================
+const cardColors = [
+    'bg-blue-100 border-blue-300 text-blue-800',
+    'bg-green-100 border-green-300 text-green-800',
+    'bg-yellow-100 border-yellow-300 text-yellow-800',
+    'bg-purple-100 border-purple-300 text-purple-800',
+    'bg-pink-100 border-pink-300 text-pink-800',
+    'bg-indigo-100 border-indigo-300 text-indigo-800',
+    'bg-red-100 border-red-300 text-red-800',
+    'bg-teal-100 border-teal-300 text-teal-800',
+];
+
+function renderMenu() {
+    const grid = document.getElementById('letter-grid');
+    if (!grid) return;
+
+    grid.innerHTML = '';
+
+    allHijaiyahData.forEach((letter, index) => {
+        const colorClass = cardColors[index % cardColors.length];
+
+        const card = document.createElement('div');
+        card.className = `
+            ${colorClass} border-b-4 rounded-xl p-4 flex flex-col items-center justify-center 
+            cursor-pointer transform transition-all duration-200 hover:-translate-y-1 hover:shadow-lg active:translate-y-0
+            aspect-[3/4] shadow-sm
+        `;
+
+        card.innerHTML = `
+            <div class="flex-1 flex items-center justify-center">
+                <span class="text-6xl font-bold font-['Amiri']">${letter.arabic}</span>
+            </div>
+            <div class="w-full border-t border-black/10 mt-2 pt-2 text-center">
+                <span class="text-sm font-bold uppercase tracking-wider opacity-80">${letter.name}</span>
+            </div>
+        `;
+
+        card.onclick = () => startGame(index);
+        grid.appendChild(card);
+    });
+}
+
+function startGame(index) {
+    document.getElementById('letter-menu-container').style.display = 'none';
+    document.getElementById('game-container').style.display = 'block';
+
+    // Trigger resize event to fix canvas scaling if needed
+    window.dispatchEvent(new Event('resize'));
+
+    loadGame(index);
+}
+
+function showMenu() {
+    stopAnimation();
+    document.getElementById('game-container').style.display = 'none';
+    document.getElementById('letter-menu-container').style.display = 'flex';
+}
+
+// Expose functions to window for onclick events
+window.startGame = startGame;
+window.showMenu = showMenu;
 // 🔵 FINAL RECORDER: GESER HALUS & IRIT
 // ==========================================
 // function initGame() {
@@ -1910,7 +1996,10 @@ function showSuccessModal(skorAkhir) {
     launchConfetti();
 
     // 6. Simpan Skor ke Database (Otomatis saat selesai)
-    saveTracingScore();
+    // Konversi: 100% akurasi = 10 poin
+    const poinDidapat = Math.round(skorAkhir / 10);
+    totalSessionScore += poinDidapat;
+    saveTracingScore(totalSessionScore);
 }
 
 // ========================================
@@ -1976,6 +2065,7 @@ function calculateAccuracy(strokesDone, totalStrokes) {
 // Kalau gak ada suntikan (misal test lokal), pakai default null/array kosong
 const jenisGameId = typeof JENIS_GAME_ID !== "undefined" ? JENIS_GAME_ID : null;
 const tingkatanId = typeof TINGKATAN_ID !== "undefined" ? TINGKATAN_ID : null;
+const hasilGameId = typeof HASIL_GAME_ID !== "undefined" ? HASIL_GAME_ID : null;
 const saveScoreUrl =
     typeof SAVE_SCORE_URL !== "undefined" ? SAVE_SCORE_URL : "/game/save-score";
 const redirectUrl = typeof REDIRECT_URL !== "undefined" ? REDIRECT_URL : "/";
@@ -1983,9 +2073,9 @@ const redirectUrl = typeof REDIRECT_URL !== "undefined" ? REDIRECT_URL : "/";
 // ... (Kode inisialisasi game, variabel gameState, dll TETAP SAMA) ...
 
 // --- 2. UPDATE FUNGSI SAVE SCORE ---
-async function saveTracingScore() {
-    // Ambil skor dari variabel global window yang di-set saat showSuccessScreen
-    const skor = window.gameFinalScore || 0;
+async function saveTracingScore(scoreInput) {
+    // Ambil skor dari parameter, atau fallback ke 0
+    const skor = (typeof scoreInput !== 'undefined') ? scoreInput : 0;
     const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
     const saveStatusElement = document.getElementById("save-status");
     const backButton = document.getElementById("back-to-menu-button");
@@ -2007,10 +2097,9 @@ async function saveTracingScore() {
                 "X-CSRF-TOKEN": csrfToken,
             },
             body: JSON.stringify({
-                jenis_game_id: jenisGameId,
-                // Hapus game_static_id
-                skor: skor, // Skor akurasi (0-100)
-                total_poin: skor, // Total poin sama dengan skor akurasi
+                hasil_game_id: hasilGameId,
+                skor: skor,
+                total_poin: skor,
             }),
         });
 

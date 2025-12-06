@@ -95,21 +95,20 @@
 
 @section('content')
 
-    {{-- 
-        PERBAIKAN BACKGROUND:
-        Dipisah menjadi layer 'fixed' agar selalu full layar (atas sampai bawah) 
-        dan tidak terpengaruh scroll atau margin konten.
+    {{--
+    PERBAIKAN BACKGROUND:
+    Dipisah menjadi layer 'fixed' agar selalu full layar (atas sampai bawah)
+    dan tidak terpengaruh scroll atau margin konten.
     --}}
     <div class="fixed inset-0 w-full h-full z-0 pointer-events-none"
         style="background: var(--bg-blue, linear-gradient(180deg, #56B1F3 0%, #D3F2FF 100%));">
 
         {{-- Pattern Landscape (Cover) --}}
-        <div class="absolute inset-0 w-full h-full"
-            style="background-image: url('{{ asset('images/games/game-pattern.webp') }}'); 
-                    background-size: 500px;
-                    background-repeat: repeat;
-                    background-position: center; 
-                    opacity: 0.3;">
+        <div class="absolute inset-0 w-full h-full" style="background-image: url('{{ asset('images/games/game-pattern.webp') }}'); 
+                        background-size: 500px;
+                        background-repeat: repeat;
+                        background-position: center; 
+                        opacity: 0.3;">
         </div>
     </div>
 
@@ -122,7 +121,8 @@
 
             {{-- HEADER SECTION --}}
             <div class="container mx-auto px-4 mt-8 mb-12">
-                <div class="flex flex-col-reverse md:flex-row items-center justify-center gap-4 md:gap-12 max-w-6xl mx-auto">
+                <div
+                    class="flex flex-col-reverse md:flex-row items-center justify-center gap-4 md:gap-12 max-w-6xl mx-auto">
                     {{-- Teks Header --}}
                     <div class="text-center md:text-left mt-8 md:mt-32">
                         <h1
@@ -181,13 +181,13 @@
                                 {{-- ITEM MENTOR --}}
                                 <div class="relative flex flex-col items-center cursor-pointer group hover-float w-[300px]"
                                     onclick="showMentorDetail(
-                                     {{ $mentor->mentor_id }}, 
-                                     '{{ $mentor->nama_lengkap }}', 
-                                     '{{ $mentor->user->username }}', 
-                                     {{ $mentor->murids->count() }}, 
-                                     {{ $experienceDisplay }},
-                                     '{{ $mentor->user->avatar_url }}'
-                                    )">
+                                             {{ $mentor->mentor_id }}, 
+                                             '{{ $mentor->nama_lengkap }}', 
+                                             '{{ $mentor->user->username }}', 
+                                             {{ $mentor->murids->count() }}, 
+                                             {{ $experienceDisplay }},
+                                             '{{ $mentor->user->avatar_url }}'
+                                            )">
 
                                     <div class="relative w-[300px] h-[300px] flex items-center justify-center mb-2">
                                         <img src="{{ asset('images/mentor/Mentor.webp') }}" alt="Frame"
@@ -296,8 +296,7 @@
                             <div class="popup-stat-box scale-90 md:scale-100">
                                 <svg width="30" height="30" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="12" cy="12" r="10" stroke="#FFFCFC" stroke-width="2"
-                                        fill="none" />
+                                    <circle cx="12" cy="12" r="10" stroke="#FFFCFC" stroke-width="2" fill="none" />
                                     <path d="M12 6V12L16 14" stroke="#FFFCFC" stroke-width="2" stroke-linecap="round"
                                         stroke-linejoin="round" />
                                 </svg>
@@ -332,11 +331,80 @@
         </div>
     </div>
 
+    {{-- CUSTOM ALERT MODAL --}}
+    <div id="customAlertModal"
+        class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/60 backdrop-blur-sm transition-opacity duration-300">
+        <div class="relative bg-white rounded-3xl p-8 max-w-sm w-full mx-4 shadow-2xl transform scale-95 opacity-0 transition-all duration-300 border-4 border-pink-300 text-center"
+            id="customAlertContent">
+            <div class="mb-4 animate-bounce">
+                <img id="customAlertIcon" src="{{ asset('images/icon/checklist.webp') }}" alt="Icon"
+                    class="w-24 h-auto mx-auto">
+            </div>
+            <h2 id="customAlertTitle" class="font-titan text-3xl text-pink-500 mb-2">
+                Berhasil!
+            </h2>
+            <p id="customAlertMessage" class="font-cursive-iwk text-gray-600 mb-6 text-xl">
+                Pesan disini...
+            </p>
+            <button onclick="closeCustomAlert()"
+                class="w-full py-3 bg-gradient-to-r from-pink-400 to-pink-500 text-white rounded-xl font-bold text-xl shadow-lg hover:scale-105 transition-transform font-cursive-iwk">
+                Oke
+            </button>
+        </div>
+    </div>
+
     @push('scripts')
         <script>
             let selectedMentorId = null;
             const hasPendingRequest = {{ $pendingRequest ? 'true' : 'false' }};
             const currentMentorId = {{ auth()->user()->murid->mentor_id ?? 'null' }};
+
+            // --- Custom Alert Functions ---
+            function showCustomAlert(title, message, isSuccess = true, callback = null) {
+                const modal = document.getElementById('customAlertModal');
+                const content = document.getElementById('customAlertContent');
+                const titleEl = document.getElementById('customAlertTitle');
+                const msgEl = document.getElementById('customAlertMessage');
+                const iconEl = document.getElementById('customAlertIcon');
+
+                titleEl.textContent = title;
+                msgEl.textContent = message;
+
+                if (isSuccess) {
+                    iconEl.src = "{{ asset('images/icon/checklist.webp') }}";
+                    titleEl.className = "font-titan text-3xl text-pink-500 mb-2";
+                } else {
+                    iconEl.src = "{{ asset('images/icon/tanda-tanya.webp') }}"; // Icon tanda tanya untuk error/info
+                    titleEl.className = "font-titan text-3xl text-red-500 mb-2";
+                }
+
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                setTimeout(() => {
+                    content.classList.remove('scale-95', 'opacity-0');
+                    content.classList.add('scale-100', 'opacity-100');
+                }, 10);
+
+                window.currentAlertCallback = callback;
+            }
+
+            function closeCustomAlert() {
+                const modal = document.getElementById('customAlertModal');
+                const content = document.getElementById('customAlertContent');
+
+                content.classList.remove('scale-100', 'opacity-100');
+                content.classList.add('scale-95', 'opacity-0');
+
+                setTimeout(() => {
+                    modal.classList.remove('flex');
+                    modal.classList.add('hidden');
+                    if (window.currentAlertCallback) {
+                        window.currentAlertCallback();
+                        window.currentAlertCallback = null;
+                    }
+                }, 300);
+            }
+            // -----------------------------
 
             function showMentorDetail(mentorId, namaLengkap, username, studentCount, experience, avatarUrl) {
                 selectedMentorId = mentorId;
@@ -402,22 +470,24 @@
                     });
                     const data = await response.json();
                     if (data.success || response.ok) {
-                        alert('Permintaan berhasil dikirim!');
-                        window.location.reload();
+                        // GANTI ALERT DENGAN CUSTOM POPUP
+                        showCustomAlert('Berhasil!', 'Permintaan berhasil dikirim!', true, () => {
+                            window.location.reload();
+                        });
                     } else {
-                        alert(data.message || 'Gagal mengirim permintaan.');
+                        showCustomAlert('Gagal!', data.message || 'Gagal mengirim permintaan.', false);
                         btnRequest.disabled = false;
                         btnRequest.textContent = originalText;
                     }
                 } catch (error) {
                     console.error('Error:', error);
-                    alert('Terjadi kesalahan sistem.');
+                    showCustomAlert('Error!', 'Terjadi kesalahan sistem.', false);
                     btnRequest.disabled = false;
                     btnRequest.textContent = originalText;
                 }
             }
 
-            document.getElementById('mentorModal').addEventListener('click', function(e) {
+            document.getElementById('mentorModal').addEventListener('click', function (e) {
                 if (e.target === this) {
                     closeMentorModal();
                 }

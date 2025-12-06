@@ -150,14 +150,17 @@ class ForgotPasswordController extends Controller
 
     public function updatePassword(Request $request)
     {
-        $request->validate([
-            'token' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|confirmed|min:8',
-        ]);
+        // LOGIKA PERCABANGAN VALIDASI
 
-        // KASUS 1: MURID 
-        if (session('can_reset_password')) {
+        // CEK KASUS 1: ALUR MURID (Via Session)
+        // cek apakah session 'can_reset_password' ada.
+        if (session('can_reset_password') && session('reset_username')) {
+            
+            // Validasi Khusus Murid (Hanya butuh password)
+            $request->validate([
+                'password' => 'required|confirmed|min:8',
+            ]);
+
             $username = session('reset_username');
             $user = \App\Models\User::where('username', $username)->first();
 
@@ -168,17 +171,25 @@ class ForgotPasswordController extends Controller
 
                 session()->forget(['reset_username', 'can_reset_password']);
 
-                return redirect()->route('login')->with('status', 'Password berhasil diperbarui. Silakan login kembali.');
+                return redirect()->route('login')->with('success', 'Password berhasil diperbarui. Silakan login kembali.');
             }
+            
+            return back()->with('error', 'Terjadi kesalahan saat memproses data pengguna.');
         }
 
-        // KASUS 2: MENTOR 
+        // CEK KASUS 2: ALUR MENTOR (Via Token Email)
+        // Jika tidak ada session murid, maka diasumsikan ini request dari Mentor
+        // Maka Token dan Email WAJIB ada.
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|confirmed|min:8',
+        ]);
 
         // 1. Cari data Mentor berdasarkan email inputan
-        // Kita cari di tabel 'mentors', BUKAN 'users' agar tidak error column not found
         $mentor = \App\Models\Mentor::where('email', $request->email)->first();
 
-        // 2. Jika mentor tidak ditemukan atau tidak punya relasi user, kembalikan error
+        // 2. Jika mentor tidak ditemukan atau tidak punya relasi user
         if (!$mentor || !$mentor->user) {
             return back()->withErrors(['email' => 'Email tidak ditemukan di data Mentor.']);
         }
@@ -186,20 +197,19 @@ class ForgotPasswordController extends Controller
         $user = $mentor->user;
 
         // 3. Cek apakah Token Valid?
-        // Fungsi ini aman karena User.php sudah di-override getEmailForPasswordReset-nya
         if (!Password::broker()->tokenExists($user, $request->token)) {
             return back()->withErrors(['email' => 'Token password tidak valid atau sudah kadaluarsa.']);
         }
 
-        // 4. Update Password User secara Manual
+        // 4. Update Password User
         $user->forceFill([
             'password' => Hash::make($request->password),
         ])->save();
 
-        // 5. Hapus Token dari database (agar tidak bisa dipakai ulang)
+        // 5. Hapus Token
         Password::broker()->deleteToken($user);
 
-        // 6. Sukses & Redirect
+        // 6. Sukses
         return redirect()->route('login')->with('success', 'Password berhasil diperbarui. Silakan login kembali.');
     }
 }

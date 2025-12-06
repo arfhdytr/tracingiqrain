@@ -15,7 +15,7 @@ class MateriSeeder extends Seeder
                 'materi_id' => 1,
                 'judul_modul' => 'Alif',
                 'konten_teks' => 'Huruf Alif',
-                'gambar_path' => 'alif.webp',
+                'gambar_path' => 'Alif.webp',
                 'teks_latin' => 'Alif',
                 'urutan' => 1
             ],
@@ -23,7 +23,7 @@ class MateriSeeder extends Seeder
                 'materi_id' => 1,
                 'judul_modul' => 'Ba',
                 'konten_teks' => 'Huruf Ba',
-                'gambar_path' => 'ba.webp',
+                'gambar_path' => 'Ba.webp',
                 'teks_latin' => 'Ba',
                 'urutan' => 2
             ],
@@ -31,7 +31,7 @@ class MateriSeeder extends Seeder
                 'materi_id' => 1,
                 'judul_modul' => 'Ta',
                 'konten_teks' => 'Huruf Ta',
-                'gambar_path' => 'ta.webp',
+                'gambar_path' => 'Ta.webp',
                 'teks_latin' => 'Ta',
                 'urutan' => 3
             ],
@@ -39,7 +39,7 @@ class MateriSeeder extends Seeder
                 'materi_id' => 1,
                 'judul_modul' => 'Tsa',
                 'konten_teks' => 'Huruf Tsa',
-                'gambar_path' => 'tsa.webp',
+                'gambar_path' => 'Tsa.webp',
                 'teks_latin' => 'Tsa',
                 'urutan' => 4
             ],
@@ -47,7 +47,7 @@ class MateriSeeder extends Seeder
                 'materi_id' => 1,
                 'judul_modul' => 'Jim',
                 'konten_teks' => 'Huruf Jim',
-                'gambar_path' => 'jim.webp',
+                'gambar_path' => 'Jim.webp',
                 'teks_latin' => 'Jim',
                 'urutan' => 5
             ],
@@ -63,7 +63,7 @@ class MateriSeeder extends Seeder
                 'materi_id' => 1,
                 'judul_modul' => 'Kho',
                 'konten_teks' => 'Huruf Kho',
-                'gambar_path' => 'kho.webp',
+                'gambar_path' => 'Kho.webp',
                 'teks_latin' => 'Kho',
                 'urutan' => 7
             ],
@@ -71,7 +71,7 @@ class MateriSeeder extends Seeder
                 'materi_id' => 1,
                 'judul_modul' => 'Dal',
                 'konten_teks' => 'Huruf Dal',
-                'gambar_path' => 'dal.webp',
+                'gambar_path' => 'Dal.webp',
                 'teks_latin' => 'Dal',
                 'urutan' => 8
             ],
@@ -79,7 +79,7 @@ class MateriSeeder extends Seeder
                 'materi_id' => 1,
                 'judul_modul' => 'Dzal',
                 'konten_teks' => 'Huruf Dzal',
-                'gambar_path' => 'dzal.webp',
+                'gambar_path' => 'Dzal.webp',
                 'teks_latin' => 'Dzal',
                 'urutan' => 9
             ],
@@ -87,7 +87,7 @@ class MateriSeeder extends Seeder
                 'materi_id' => 1,
                 'judul_modul' => 'Ra',
                 'konten_teks' => 'Huruf Ra',
-                'gambar_path' => 'ra.webp',
+                'gambar_path' => 'Ra.webp',
                 'teks_latin' => 'Ra',
                 'urutan' => 10
             ],
@@ -103,7 +103,7 @@ class MateriSeeder extends Seeder
                 'materi_id' => 1,
                 'judul_modul' => 'Sin',
                 'konten_teks' => 'Huruf Sin',
-                'gambar_path' => 'sin.webp',
+                'gambar_path' => 'Sin.webp',
                 'teks_latin' => 'Sin',
                 'urutan' => 12
             ],
@@ -111,7 +111,7 @@ class MateriSeeder extends Seeder
                 'materi_id' => 1,
                 'judul_modul' => 'Syin',
                 'konten_teks' => 'Huruf Syin',
-                'gambar_path' => 'syin.webp',
+                'gambar_path' => 'Syin.webp',
                 'teks_latin' => 'Syin',
                 'urutan' => 13
             ],
@@ -151,7 +151,7 @@ class MateriSeeder extends Seeder
                 'materi_id' => 1,
                 'judul_modul' => 'Ain',
                 'konten_teks' => 'Huruf Ain',
-                'gambar_path' => 'ain.webp',
+                'gambar_path' => 'Ain.webp',
                 'teks_latin' => 'Ain',
                 'urutan' => 18
             ],
@@ -167,7 +167,7 @@ class MateriSeeder extends Seeder
                 'materi_id' => 1,
                 'judul_modul' => 'Fa',
                 'konten_teks' => 'Huruf Fa',
-                'gambar_path' => 'fa.webp',
+                'gambar_path' => 'Fa.webp',
                 'teks_latin' => 'Fa',
                 'urutan' => 20
             ],
@@ -183,7 +183,7 @@ class MateriSeeder extends Seeder
                 'materi_id' => 1,
                 'judul_modul' => 'Kaf',
                 'konten_teks' => 'Huruf Kaf',
-                'gambar_path' => 'kaf.webp',
+                'gambar_path' => 'Kaf.webp',
                 'teks_latin' => 'Kaf',
                 'urutan' => 22
             ],
@@ -191,7 +191,7 @@ class MateriSeeder extends Seeder
                 'materi_id' => 1,
                 'judul_modul' => 'Lam',
                 'konten_teks' => 'Huruf Lam',
-                'gambar_path' => 'lam.webp',
+                'gambar_path' => 'Lam.webp',
                 'teks_latin' => 'Lam',
                 'urutan' => 23
             ],
@@ -199,7 +199,7 @@ class MateriSeeder extends Seeder
                 'materi_id' => 1,
                 'judul_modul' => 'Mim',
                 'konten_teks' => 'Huruf Mim',
-                'gambar_path' => 'mim.webp',
+                'gambar_path' => 'Mim.webp',
                 'teks_latin' => 'Mim',
                 'urutan' => 24
             ],
@@ -207,7 +207,7 @@ class MateriSeeder extends Seeder
                 'materi_id' => 1,
                 'judul_modul' => 'Nun',
                 'konten_teks' => 'Huruf Nun',
-                'gambar_path' => 'nun.webp',
+                'gambar_path' => 'Nun.webp',
                 'teks_latin' => 'Nun',
                 'urutan' => 25
             ],
@@ -239,7 +239,7 @@ class MateriSeeder extends Seeder
                 'materi_id' => 1,
                 'judul_modul' => 'Hamzah',
                 'konten_teks' => 'Huruf Hamzah',
-                'gambar_path' => 'hamzah.webp',
+                'gambar_path' => 'Hamzah.webp',
                 'teks_latin' => 'Hamzah',
                 'urutan' => 29
             ],
@@ -247,7 +247,7 @@ class MateriSeeder extends Seeder
                 'materi_id' => 1,
                 'judul_modul' => 'Ya',
                 'konten_teks' => 'Huruf Ya',
-                'gambar_path' => 'ya.webp',
+                'gambar_path' => 'Ya.webp',
                 'teks_latin' => 'Ya',
                 'urutan' => 30
             ],

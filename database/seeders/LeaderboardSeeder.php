@@ -33,6 +33,8 @@ class LeaderboardSeeder extends Seeder
         foreach ($scores as $index => $score) {
             $murid = $allMurids->get($score->murid_id);
 
+            $this->command->info("Updating murid_id: {$score->murid_id} with total_skor: {$score->total_skor}");
+
             Leaderboard::updateOrCreate(
                 ['murid_id' => $score->murid_id],
                 [

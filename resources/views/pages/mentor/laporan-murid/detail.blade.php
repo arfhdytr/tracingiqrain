@@ -16,7 +16,8 @@
 
         @php
             // Calculate stats
-            $leaderboard = $murid->leaderboards->where('mentor_id', $murid->mentor_id)->first();
+            // Debug: Force fresh load dari database
+            $leaderboard = \App\Models\Leaderboard::where('murid_id', $murid->murid_id)->first();
             $totalPoin = $leaderboard ? $leaderboard->total_poin_semua_game : 0;
             
             // Poin per game

@@ -3,7 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - IQRAIN</title>
+
+    <!-- SEO Meta Tags -->
+    <x-seo-meta
+        title="Login - IQRAIN"
+        description="Login ke IQRAIN untuk melanjutkan pembelajaran huruf hijaiyah. Platform game edukatif interaktif untuk belajar mengaji."
+        keywords="login iqrain, masuk iqrain, belajar hijaiyah online"
+        :noindex="true"
+    />
     
     <!-- Import font Fredoka -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

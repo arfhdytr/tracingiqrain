@@ -5,7 +5,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <!-- SEO Meta Tags -->
+        <x-seo-meta
+            title="Register - IQRAIN"
+            description="Daftar akun IQRAIN untuk mulai belajar huruf hijaiyah dengan game edukatif interaktif. Platform pembelajaran mengaji online untuk anak."
+            keywords="daftar iqrain, register iqrain, buat akun iqrain, belajar hijaiyah"
+            :noindex="true"
+        />
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">

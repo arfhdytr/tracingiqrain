@@ -10,8 +10,7 @@
     <script>
         var ASSET_BASE = "{{ asset('') }}";
         var JENIS_GAME_ID = {{ $jenisGame->jenis_game_id }};
-        var POIN_MAKSIMAL = {{ $jenisGame->poin_maksimal ?? 100 }};
-        var SESSION_ID = {{ $sessionGame->hasil_game_id }};    
+        var POIN_MAKSIMAL = {{ $jenisGame->poin_maksimal ?? 100 }};        
     </script>
 
     @vite(['resources/css/app.css', 'resources/js/memory-card.js'])

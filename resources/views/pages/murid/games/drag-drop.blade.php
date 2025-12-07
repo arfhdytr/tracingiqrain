@@ -111,8 +111,8 @@
         <a href="{{ route('murid.games.index', $tingkatan->tingkatan_id) }}"
             class="relative flex items-center justify-center w-[140px] h-[45px] rounded-full bg-pink-400 shadow-md transition-transform hover:scale-105">
             <div class="absolute left-4 flex items-center">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="3"
-                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
                 </svg>
             </div>
@@ -218,6 +218,20 @@
         </div>
     </div>
 
+    {{-- Ucapan selamat bermain --}}
+    <div id="welcome-backdrop" class="fixed inset-0 z-40 transition-all duration-1000 opacity-0"
+        style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(214, 93, 177, 0.3) 100%); backdrop-filter: blur(8px);">
+    </div>
+
+    <div id="welcome-message-container"
+        class="fixed inset-0 z-50 flex items-center justify-center opacity-0 transition-all duration-1000 pointer-events-none">
+        <h1 id="welcome-message"
+            class="font-['TegakBersambung'] text-7xl md:text-8xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 transform scale-75 transition-all duration-1000 p-4 leading-normal"
+            style="text-shadow: 0 8px 24px rgba(236, 72, 153, 0.6), 0 0 40px rgba(236, 72, 153, 0.4);">
+            Selamat Bermain
+        </h1>
+    </div>
+
     <script>
         // --- DATA & CONFIG ---
         const allHijaiyahData = @json($hijaiyahData);
@@ -235,7 +249,51 @@
         const successModal = document.getElementById('success-modal');
         const modalScore = document.getElementById('modal-score');
 
+        // Fungsi Restart Game (Reload Page)
+        window.restartGame = function () {
+            location.reload();
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
+            // === WELCOME ANIMATION ===
+            const welcomeBackdrop = document.getElementById("welcome-backdrop");
+            const welcomeContainer = document.getElementById("welcome-message-container");
+            const welcomeMessage = document.getElementById("welcome-message");
+
+            if (welcomeBackdrop && welcomeContainer && welcomeMessage) {
+                // Step 1: Fade in backdrop (100ms)
+                setTimeout(() => {
+                    welcomeBackdrop.classList.remove("opacity-0");
+                    welcomeBackdrop.classList.add("opacity-100");
+                }, 100);
+
+                // Step 2: Show message with scale animation (200ms)
+                setTimeout(() => {
+                    welcomeContainer.classList.remove("opacity-0");
+                    welcomeContainer.classList.add("opacity-100");
+
+                    welcomeMessage.classList.remove("scale-75");
+                    welcomeMessage.classList.add("scale-100");
+                }, 200);
+
+                // Step 3: Start fade out (2.5s)
+                setTimeout(() => {
+                    welcomeMessage.classList.remove("scale-100");
+                    welcomeMessage.classList.add("scale-110");
+                    welcomeContainer.classList.remove("opacity-100");
+                    welcomeContainer.classList.add("opacity-0");
+
+                    welcomeBackdrop.classList.remove("opacity-100");
+                    welcomeBackdrop.classList.add("opacity-0");
+                }, 2500);
+
+                // Step 4: Hide completely (3.5s total)
+                setTimeout(() => {
+                    welcomeBackdrop.classList.add("hidden");
+                    welcomeContainer.classList.add("hidden");
+                }, 3500);
+            }
+
             initGame();
         });
 
@@ -448,11 +506,11 @@
                 zIndex: 9999
             };
 
-            var random = function(min, max) {
+            var random = function (min, max) {
                 return Math.random() * (max - min) + min;
             }
 
-            var interval = setInterval(function() {
+            var interval = setInterval(function () {
                 var timeLeft = animationEnd - Date.now();
                 if (timeLeft <= 0) return clearInterval(interval);
 
@@ -563,7 +621,7 @@
             }, 300);
         }
 
-        function playSound(type) {}
+        function playSound(type) { }
     </script>
 </body>
 

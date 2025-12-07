@@ -198,6 +198,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::post('/game/save-score', [GameController::class, 'saveScore'])->name('game.saveScore');
 
             Route::get('/games/{tingkatan_id}/tracing', [GameController::class, 'tracing'])->name('games.tracing');
+            Route::post('/game/save-tracing-score', [GameController::class, 'saveTracingScore'])->name('game.saveTracingScore');
             Route::get('/games/{tingkatan_id}/labirin', [GameController::class, 'labirin'])->name('games.labirin');
             Route::get('/games/{tingkatan_id}/drag-drop', [GameController::class, 'dragDrop'])->name('games.drag-drop');
 

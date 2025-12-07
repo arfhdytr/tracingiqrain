@@ -44,7 +44,7 @@
         .font-mooli {
             font-family: 'Mooli', sans-serif !important;
         }
-        
+
 
         /* Styling Grid Labirin */
         .maze-cell {
@@ -101,150 +101,138 @@
                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
                         </svg>
-                    </div>
-                    <span class="font-mooli font-semibold text-white text-[18px] font-normal leading-none pl-4">
-                        Kembali
-                    </span>
-                </a>
             </div>
+            <span class="font-mooli font-semibold text-white text-[18px] font-normal leading-none pl-4">
+                Kembali
+            </span>
+            </a>
+        </div>
 
-            {{-- Balon kiri --}}
-            <div class="fixed left-4 top-1/3 w-40 md:w-50 h-auto animate-bounce-slow z-10 pointer-events-none">
-                <img src="{{ asset('images/icon/balon.webp') }}" alt="Balon Kiri" class="w-full h-auto drop-shadow-lg">
-            </div>
+        {{-- Balon kiri --}}
+        <div class="fixed left-4 top-1/3 w-40 md:w-50 h-auto animate-bounce-slow z-10 pointer-events-none">
+            <img src="{{ asset('images/icon/balon.webp') }}" alt="Balon Kiri" class="w-full h-auto drop-shadow-lg">
+        </div>
 
-            <div class="container mx-auto p-2 max-w-4xl">
+        <div class="container mx-auto p-2 max-w-4xl">
 
-                {{-- Area Target Pencarian Huruf --}}
-                <div class="mb-8 text-center flex flex-col items-center">
-                    <p class="text-[#AC3F61] font-cursive-iwk font-semibold text-[36px] leading-tight mb-2">
-                        <span class="phrase-pink-tua">Cari</span> <span class="phrase-pink-tua">huruf:</span>
+            {{-- Area Target Pencarian Huruf --}}
+            <div class="mb-8 text-center flex flex-col items-center">
+                <p class="text-[#AC3F61] font-cursive-iwk font-semibold text-[36px] leading-tight mb-2">
+                    <span class="phrase-pink-tua">Cari</span> <span class="phrase-pink-tua">huruf:</span>
+                </p>
+
+                {{-- Kontainer background pink tua --}}
+                <div
+                    class="min-w-[200px] px-8 py-4 rounded-[35px] bg-[#D75C82] flex items-center justify-center my-2 shadow-lg">
+                    {{-- Flex container untuk menata huruf dan tanda strip --}}
+                    <p id="target-letters-display"
+                        class="flex flex-wrap justify-center items-end gap-x-4 gap-y-2 font-cursive-iwk text-2xl leading-none tracking-wide text-white">
+
+                        {{-- Looping setiap huruf target --}}
+                        @foreach($targetLetters as $letter)
+                            {{-- HANYA KATA INI yang diberi garis lengkung di bawahnya --}}
+                            <span class="phrase-putih">
+                                {{ $letter }}
+                            </span>
+
+                            {{-- Tanda strip pemisah (jika bukan huruf terakhir) --}}
+                            @if(!$loop->last)
+                                <span class="opacity-70 pb-2">-</span>
+                            @endif
+                        @endforeach
+
                     </p>
-                    
-                    {{-- Kontainer background pink tua --}}
-                    <div class="min-w-[200px] px-8 py-4 rounded-[35px] bg-[#D75C82] flex items-center justify-center my-2 shadow-lg">
-                        {{-- Flex container untuk menata huruf dan tanda strip --}}
-                        <p id="target-letters-display" class="flex flex-wrap justify-center items-end gap-x-4 gap-y-2 font-cursive-iwk text-2xl leading-none tracking-wide text-white">
-                            
-                            {{-- Looping setiap huruf target --}}
-                            @foreach($targetLetters as $letter)
-                                {{-- HANYA KATA INI yang diberi garis lengkung di bawahnya --}}
-                                <span class="phrase-putih">
-                                    {{ $letter }}
-                                </span>
+                </div>
+            </div>
 
-                                {{-- Tanda strip pemisah (jika bukan huruf terakhir) --}}
-                                @if(!$loop->last)
-                                    <span class="opacity-70 pb-2">-</span>
-                                @endif
-                            @endforeach
+            <div class="flex flex-col md:flex-row justify-center items-start gap-8">
 
+                {{-- Kolom Kiri: Papan Game --}}
+                <div class="w-full md:w-auto flex flex-col items-center md:items-start">
+                    {{-- 3. TAMPILAN PROGRES SKOR --}}
+                    <div class="mb-3 bg-white/80 px-6 py-2 rounded-full shadow-sm border-2 border-[#AC3F61]">
+                        <p id="skor-labirin-display" class="text-medium font-mooli font-semibold text-[#D75C82]">
+                            Huruf: 0/4
                         </p>
+                    </div>
+
+                    {{-- 3. TAMPILAN PROGRES SKOR (DIPERBAIKI) --}}
+                    {{-- Grid Labirin (Akan diisi JS) --}}
+                    <div id="maze-grid"
+                        class="grid gap-[11px] p-4 bg-white rounded-[34px] shadow-[0_4px_10px_0_rgba(0,0,0,0.50)] place-content-start">
+                        {{-- Cells generated by JS --}}
                     </div>
                 </div>
 
-                <div class="flex flex-col md:flex-row justify-center items-start gap-8">
+                {{-- Kolom Kanan: Tombol Kontrol --}}
+                <div class="w-full md:w-auto flex flex-col items-center gap-6 pt-4 md:pt-10">
 
-                    {{-- Kolom Kiri: Papan Game --}}
-                    <div class="w-full md:w-auto flex flex-col items-center md:items-start">
-                        {{-- 3. TAMPILAN PROGRES SKOR --}}
-                        <div class="mb-3 bg-white/80 px-6 py-2 rounded-full shadow-sm border-2 border-[#AC3F61]">
-                            <p id="skor-labirin-display" class="text-medium font-mooli font-semibold text-[#D75C82]">
-                                Huruf: 0/4
-                            </p>
+                    {{-- Tombol Reset / Main Lagi --}}
+                    <button id="reset-button"
+                        class="flex items-center justify-center gap-2 w-[140px] h-[55px] rounded-[35px] border-2 border-[#AC3F61] bg-white/80 hover:bg-white shadow-md transition-all font-mooli font-semibold text-[#AC3F61] text-2xl">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M23 4v6h-6"></path>
+                            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                        </svg>
+                        <p class="font-mooli font font-semibold text-[18px]"> Main lagi </p>
+                    </button>
+
+                    {{-- D-PAD Kontrol Arah --}}
+                    <div
+                        class="grid grid-cols-3 grid-rows-3 items-center justify-items-center w-[180px] h-[180px] bg-white rounded-[30px] shadow-lg p-3">
+                        <div class="col-start-2 row-start-1">
+                            <button id="btn-up"
+                                class="dpad-btn w-[45px] h-[45px] rounded-full bg-[#FFCE6B] shadow-md hover:scale-110 active:scale-95 transition-transform flex items-center justify-center">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D75C82"
+                                    stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 4L12 20M12 4L6 10M12 4L18 10" />
+                                </svg>
+                            </button>
                         </div>
-
-                        {{-- 3. TAMPILAN PROGRES SKOR (DIPERBAIKI) --}}
-                        {{-- Grid Labirin (Akan diisi JS) --}}
-                        <div id="maze-grid"
-                            class="grid gap-[11px] p-4 bg-white rounded-[34px] shadow-[0_4px_10px_0_rgba(0,0,0,0.50)] place-content-start">
-                            {{-- Cells generated by JS --}}
+                        <div class="col-start-1 row-start-2">
+                            <button id="btn-left"
+                                class="dpad-btn w-[45px] h-[45px] rounded-full bg-[#FFCE6B] shadow-md hover:scale-110 active:scale-95 transition-transform flex items-center justify-center">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D75C82"
+                                    stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20 12L4 12M4 12L10 6M4 12L10 18" />
+                                </svg>
+                            </button>
                         </div>
-                    </div>
-
-                    {{-- Kolom Kanan: Tombol Kontrol --}}
-                    <div class="w-full md:w-auto flex flex-col items-center gap-6 pt-4 md:pt-10">
-
-                        {{-- Tombol Reset / Main Lagi --}}
-                        <button id="reset-button"
-                            class="flex items-center justify-center gap-2 w-[140px] h-[55px] rounded-[35px] border-2 border-[#AC3F61] bg-white/80 hover:bg-white shadow-md transition-all font-mooli font-semibold text-[#AC3F61] text-2xl">
-                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M23 4v6h-6"></path>
-                                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
-                            </svg>
-                            <p class="font-mooli font font-semibold text-[18px]"> Main lagi </p>
-                        </button>
-
-                        {{-- D-PAD Kontrol Arah --}}
                         <div
-                            class="grid grid-cols-3 grid-rows-3 items-center justify-items-center w-[180px] h-[180px] bg-white rounded-[30px] shadow-lg p-3">
-                            <div class="col-start-2 row-start-1">
-                                <button id="btn-up"
-                                    class="dpad-btn w-[45px] h-[45px] rounded-full bg-[#FFCE6B] shadow-md hover:scale-110 active:scale-95 transition-transform flex items-center justify-center">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                        stroke="#D75C82" stroke-width="4" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <path d="M12 4L12 20M12 4L6 10M12 4L18 10" />
-                                    </svg>
-                                </button>
-                            </div>
-                            <div class="col-start-1 row-start-2">
-                                <button id="btn-left"
-                                    class="dpad-btn w-[45px] h-[45px] rounded-full bg-[#FFCE6B] shadow-md hover:scale-110 active:scale-95 transition-transform flex items-center justify-center">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                        stroke="#D75C82" stroke-width="4" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <path d="M20 12L4 12M4 12L10 6M4 12L10 18" />
-                                    </svg>
-                                </button>
-                            </div>
-                            <div
-                                class="col-start-2 row-start-2 w-[25px] h-[25px] rounded-full bg-[#FFCE6B]/50 border-2 border-[#D75C82]">
-                            </div>
-                            <div class="col-start-3 row-start-2">
-                                <button id="btn-right"
-                                    class="dpad-btn w-[45px] h-[45px] rounded-full bg-[#FFCE6B] shadow-md hover:scale-110 active:scale-95 transition-transform flex items-center justify-center">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                        stroke="#D75C82" stroke-width="4" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <path d="M4 12L20 12M20 12L14 6M20 12L14 18" />
-                                    </svg>
-                                </button>
-                            </div>
-                            <div class="col-start-2 row-start-3">
-                                <button id="btn-down"
-                                    class="dpad-btn w-[45px] h-[45px] rounded-full bg-[#FFCE6B] shadow-md hover:scale-110 active:scale-95 transition-transform flex items-center justify-center">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                        stroke="#D75C82" stroke-width="4" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <path d="M12 20L12 4M12 20L18 14M12 20L6 14" />
-                                    </svg>
-                                </button>
-                            </div>
+                            class="col-start-2 row-start-2 w-[25px] h-[25px] rounded-full bg-[#FFCE6B]/50 border-2 border-[#D75C82]">
                         </div>
-
-                        <p class="font-cursive-iwk text-center text-2xl text-[#AC3F61] px-4">
-                            <span class="phrase-pink-tua"> Gunakan </span>
-                            <span class="phrase-pink-tua"> panah </span>
-                            <span class="phrase-pink-tua"> layar </span>
-                            <span class="phrase-pink-tua"> atau </span>
-                            <span class="phrase-pink-tua"> keyboard </span>
-                            <span class="phrase-pink-tua"> untuk </span>
-                            <span class="phrase-pink-tua"> bergerak. </span>
-                        </p>
+                        <div class="col-start-3 row-start-2">
+                            <button id="btn-right"
+                                class="dpad-btn w-[45px] h-[45px] rounded-full bg-[#FFCE6B] shadow-md hover:scale-110 active:scale-95 transition-transform flex items-center justify-center">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D75C82"
+                                    stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4 12L20 12M20 12L14 6M20 12L14 18" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="col-start-2 row-start-3">
+                            <button id="btn-down"
+                                class="dpad-btn w-[45px] h-[45px] rounded-full bg-[#FFCE6B] shadow-md hover:scale-110 active:scale-95 transition-transform flex items-center justify-center">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D75C82"
+                                    stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 20L12 4M12 20L18 14M12 20L6 14" />
+                                </svg>
+                            </button>
+                        </div>
                     </div>
+
+                    <p class="font-cursive-iwk text-center text-2xl text-[#AC3F61] px-4">
+                        <span class="phrase-pink-tua"> Gunakan </span>
+                        <span class="phrase-pink-tua"> panah </span>
+                        <span class="phrase-pink-tua"> layar </span>
+                        <span class="phrase-pink-tua"> atau </span>
+                        <span class="phrase-pink-tua"> keyboard </span>
+                        <span class="phrase-pink-tua"> untuk </span>
+                        <span class="phrase-pink-tua"> bergerak. </span>
+                    </p>
                 </div>
             </div>
-
-            {{-- Balon kanan --}}
-            <div class="fixed right-4 top-1/4 w-40 md:w-50 h-auto animate-bounce-slow z-10 pointer-events-none">
-                <img src="{{ asset('images/icon/balon.webp') }}" alt="Balon Kanan"
-                    class="w-full h-auto drop-shadow-lg transform scale-x-[-1]">
-            </div>
-
-            {{-- Spacer Bottom --}}
-            <div class="h-24"></div>
         </div>
 
         {{-- Balon kanan --}}
@@ -255,6 +243,16 @@
 
         {{-- Spacer Bottom --}}
         <div class="h-24"></div>
+    </div>
+
+    {{-- Balon kanan --}}
+    <div class="fixed right-4 top-1/4 w-40 md:w-50 h-auto animate-bounce-slow z-10 pointer-events-none">
+        <img src="{{ asset('images/icon/balon.webp') }}" alt="Balon Kanan"
+            class="w-full h-auto drop-shadow-lg transform scale-x-[-1]">
+    </div>
+
+    {{-- Spacer Bottom --}}
+    <div class="h-24"></div>
     </div>
 
     {{-- Ucapan selamat bermain --}}
@@ -346,7 +344,7 @@
             mapLayout: @json($mapLayout),
             targetLetters: @json($targetLetters),
             targetFiles: @json($targetFiles),
-            sessionId: {{ $currentSessionId }},
+            sessionId: @json($currentSessionId),
             allMaps: @json($allMaps)
         };
 
@@ -359,7 +357,7 @@
         // --- 2. FUNGSI GLOBAL (UI & SKOR) ---
 
         // A. Fungsi Restart Game (Dipanggil tombol HTML)
-        window.restartGame = function() {
+        window.restartGame = function () {
             location.reload();
         }
 
@@ -387,7 +385,7 @@
         }
 
         // B.2. Fungsi Tampilkan Modal Belum Selesai
-        window.showIncompleteModal = function(remaining) {
+        window.showIncompleteModal = function (remaining) {
             const modal = document.getElementById('incomplete-modal');
             const message = document.getElementById('incomplete-message');
 
@@ -403,7 +401,7 @@
             }, 10);
         }
 
-        window.closeIncompleteModal = function() {
+        window.closeIncompleteModal = function () {
             const modal = document.getElementById('incomplete-modal');
             const modalBox = modal.querySelector('div.relative');
 
@@ -427,11 +425,11 @@
                 zIndex: 9999
             };
 
-            var random = function(min, max) {
+            var random = function (min, max) {
                 return Math.random() * (max - min) + min;
             }
 
-            var interval = setInterval(function() {
+            var interval = setInterval(function () {
                 var timeLeft = animationEnd - Date.now();
                 if (timeLeft <= 0) return clearInterval(interval);
 
@@ -454,18 +452,18 @@
         }
 
         async function saveScore(skor, poin) {
-            const currentId = window.gameData.sessionId; // Ambil ID yang dibuat pas masuk
+            // const currentId = window.gameData.sessionId; // Ambil ID yang dibuat pas masuk
             const timestamp = new Date().toLocaleTimeString();
 
-            console.log(`[${timestamp}] MENGUPDATE SKOR ID: ${currentId}...`, { skor, poin });
+            // console.log(`[${timestamp}] MENGUPDATE SKOR ID: ${currentId}...`, { skor, poin });
 
             // ALERT DEBUG (Boleh dihapus nanti kalau sudah oke)
             // alert(`[UPDATE MODE] Mengupdate data ID: ${currentId} menjadi skor ${skor}`);
 
-            if (!currentId) {
-                alert("ERROR FATAL: Session ID tidak ditemukan! Cek Controller.");
-                return;
-            }
+            // if (!currentId) {
+            //     alert("ERROR FATAL: Session ID tidak ditemukan! Cek Controller.");
+            //     return;
+            // }
 
             try {
                 const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -478,8 +476,8 @@
                         'X-CSRF-TOKEN': token
                     },
                     body: JSON.stringify({
-                        // PERUBAHAN DISINI: Kirim ID Sesi, bukan Jenis Game lagi
-                        hasil_game_id: currentId,
+                        // PERUBAHAN DISINI: Kirim ID Jenis Game, bukan Session ID lagi
+                        jenis_game_id: jenisGameId,
                         skor: skor,
                         // total_poin dihitung ulang di backend biar aman, tapi kirim aja gapapa
                     })
@@ -491,15 +489,15 @@
                 if (!response.ok || (data.success === false)) {
                     console.error("Gagal Update:", data);
                     let pesanError = data.message || "Terjadi kesalahan server";
-                    alert("GAGAL MENGUPDATE SKOR!\n\n" + pesanError);
+                    // alert("GAGAL MENGUPDATE SKOR!\n\n" + pesanError);
                 } else {
-                    console.log("Berhasil diupdate:", data);
+                    console.log("Berhasil disimpan:", data);
                     // alert(`SUKSES UPDATE!\nData ID: ${data.hasil_game_id} sekarang bernilai ${data.poin_didapat} poin.`);
                 }
 
             } catch (error) {
                 console.error('Error Jaringan:', error);
-                alert("ERROR JARINGAN!\n" + error.message);
+                // alert("ERROR JARINGAN!\n" + error.message);
             }
         }
 
@@ -616,34 +614,34 @@
 
                 // Set Items
                 gameItems = [{
-                        type: 'letter',
-                        value: targetFiles[0],
-                        ...validCells.pop(),
-                        collected: false
-                    },
-                    {
-                        type: 'letter',
-                        value: targetFiles[1],
-                        ...validCells.pop(),
-                        collected: false
-                    },
-                    {
-                        type: 'letter',
-                        value: targetFiles[2],
-                        ...validCells.pop(),
-                        collected: false
-                    },
-                    {
-                        type: 'letter',
-                        value: targetFiles[3],
-                        ...validCells.pop(),
-                        collected: false
-                    },
-                    {
-                        type: 'goal',
-                        ...validCells.pop(),
-                        collected: false
-                    }
+                    type: 'letter',
+                    value: targetFiles[0],
+                    ...validCells.pop(),
+                    collected: false
+                },
+                {
+                    type: 'letter',
+                    value: targetFiles[1],
+                    ...validCells.pop(),
+                    collected: false
+                },
+                {
+                    type: 'letter',
+                    value: targetFiles[2],
+                    ...validCells.pop(),
+                    collected: false
+                },
+                {
+                    type: 'letter',
+                    value: targetFiles[3],
+                    ...validCells.pop(),
+                    collected: false
+                },
+                {
+                    type: 'goal',
+                    ...validCells.pop(),
+                    collected: false
+                }
                 ];
 
                 updateItemDisplay();

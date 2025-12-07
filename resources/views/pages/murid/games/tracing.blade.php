@@ -17,11 +17,16 @@
         // ID Game (Dari $jenisGame)
         var JENIS_GAME_ID = {{ $jenisGame->jenis_game_id }};
         var TINGKATAN_ID = {{ $tingkatan->tingkatan_id }};
-        var HASIL_GAME_ID = {{ $sessionGame->hasil_game_id }};
+
+        // HASIL_GAME_ID dihapus karena kita pakai sistem create on first letter
+        // var HASIL_GAME_ID = ...; 
 
         // Data Huruf (Convert PHP Array ke JSON)
         // Asumsi: materiPembelajarans punya kolom 'huruf_arab' dan 'nama_latin'
         var ALL_HIJAIYAH_DATA = @json($materiPembelajarans);
+
+        // URL Save Score Khusus Tracing
+        var SAVE_SCORE_URL = "{{ route('murid.game.saveTracingScore') }}";
     </script>
 
 </head>
@@ -227,18 +232,6 @@
         </div>
     </div>
 
-    <!-- <div id="score-modal" class="modal d-none">
-        <div class="modal-content">
-            <h4>Skor tracing berhasil disimpan!</h4>
-            <p id="modal-skor"></p>
-            <p id="modal-total"></p>
-            <button onclick="closeScoreModal()">Lanjut</button>
-        </div>
-    </div> -->
-
-
-
-
     <script>
         // Variabel global yang akan diisi oleh logika game Anda
         window.gameFinalScore = 0; // Skor yang akan masuk ke DB (misalnya, total poin)
@@ -248,19 +241,8 @@
         // saat tracing selesai.
         function showGameResults(finalScore, accuracyPercentage) {
             showSuccessModal(accuracyPercentage);
-            // window.gameFinalScore = finalScore; 
-            // window.gameAccuracyPercentage = accuracyPercentage;
-
-            // // 1. Update Tampilan Modal
-            // document.getElementById('final-accuracy').innerText = Akurasi: ${accuracyPercentage}%; 
-            // document.getElementById('success-modal').style.display = 'flex'; 
-
-            // // 2. Langsung Panggil Fungsi Penyimpanan Skor
-            // saveTracingScore(); // Didefinisikan di game-tracing.js
         }
     </script>
-
-
 
     <script src="{{ asset('js/game-tracing.js') }}"></script>
 </body>

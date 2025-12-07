@@ -276,7 +276,7 @@ async function update() {
                     'X-CSRF-TOKEN': csrfToken
                 },
                 body: JSON.stringify({
-                    hasil_game_id: SESSION_ID,
+                    jenis_game_id: jenisGameId,
                     skor: Math.round(poinBenar)
 
                 })

@@ -14,6 +14,8 @@ body {
     overflow: hidden;
     width: 100vw;
     height: 100vh;
+    /* Fallback */
+    height: 100dvh;
 }
 
 /* ========================================
@@ -106,7 +108,11 @@ body {
 .game-container {
     width: 100vw;
     height: 100vh;
+    /* Fallback */
+    height: 100dvh;
     min-height: 100vh;
+    /* Fallback */
+    min-height: 100dvh;
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -174,8 +180,12 @@ body {
     flex: 1;
     display: flex;
     padding: 2rem;
+    padding-bottom: 120px;
+    /* Space for fixed footer */
     gap: 2rem;
     overflow: hidden;
+    overflow-y: auto;
+    /* Allow scroll if content is too tall */
 }
 
 /* ========================================
@@ -307,7 +317,8 @@ body {
    ======================================== */
 .game-footer {
     background: white;
-    padding: 1rem 2rem;
+    padding: 1rem 2rem 2rem 2rem;
+    /* Added extra bottom padding */
     /* Sedikit lebih ramping biar rapi */
     display: flex;
     justify-content: space-between;
@@ -316,8 +327,13 @@ body {
     border-top: 4px solid #f472b6;
     box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.05);
     gap: 2rem;
-    position: relative;
-    z-index: 10;
+    position: fixed;
+    /* Force stick to bottom */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    /* Ensure on top */
 }
 
 /* --- Progress Bar Section --- */
@@ -513,7 +529,8 @@ body {
     position: fixed;
     inset: 0;
     /* top:0, left:0, right:0, bottom:0 */
-    z-index: 50;
+    z-index: 1001;
+    /* Higher than footer (100) */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -827,6 +844,8 @@ body {
     .game-main {
         flex-direction: column;
         padding: 1rem;
+        padding-bottom: 220px;
+        /* Space for taller mobile footer */
     }
 
     .canvas-wrapper {

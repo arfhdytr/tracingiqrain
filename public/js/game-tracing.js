@@ -836,34 +836,7 @@ const defaultHijaiyahData = [
             },
         ],
     },
-    {
-        id: 28,
-        arabic: "لا",
-        name: "Lamalif",
-        difficulty: "medium",
-        image_path: "/images/hijaiyah/Lamalif.webp",
-        strokes: [
-            {
-                type: "line",
-                points: [
-                    { x: 240, y: 120 },
-                    { x: 200, y: 170 },
-                    { x: 160, y: 200 },
-                    { x: 160, y: 205 },
-                    { x: 180, y: 210 },
-                    { x: 230, y: 200 },
-                    { x: 230, y: 195 },
-                    { x: 200, y: 170 },
-                    { x: 160, y: 140 },
-                ],
-            },
-            {
-                type: "line",
-                center: { x: 190, y: 195 },
-                radius: 8,
-            },
-        ],
-    },
+
     {
         id: 29,
         arabic: "ء",
@@ -1240,7 +1213,7 @@ function setupEventListeners() {
 
     document
         .getElementById("clear-button")
-        .addEventListener("click", clearCanvas);
+        .addEventListener("click", restartCurrentLetter);
     document
         .getElementById("replay-button")
         .addEventListener("click", playAnimation);
@@ -1996,10 +1969,17 @@ function showSuccessModal(skorAkhir) {
     launchConfetti();
 
     // 6. Simpan Skor ke Database (Otomatis saat selesai)
-    // Konversi: 100% akurasi = 10 poin
-    const poinDidapat = Math.round(skorAkhir / 10);
+    // 6. Simpan Skor ke Database (Otomatis saat selesai)
+    // Konversi: 100% akurasi = 3 poin (Sesuai request)
+    // Rumus: (Skor / 100) * 3, dibulatkan
+    const poinDidapat = Math.round((skorAkhir / 100) * 3);
+
+    // Update total lokal untuk display (jika ada)
     totalSessionScore += poinDidapat;
-    saveTracingScore(totalSessionScore);
+
+    // KIRIM SKOR SATUAN (DELTA) KE SERVER
+    // Karena di backend logic-nya sudah: old_total + new_score
+    saveTracingScore(poinDidapat);
 }
 
 // ========================================
@@ -2065,7 +2045,8 @@ function calculateAccuracy(strokesDone, totalStrokes) {
 // Kalau gak ada suntikan (misal test lokal), pakai default null/array kosong
 const jenisGameId = typeof JENIS_GAME_ID !== "undefined" ? JENIS_GAME_ID : null;
 const tingkatanId = typeof TINGKATAN_ID !== "undefined" ? TINGKATAN_ID : null;
-const hasilGameId = typeof HASIL_GAME_ID !== "undefined" ? HASIL_GAME_ID : null;
+// UBAH JADI LET SUPAYA BISA DI-UPDATE SETELAH DAPAT ID DARI SERVER
+let hasilGameId = typeof HASIL_GAME_ID !== "undefined" ? HASIL_GAME_ID : null;
 const saveScoreUrl =
     typeof SAVE_SCORE_URL !== "undefined" ? SAVE_SCORE_URL : "/game/save-score";
 const redirectUrl = typeof REDIRECT_URL !== "undefined" ? REDIRECT_URL : "/";
@@ -2089,14 +2070,17 @@ async function saveTracingScore(scoreInput) {
     if (backButton) backButton.disabled = true;
 
     try {
-        // Fetch ke URL yang benar
-        const response = await fetch("/murid/game/save-score", {
+        // Fetch ke URL yang benar (Gunakan variabel saveScoreUrl)
+        const response = await fetch(saveScoreUrl, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                "Accept": "application/json", // Paksa JSON response kalo error
                 "X-CSRF-TOKEN": csrfToken,
             },
             body: JSON.stringify({
+                jenis_game_id: jenisGameId, // WAJIB ada untuk Create
+                tingkatan_id: tingkatanId,
                 hasil_game_id: hasilGameId,
                 skor: skor,
                 total_poin: skor,
@@ -2106,6 +2090,13 @@ async function saveTracingScore(scoreInput) {
         const data = await response.json();
 
         if (data.success) {
+            // PENTING: Update hasilGameId dengan ID yang dikembalikan server
+            // Jadi request berikutnya akan dianggap sebagai UPDATE, bukan Create baru
+            if (data.hasil_game_id) {
+                hasilGameId = data.hasil_game_id;
+                // console.log("Session ID diperbarui:", hasilGameId);
+            }
+
             if (saveStatusElement) {
                 saveStatusElement.innerText = `Skor ${skor}% berhasil disimpan!`;
                 saveStatusElement.classList.remove("text-yellow-600");

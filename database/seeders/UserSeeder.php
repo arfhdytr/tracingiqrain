@@ -136,7 +136,7 @@ class UserSeeder extends Seeder
         PreferensiPertanyaan::create([
             'murid_id' => $murid->murid_id,
             'pertanyaan' => 'Apa warna kesukaan kamu?',
-            'jawaban' => Hash::make('merah'),
+            'jawaban' => 'Merah',
         ]);
 
         // ---------------------------------
@@ -177,7 +177,7 @@ class UserSeeder extends Seeder
             PreferensiPertanyaan::create([
                 'murid_id' => $muridAnak->murid_id,
                 'pertanyaan' => 'Apa warna kesukaan kamu?',
-                'jawaban' => Hash::make('biru'),
+                'jawaban' => 'Biru',
             ]);
 
             // Buat record permintaan bimbingan (Status: Approved)
@@ -213,7 +213,7 @@ class UserSeeder extends Seeder
             PreferensiPertanyaan::create([
                 'murid_id' => $muridCalon->murid_id,
                 'pertanyaan' => 'Apa warna kesukaan kamu?',
-                'jawaban' => Hash::make('hijau'),
+                'jawaban' => 'Hijau',
             ]);
 
             // Buat record permintaan bimbingan (Status: Pending)

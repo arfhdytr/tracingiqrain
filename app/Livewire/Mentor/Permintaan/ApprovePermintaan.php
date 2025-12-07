@@ -6,6 +6,7 @@ namespace App\Livewire\Mentor\Permintaan;
 use App\Models\PermintaanBimbingan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class ApprovePermintaan extends Component
@@ -20,28 +21,7 @@ class ApprovePermintaan extends Component
 
     public function confirmApproval()
     {
-        // Pastikan permintaan adalah untuk mentor yang login
-        $mentor = Auth::user()->mentor;
-
-        if ($this->permintaan->mentor_id !== $mentor->mentor_id) {
-            $this->dispatch('updated', [
-                'title' => 'Anda tidak memiliki akses untuk menerima permintaan ini',
-                'icon' => 'error',
-                'iconColor' => 'red',
-            ]);
-            return;
-        }
-
-        // Pastikan status masih pending
-        if ($this->permintaan->status !== 'pending') {
-            $this->dispatch('updated', [
-                'title' => 'Permintaan sudah diproses sebelumnya',
-                'icon' => 'error',
-                'iconColor' => 'red',
-            ]);
-            return;
-        }
-
+        // TEMPORARY DEBUG: Skip all validation
         $this->resetErrorBag();
         $this->confirmApprove = true;
     }
@@ -52,8 +32,18 @@ class ApprovePermintaan extends Component
             // Double check authorization
             $mentor = Auth::user()->mentor;
 
-            if ($this->permintaan->mentor_id !== $mentor->mentor_id || $this->permintaan->status !== 'pending') {
-                throw new \Exception('Unauthorized action');
+            Log::info('Approve attempt', [
+                'permintaan_mentor_id' => $this->permintaan->mentor_id,
+                'logged_in_mentor_id' => $mentor->mentor_id,
+                'permintaan_status' => $this->permintaan->status,
+            ]);
+
+            if ((int)$this->permintaan->mentor_id !== (int)$mentor->mentor_id) {
+                throw new \Exception('Anda tidak memiliki akses untuk menerima permintaan ini');
+            }
+
+            if ($this->permintaan->status !== 'pending') {
+                throw new \Exception('Permintaan sudah diproses sebelumnya');
             }
 
             DB::beginTransaction();

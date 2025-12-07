@@ -267,13 +267,26 @@ class MentorDashboardController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
+        // Hitung total poin langsung dari SUM HasilGame
+        $totalPoin = $murid->hasilGames()->sum('total_poin');
+
+        // Hitung poin per jenis game
+        $poinPerGame = [
+            'tracking' => $murid->hasilGames()->where('jenis_game_id', 1)->sum('total_poin'),
+            'labirin' => $murid->hasilGames()->where('jenis_game_id', 3)->sum('total_poin'),
+            'memory' => $murid->hasilGames()->where('jenis_game_id', 4)->sum('total_poin'),
+            'drag_drop' => $murid->hasilGames()->where('jenis_game_id', 2)->sum('total_poin'),
+        ];
+
         return view('pages.mentor.laporan-murid.detail', [
             'murid' => $murid->load([
                 'user',
                 'leaderboards',
                 'hasilGames.jenisGame',
                 'progressModuls.modul.materiPembelajaran.tingkatanIqra'
-            ])
+            ]),
+            'totalPoin' => $totalPoin,
+            'poinPerGame' => $poinPerGame,
         ]);
     }
 }

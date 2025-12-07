@@ -45,7 +45,11 @@
             box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
             display: flex; align-items: center; justify-content: center;
             color: #FFF; font-family: "Tegak Bersambung_IWK", cursive;
-            font-size: 33px; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+            
+            /* UKURAN FONT DIHAPUS DARI SINI AGAR BISA DIATUR DI HTML */
+            /* font-size: 33px; */
+            
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
             transition: transform 0.2s; border: none;
         }
         .popup-btn:hover { transform: scale(1.05); }
@@ -73,13 +77,11 @@
             {{-- HEADER --}}
             <div class="container mx-auto px-4 pt-8 pb-12">
                 <div class="flex flex-col-reverse md:flex-row items-center justify-center gap-4 md:gap-12 max-w-6xl mx-auto">
-                    {{-- Teks Header --}}
                     <div class="text-center md:text-left">
                         <h1 class="font-titan text-[40px] md:text-[55px] text-[#234275] leading-tight mb-2 text-shadow-header">
                             Kenalan sama Para Mentor!
                         </h1>
                         <p class="text-[35px] md:text-[40px] text-[#234275] my-5 leading-none text-shadow-header">
-                            {{-- Contoh penggunaan inline style manual jika mau, atau biarkan class jika sudah ada di CSS global --}}
                             <span class="font-cursive-iwk phrase-biru-tua">Belajar</span>
                             <span class="font-cursive-iwk phrase-biru-tua">lebih</span>
                             <span class="font-cursive-iwk phrase-biru-tua">seru</span>
@@ -89,23 +91,50 @@
                             <span class="font-cursive-iwk phrase-biru-tua">mentor!</span>
                         </p>
                     </div>
-                    {{-- Maskot --}}
                     <div class="w-[180px] md:w-[280px] transform hover:rotate-3 transition-transform duration-500">
                         <img src="{{ asset('images/maskot/qira-happy.webp') }}" alt="Qira Happy" class="w-full h-auto drop-shadow-2xl">
                     </div>
                 </div>
             </div>
 
-            {{-- ALERT PENDING --}}
+            {{-- ALERT PENDING (BAGIAN YANG DIMINTA DIUBAH) --}}
             @if ($pendingRequest)
                 <div class="container mx-auto px-4 mb-8">
                     <div class="max-w-4xl mx-auto bg-[#FFF9C4] rounded-[35px] p-6 shadow-lg flex flex-col md:flex-row items-center justify-center gap-6 animate-pulse text-center md:text-left">
                         <div class="text-5xl">⏳</div>
                         <div>
                             <p class="font-titan text-2xl text-[#680D2A] mb-1">Permintaan sedang diproses</p>
-                            <p class="font-cursive-iwk text-2xl text-[#680D2A]">
-                                Kamu sudah meminta <span class="font-cursive-iwk text-[#680D2A]">{{ $pendingRequest->mentor->nama_lengkap }}</span>.
-                            </p>
+                            
+                            {{-- MODIFIKASI: LENGKUNG FRASA WARNA MARUN --}}
+                            <div class="leading-tight mt-1">
+                                @php
+                                    $kalimatPending = 'Kamu sudah meminta ' . $pendingRequest->mentor->nama_lengkap . '.';
+                                    $kataPending = explode(' ', $kalimatPending);
+                                @endphp
+
+                                @foreach($kataPending as $kata)
+                                    <div style="position: relative; display: inline-block; margin: 0 4px;">
+                                        {{-- Teks --}}
+                                        <span class="font-cursive-iwk text-2xl text-[#680D2A] relative z-10">
+                                            {{ $kata }}
+                                        </span>
+                                        
+                                        {{-- Garis Lengkung --}}
+                                        <div style="
+                                            position: absolute;
+                                            left: 0; 
+                                            right: 0; 
+                                            bottom: 3px; 
+                                            height: 10px;
+                                            border-bottom: 2.5px solid #680D2A; /* Warna Marun */
+                                            border-radius: 50%;
+                                            pointer-events: none;
+                                        "></div>
+                                    </div>
+                                @endforeach
+                            </div>
+                            {{-- SELESAI MODIFIKASI --}}
+
                         </div>
                     </div>
                 </div>
@@ -146,38 +175,29 @@
                                         <h3 class="font-fredoka font-bold text-3xl text-white leading-none mb-4 text-shadow-white">
                                             Kak {{ $mentor->user->username }}
                                         </h3>
-
-                                        {{-- BAGIAN YANG DIUBAH: KELAS DENGAN LENGKUNG FRASA (BLADE) --}}
+                                        
+                                        {{-- LENGKUNG FRASA DI KARTU MENTOR (SUDAH ADA) --}}
                                         <div class="leading-tight text-shadow-white">
                                             @php
-                                                // 1. Gabungkan kata
                                                 $kalimat = 'Kelas ' . $mentor->nama_lengkap;
-                                                // 2. Pecah jadi array per kata
                                                 $kataKata = explode(' ', $kalimat);
                                             @endphp
-
-                                            {{-- 3. Looping setiap kata --}}
                                             @foreach($kataKata as $kata)
                                                 <div style="position: relative; display: inline-block; margin: 0 4px;">
-                                                    {{-- Teks --}}
                                                     <span class="font-cursive-iwk text-[27px] text-white relative z-10">
                                                         {{ $kata }}
                                                     </span>
-                                                    
-                                                    {{-- Garis Lengkung Putih --}}
                                                     <div style="
                                                         position: absolute;
-                                                        left: 0; 
-                                                        right: 0; 
-                                                        bottom: 4px; /* Atur ketinggian garis disini */
-                                                        height: 10px;
-                                                        border-bottom: 3px solid white; /* Warna Putih */
+                                                        left: 0; right: 0; bottom: 4px; height: 10px;
+                                                        border-bottom: 3px solid white;
                                                         border-radius: 50%;
                                                         pointer-events: none;
                                                     "></div>
                                                 </div>
                                             @endforeach
                                         </div>
+
                                     </div>
                                 </div>
                             @empty
@@ -222,26 +242,36 @@
                             {{-- Diisi JS --}}
                         </p>
 
-                        {{-- Statistik --}}
+                        {{-- STATISTIK --}}
                         <div class="flex flex-wrap justify-center gap-3 md:gap-6 mb-4 md:mb-6 w-full">
+                            {{-- Murid --}}
                             <div class="popup-stat-box scale-90 md:scale-100">
                                 <svg width="35" height="35" viewBox="0 0 24 24" fill="none"><path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" fill="#FFFCFC" /><path d="M12.0002 14.5C6.99016 14.5 2.91016 17.86 2.91016 22C2.91016 22.28 3.13016 22.5 3.41016 22.5H20.5902C20.8702 22.5 21.0902 22.28 21.0902 22C21.0902 17.86 17.0102 14.5 12.0002 14.5Z" fill="#FFFCFC" /></svg>
                                 <div class="flex flex-col items-start justify-center leading-none pt-1">
                                     <span id="modal-mentor-students" class="font-nanum text-[24px] md:text-[28px] text-[#FFFCFC] text-shadow-popup-text block">0</span>
-                                    <span class="font-cursive-iwk text-[20px] md:text-[24px] text-[#FFFCFC] block -mt-1 phrase-putih">murid</span>
+                                    
+                                    {{-- Label Murid (JS) --}}
+                                    <span id="modal-label-students" class="font-cursive-iwk text-[20px] md:text-[24px] text-[#FFFCFC] block -mt-1">
+                                        {{-- Diisi JS --}}
+                                    </span>
                                 </div>
                             </div>
+                            
+                            {{-- Tahun --}}
                             <div class="popup-stat-box scale-90 md:scale-100">
                                 <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#FFFCFC" stroke-width="2" fill="none" /><path d="M12 6V12L16 14" stroke="#FFFCFC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
                                 <div class="flex flex-col items-start justify-center leading-none pt-1">
                                     <span id="modal-mentor-experience" class="font-nanum text-[24px] md:text-[28px] text-[#FFFCFC] text-shadow-popup-text block">0</span>
-                                    <span class="font-cursive-iwk text-[20px] md:text-[24px] text-[#FFFCFC] block -mt-1 phrase-putih">tahun</span>
+                                    
+                                    {{-- Label Tahun (JS) --}}
+                                    <span id="modal-label-experience" class="font-cursive-iwk text-[20px] md:text-[24px] text-[#FFFCFC] block -mt-1">
+                                        {{-- Diisi JS --}}
+                                    </span>
                                 </div>
                             </div>
                         </div>
 
                         {{-- KALIMAT AJAKAN (Target Lengkung Frasa 2) --}}
-                        {{-- Saya tambahkan ID 'modal-mentor-ajakan' agar bisa diakses JS --}}
                         <p id="modal-mentor-ajakan" class="text-[24px] md:text-[35px] text-center leading-tight text-shadow-popup-text px-2 w-full">
                             {{-- Diisi JS --}}
                         </p>
@@ -250,24 +280,15 @@
 
                 {{-- TOMBOL --}}
                 <div class="w-full flex justify-center gap-4 md:gap-8 mt-4 md:mt-2">
-                    {{-- Saya set ke 16px sebagai contoh, silakan ubah angkanya jika kurang kecil/besar --}}
-                    <button onclick="closeMentorModal()" 
-                            class="popup-btn font-mooli font-semibold" 
-                            style="font-size: 20px;">
-                        Kembali
-                    </button>
-
-                    <button id="btn-request-mentor" onclick="requestMentor()" 
-                            class="popup-btn font-mooli font-semibold" 
-                            style="font-size: 20px;">
-                        Ajukan
-                    </button>
+                    {{-- UKURAN TOMBOL BISA DIATUR DISINI (text-[20px]) --}}
+                    <button onclick="closeMentorModal()" class="popup-btn font-mooli font-semibold text-[20px]">Kembali</button>
+                    <button id="btn-request-mentor" onclick="requestMentor()" class="popup-btn font-mooli font-semibold text-[20px]">Ajukan</button>
                 </div>
             </div>
         </div>
     </div>
 
-    {{-- CUSTOM ALERT MODAL --}}
+    {{-- ALERT MODAL --}}
     <div id="customAlertModal" class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/60 backdrop-blur-sm transition-opacity duration-300">
         <div class="relative bg-white rounded-3xl p-8 max-w-sm w-full mx-4 shadow-2xl transform scale-95 opacity-0 transition-all duration-300 border-4 border-pink-300 text-center" id="customAlertContent">
             <div class="mb-4 animate-bounce">
@@ -275,7 +296,7 @@
             </div>
             <h2 id="customAlertTitle" class="font-titan text-3xl text-pink-500 mb-2">Berhasil!</h2>
             <p id="customAlertMessage" class="font-cursive-iwk text-gray-600 mb-6 text-xl">Pesan disini...</p>
-            <button onclick="closeCustomAlert()" class="w-full py-3 bg-gradient-to-r from-pink-400 to-pink-500 text-white rounded-xl font-bold text-xl shadow-lg hover:scale-105 transition-transform font-cursive-iwk">Oke</button>
+            <button onclick="closeCustomAlert()" class="w-full py-3 bg-gradient-to-r from-pink-400 to-pink-500 text-white rounded-xl font-bold text-xl shadow-lg hover:scale-105 transition-transform font-mooli font-semibold">Oke</button>
         </div>
     </div>
 
@@ -333,28 +354,21 @@
             }, 300);
         }
 
-        // ============================================================
-        // FUNGSI HELPER: PEMBUAT LENGKUNGAN (VERSI TIPIS & RAPI)
-        // ============================================================
-        function wrapWithCurve(text) {
+        // --- FUNGSI HELPER PEMBUAT LENGKUNGAN ---
+        // Parameter 'color' ditambahkan agar bisa custom warna (Putih/Pink)
+        function wrapWithCurve(text, color = '#AC3F61') {
             return text.split(' ').map(word => {
                 return `
                     <div style="position: relative; display: inline-block; margin: 0 3px;">
-                        <span style="position: relative; z-index: 2; font-family: 'Tegak Bersambung_IWK', cursive; color: #AC3F61;">
+                        <span style="position: relative; z-index: 2; font-family: 'Tegak Bersambung_IWK', cursive; color: ${color};">
                             ${word}
                         </span>
                         
                         <div style="
                             position: absolute;
-                            left: 1px;   /* Masuk dikit biar rapi */
-                            right: 1px;  /* Masuk dikit biar rapi */
-                            bottom: 3px; /* Atur naik/turun garis */
-                            height: 9px; /* Kedalaman lengkungan */
-                            
-                            /* DI SINI PENGATURAN KETEBALANNYA: */
-                            border-bottom: 2.5px solid #AC3F61; 
-                            
-                            border-radius: 50%; /* Membuat lengkung */
+                            left: 1px; right: 1px; bottom: 3px; height: 9px;
+                            border-bottom: 2.5px solid ${color}; 
+                            border-radius: 50%;
                             z-index: 1;
                             pointer-events: none;
                         "></div>
@@ -363,21 +377,25 @@
             }).join('');
         }
 
-        // --- FUNGSI UTAMA SHOW MODAL ---
+        // --- FUNGSI UTAMA ---
         function showMentorDetail(mentorId, namaLengkap, username, studentCount, experience, avatarUrl) {
             selectedMentorId = mentorId;
 
             document.getElementById('modal-mentor-name').textContent = 'Kak ' + username;
             
-            // 1. KELAS (Pakai Helper Lengkung)
+            // 1. KELAS (Warna Pink Tua Default)
             let kelasText = 'Kelas ' + namaLengkap;
-            document.getElementById('modal-mentor-class').innerHTML = wrapWithCurve(kelasText);
+            document.getElementById('modal-mentor-class').innerHTML = wrapWithCurve(kelasText, '#AC3F61');
 
-            // 2. KALIMAT AJAKAN (Pakai Helper Lengkung)
+            // 2. LABEL MURID & TAHUN (Warna PUTIH #FFFCFC)
+            document.getElementById('modal-label-students').innerHTML = wrapWithCurve('murid', '#FFFCFC');
+            document.getElementById('modal-label-experience').innerHTML = wrapWithCurve('tahun', '#FFFCFC');
+
+            // 3. KALIMAT AJAKAN (Warna Pink Tua Default)
             let ajakanText = 'Ajukan Kak ' + username + ' menjadi mentormu';
-            document.getElementById('modal-mentor-ajakan').innerHTML = wrapWithCurve(ajakanText);
+            document.getElementById('modal-mentor-ajakan').innerHTML = wrapWithCurve(ajakanText, '#AC3F61');
 
-            // Update data lain
+            // Update data angka & gambar
             document.getElementById('modal-mentor-students').textContent = studentCount;
             document.getElementById('modal-mentor-experience').textContent = experience;
             document.getElementById('modal-mentor-img').src = avatarUrl;
@@ -395,7 +413,6 @@
                 btnRequest.textContent = 'Sudah Punya';
             }
 
-            // Tampilkan Modal
             const modal = document.getElementById('mentorModal');
             const content = document.getElementById('modalContent');
             modal.classList.remove('hidden');
@@ -460,3 +477,5 @@
         });
     </script>
 @endpush
+
+

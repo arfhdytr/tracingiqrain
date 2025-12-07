@@ -254,6 +254,37 @@
         background-size: 100% 100%;
     }
 
+    .phrase-pink-kontras {
+        display: inline-block;
+        text-wrap: nowrap;
+        font-family: 'TegakBersambung', cursive;
+    }
+    .phrase-pink-kontras::after {
+        content: "";
+        display: block;
+        width: 100%;
+        height: 16px;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 50' preserveAspectRatio='none'%3E%3Cpath fill='none' stroke='%23F6339a' stroke-width='4' d='M5,5 C30,35 70,35 95,5' stroke-linecap='round'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+    }
+
+    .phrase-pink-tua {
+        display: inline-block;
+        text-wrap: nowrap;
+        font-family: 'TegakBersambung', cursive;
+    }
+    .phrase-pink-tua::after {
+        content: "";
+        display: block;
+        width: 100%;
+        height: 16px;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 50' preserveAspectRatio='none'%3E%3Cpath fill='none' stroke='%23AC3F61' stroke-width='4' d='M5,5 C30,35 70,35 95,5' stroke-linecap='round'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+    }
+
+
     .phrase-bitu {
         display: inline-block;
         text-wrap: nowrap;

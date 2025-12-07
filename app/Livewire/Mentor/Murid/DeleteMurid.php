@@ -20,7 +20,6 @@ class DeleteMurid extends Component
 
     public function confirmDeletion()
     {
-        // TEMPORARY DEBUG: Skip all validation
         $this->resetErrorBag();
         $this->confirmDelete = true;
     }

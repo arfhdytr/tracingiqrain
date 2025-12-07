@@ -32,8 +32,18 @@ class ApprovePermintaan extends Component
             // Double check authorization
             $mentor = Auth::user()->mentor;
 
-            if ($this->permintaan->mentor_id !== $mentor->mentor_id || $this->permintaan->status !== 'pending') {
-                throw new \Exception('Unauthorized action');
+            Log::info('Approve attempt', [
+                'permintaan_mentor_id' => $this->permintaan->mentor_id,
+                'logged_in_mentor_id' => $mentor->mentor_id,
+                'permintaan_status' => $this->permintaan->status,
+            ]);
+
+            if ($this->permintaan->mentor_id !== $mentor->mentor_id) {
+                throw new \Exception('Anda tidak memiliki akses untuk menerima permintaan ini');
+            }
+
+            if ($this->permintaan->status !== 'pending') {
+                throw new \Exception('Permintaan sudah diproses sebelumnya');
             }
 
             DB::beginTransaction();

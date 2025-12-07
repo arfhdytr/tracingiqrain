@@ -36,8 +36,12 @@ class RejectPermintaan extends Component
             // Double check authorization
             $mentor = Auth::user()->mentor;
 
-            if ($this->permintaan->mentor_id !== $mentor->mentor_id || $this->permintaan->status !== 'pending') {
-                throw new \Exception('Unauthorized action');
+            if ($this->permintaan->mentor_id != $mentor->mentor_id) {
+                throw new \Exception('Anda tidak memiliki akses untuk menolak permintaan ini');
+            }
+
+            if ($this->permintaan->status != 'pending') {
+                throw new \Exception('Permintaan sudah diproses sebelumnya');
             }
 
             DB::beginTransaction();

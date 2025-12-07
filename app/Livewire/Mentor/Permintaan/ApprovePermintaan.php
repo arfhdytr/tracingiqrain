@@ -38,11 +38,11 @@ class ApprovePermintaan extends Component
                 'permintaan_status' => $this->permintaan->status,
             ]);
 
-            if ($this->permintaan->mentor_id !== $mentor->mentor_id) {
+            if ($this->permintaan->mentor_id != $mentor->mentor_id) {
                 throw new \Exception('Anda tidak memiliki akses untuk menerima permintaan ini');
             }
 
-            if ($this->permintaan->status !== 'pending') {
+            if ($this->permintaan->status != 'pending') {
                 throw new \Exception('Permintaan sudah diproses sebelumnya');
             }
 

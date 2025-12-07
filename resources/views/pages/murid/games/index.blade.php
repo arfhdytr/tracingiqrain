@@ -314,7 +314,7 @@
         const gameData = {
             'memory-card': {
                 title: 'Panduan Kartu Memori',
-                videoId: 'dQw4w9WgXcQ', // GANTI DENGAN ID YOUTUBE ASLI
+                videoId: 'X0ZZVnVBHxM', // GANTI DENGAN ID YOUTUBE ASLI
                 steps: [
                     'Klik kartu untuk membuka dan lihat hurufnya',
                     'Cari pasangan huruf yang sama',
@@ -324,7 +324,7 @@
             },
             'labirin': {
                 title: 'Panduan Labirin Hijaiyah',
-                videoId: 'dQw4w9WgXcQ', // GANTI DENGAN ID YOUTUBE ASLI
+                videoId: 'Kym7qZ_oa6I', // GANTI DENGAN ID YOUTUBE ASLI
                 steps: [
                     'Gunakan tombol panah untuk bergerak',
                     'Cari huruf yang diminta di labirin',
@@ -334,7 +334,7 @@
             },
             'drag-drop': {
                 title: 'Panduan Seret & Lepas',
-                videoId: 'dQw4w9WgXcQ', // GANTI DENGAN ID YOUTUBE ASLI
+                videoId: 't4AoN4DwHX0', // GANTI DENGAN ID YOUTUBE ASLI
                 steps: [
                     'Lihat huruf hijaiyah di layar',
                     'Seret huruf ke huruf latin yang cocok',
@@ -344,7 +344,7 @@
             },
             'tracing': {
                 title: 'Panduan Tulis Huruf',
-                videoId: 'dQw4w9WgXcQ', // GANTI DENGAN ID YOUTUBE ASLI
+                videoId: 'unWiceGh-Ts', // GANTI DENGAN ID YOUTUBE ASLI
                 steps: [
                     'Lihat huruf yang akan kamu tulis',
                     'Ikuti garis titik-titik dengan jarimu',

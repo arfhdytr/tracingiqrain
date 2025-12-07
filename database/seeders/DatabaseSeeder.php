@@ -69,30 +69,46 @@ class DatabaseSeeder extends Seeder
             ->for($jagoanMurid) // Tautkan ke Murid jagoan
             ->create();
 
+        // Hitung total poin untuk setiap murid berdasarkan HasilGame
         $scores = HasilGame::select(
-                'murid_id', 
+                'murid_id',
                 DB::raw('SUM(total_poin) as total_skor')
             )
             ->groupBy('murid_id')
             ->orderBy('total_skor', 'desc')
             ->get();
-        
-        // Ambil data murid (untuk 'mentor_id' jika ada, jika tidak tetap null)
+
+        // Ambil semua murid
         $allMurids = Murid::all()->keyBy('murid_id');
 
-        // Loop dan masukkan ke tabel 'leaderboards'
+        // Loop dan masukkan/update leaderboard untuk murid yang punya hasil game
         foreach ($scores as $index => $score) {
             $murid = $allMurids->get($score->murid_id);
-            
-           Leaderboard::updateOrCreate(
-                    ['murid_id' => $score->murid_id], // Kunci pengecekan
+
+            Leaderboard::updateOrCreate(
+                ['murid_id' => $score->murid_id],
+                [
+                    'mentor_id' => $murid->mentor_id,
+                    'total_poin_semua_game' => $score->total_skor,
+                    'ranking_global' => $index + 1,
+                    'ranking_mentor' => 0,
+                ]
+            );
+        }
+
+        // Untuk murid yang belum punya HasilGame, buat leaderboard dengan poin 0
+        foreach ($allMurids as $murid) {
+            if (!$scores->contains('murid_id', $murid->murid_id)) {
+                Leaderboard::updateOrCreate(
+                    ['murid_id' => $murid->murid_id],
                     [
                         'mentor_id' => $murid->mentor_id,
-                        'total_poin_semua_game' => $score->total_skor,
-                        'ranking_global' => $index + 1, 
-                        'ranking_mentor' => 0, 
+                        'total_poin_semua_game' => 0,
+                        'ranking_global' => 0,
+                        'ranking_mentor' => 0,
                     ]
                 );
+            }
         }
             
     }

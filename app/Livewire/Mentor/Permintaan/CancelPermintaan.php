@@ -31,11 +31,11 @@ class CancelPermintaan extends Component
             // Double check authorization
             $mentor = Auth::user()->mentor;
 
-            if ($this->permintaan->mentor_id != $mentor->mentor_id) {
+            if ((int)$this->permintaan->mentor_id !== (int)$mentor->mentor_id) {
                 throw new \Exception('Anda tidak memiliki akses untuk membatalkan permintaan ini');
             }
 
-            if ($this->permintaan->status == 'pending') {
+            if ($this->permintaan->status === 'pending') {
                 throw new \Exception('Permintaan masih dalam status menunggu');
             }
 

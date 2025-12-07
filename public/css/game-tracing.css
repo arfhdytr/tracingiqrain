@@ -1,6 +1,3 @@
-/* ========================================
-   RESET & BASE STYLES
-   ======================================== */
 * {
     margin: 0;
     padding: 0;
@@ -18,11 +15,175 @@ body {
     height: 100dvh;
 }
 
-/* ========================================
-   WELCOME ANIMATION STYLES
-   ======================================== */
-/* Removed - using Tailwind classes in HTML instead */
+/* Blue phrase for card text */
+.phrase-blue {
+    display: inline-block;
+    text-wrap: nowrap;
+    font-family: 'Tegak Bersambung_IWK', cursive;
+}
 
+.phrase-blue::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 16px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 50' preserveAspectRatio='none'%3E%3Cpath fill='none' stroke='%231e40af' stroke-width='4' d='M5,5 C30,35 70,35 95,5' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+/* Green phrase */
+.phrase-green {
+    display: inline-block;
+    text-wrap: nowrap;
+    font-family: 'Tegak Bersambung_IWK', cursive;
+}
+
+.phrase-green::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 16px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 50' preserveAspectRatio='none'%3E%3Cpath fill='none' stroke='%23166534' stroke-width='4' d='M5,5 C30,35 70,35 95,5' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+/* Yellow phrase */
+.phrase-yellow {
+    display: inline-block;
+    text-wrap: nowrap;
+    font-family: 'Tegak Bersambung_IWK', cursive;
+}
+
+.phrase-yellow::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 16px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 50' preserveAspectRatio='none'%3E%3Cpath fill='none' stroke='%23854d0e' stroke-width='4' d='M5,5 C30,35 70,35 95,5' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+/* Purple phrase */
+.phrase-purple {
+    display: inline-block;
+    text-wrap: nowrap;
+    font-family: 'Tegak Bersambung_IWK', cursive;
+}
+
+.phrase-purple::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 16px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 50' preserveAspectRatio='none'%3E%3Cpath fill='none' stroke='%236b21a8' stroke-width='4' d='M5,5 C30,35 70,35 95,5' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+/* Pink phrase */
+.phrase-card-pink {
+    display: inline-block;
+    text-wrap: nowrap;
+    font-family: 'Tegak Bersambung_IWK', cursive;
+}
+
+.phrase-card-pink::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 16px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 50' preserveAspectRatio='none'%3E%3Cpath fill='none' stroke='%239f1239' stroke-width='4' d='M5,5 C30,35 70,35 95,5' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+/* Indigo phrase */
+.phrase-indigo {
+    display: inline-block;
+    text-wrap: nowrap;
+    font-family: 'Tegak Bersambung_IWK', cursive;
+}
+
+.phrase-indigo::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 16px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 50' preserveAspectRatio='none'%3E%3Cpath fill='none' stroke='%233730a3' stroke-width='4' d='M5,5 C30,35 70,35 95,5' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+/* Red phrase */
+.phrase-red {
+    display: inline-block;
+    text-wrap: nowrap;
+    font-family: 'Tegak Bersambung_IWK', cursive;
+}
+
+.phrase-red::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 16px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 50' preserveAspectRatio='none'%3E%3Cpath fill='none' stroke='%239f1239' stroke-width='4' d='M5,5 C30,35 70,35 95,5' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+/* Teal phrase */
+.phrase-teal {
+    display: inline-block;
+    text-wrap: nowrap;
+    font-family: 'Tegak Bersambung_IWK', cursive;
+}
+
+.phrase-teal::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 16px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 50' preserveAspectRatio='none'%3E%3Cpath fill='none' stroke='%23115e59' stroke-width='4' d='M5,5 C30,35 70,35 95,5' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+/* Pink iqrain for title */
+.phrase-pink-iqrain {
+    display: inline-block;
+    text-wrap: nowrap;
+    font-family: 'Tegak Bersambung_IWK', cursive;
+}
+
+.phrase-pink-iqrain::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 16px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 50' preserveAspectRatio='none'%3E%3Cpath fill='none' stroke='%23F387A9' stroke-width='4' d='M5,5 C30,35 70,35 95,5' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+/* White phrase for buttons */
+.phrase-putih {
+    display: inline-block;
+    text-wrap: nowrap;
+    font-family: 'Tegak Bersambung_IWK', cursive;
+}
+
+.phrase-putih::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 16px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 50' preserveAspectRatio='none'%3E%3Cpath fill='none' stroke='%23ffffff' stroke-width='4' d='M5,5 C30,35 70,35 95,5' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
 
 @font-face {
     font-family: 'Tegak Bersambung_IWK';
@@ -129,7 +290,7 @@ body {
    GAME HEADER
    ======================================== */
 .game-header {
-    padding: 1.5rem 2rem;
+    padding: 0.75rem 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -138,24 +299,60 @@ body {
 .letter-info-display {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.5rem;
 }
 
 .arabic-letter {
-    font-size: 3rem;
+    font-size: 2rem;
     font-weight: normal;
     color: white;
 }
 
 .letter-name-display {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 600;
     color: white;
     font-family: 'Tegak Bersambung_IWK', cursive;
 }
 
+@media (min-width: 640px) {
+    .game-header {
+        padding: 1rem 1.5rem;
+    }
+
+    .letter-info-display {
+        gap: 0.75rem;
+    }
+
+    .arabic-letter {
+        font-size: 2.5rem;
+    }
+
+    .letter-name-display {
+        font-size: 1.4rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .game-header {
+        padding: 1.5rem 2rem;
+    }
+
+    .letter-info-display {
+        gap: 1rem;
+    }
+
+    .arabic-letter {
+        font-size: 3rem;
+    }
+
+    .letter-name-display {
+        font-size: 1.5rem;
+    }
+}
+
 .exit-button {
-    background-color: #f472b6;
+    background-color: #F387A9;
     color: white;
     padding: 10px 15px;
     border-radius: 12px;
@@ -168,7 +365,7 @@ body {
 }
 
 .exit-button:hover {
-    background: #FF8FA3;
+    background: #F387A9;
     transform: translateY(-2px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
@@ -179,13 +376,26 @@ body {
 .game-main {
     flex: 1;
     display: flex;
-    padding: 2rem;
-    padding-bottom: 120px;
-    /* Space for fixed footer */
-    gap: 2rem;
-    overflow: hidden;
-    overflow-y: auto;
-    /* Allow scroll if content is too tall */
+    flex-direction: column;
+    padding: 0.5rem;
+    gap: 1rem;
+    overflow: auto;
+}
+
+@media (min-width: 768px) {
+    .game-main {
+        flex-direction: row;
+        padding: 1.5rem;
+        gap: 1.5rem;
+        overflow: hidden;
+    }
+}
+
+@media (min-width: 1024px) {
+    .game-main {
+        padding: 2rem;
+        gap: 2rem;
+    }
 }
 
 /* ========================================
@@ -202,13 +412,31 @@ body {
 
 .canvas-wrapper {
     position: relative;
-    width: 400px;
-    height: 300px;
+    width: 100%;
+    max-width: 350px;
+    height: 260px;
     border-radius: 15px;
     overflow: hidden;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-    border: 4px solid #fbcfe8;
+    border: 3px solid #fbcfe8;
     background-color: white;
+    margin: 0 auto;
+}
+
+@media (min-width: 640px) {
+    .canvas-wrapper {
+        max-width: 380px;
+        height: 285px;
+    }
+}
+
+@media (min-width: 768px) {
+    .canvas-wrapper {
+        max-width: 400px;
+        height: 300px;
+        border: 4px solid #fbcfe8;
+        margin: 0;
+    }
 }
 
 #guideCanvas {
@@ -228,14 +456,16 @@ body {
 
 .canvas-controls {
     display: flex;
-    gap: 1rem;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
 }
 
 .control-btn {
-    padding: 0.75rem 1.5rem;
+    padding: 0.6rem 1rem;
     border: none;
     border-radius: 10px;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -243,23 +473,47 @@ body {
     font-family: 'Tegak Bersambung_IWK', cursive;
 }
 
+@media (min-width: 640px) {
+    .canvas-controls {
+        flex-direction: row;
+        gap: 0.75rem;
+        width: auto;
+    }
+
+    .control-btn {
+        padding: 0.7rem 1.25rem;
+        font-size: 18px;
+    }
+}
+
+@media (min-width: 768px) {
+    .canvas-controls {
+        gap: 1rem;
+    }
+
+    .control-btn {
+        padding: 0.75rem 1.5rem;
+        font-size: 20px;
+    }
+}
+
 .btn-clear {
-    background: #FF8FA3;
+    background: #F387A9;
     color: white;
 }
 
 .btn-clear:hover {
-    background: #FF8FA3;
+    background: #ec4899;
     transform: translateY(-2px);
 }
 
 .btn-replay {
-    background: #FF8FA3;
+    background: #F387A9;
     color: white;
 }
 
 .btn-replay:hover {
-    background: #7DD3FC;
+    background: #ec4899;
     transform: translateY(-2px);
 }
 
@@ -287,16 +541,32 @@ body {
     position: relative;
     background: white;
     border-radius: 15px;
-    padding: 2rem;
-    width: 300px;
-    height: 250px;
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 350px;
+    height: 260px;
     display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     border: 3px solid #FFABC1;
-    width: 400px;
-    height: 300px;
+    margin: 0 auto;
+}
+
+@media (min-width: 640px) {
+    .preview-wrapper {
+        max-width: 380px;
+        height: 285px;
+    }
+}
+
+@media (min-width: 768px) {
+    .preview-wrapper {
+        max-width: 400px;
+        height: 300px;
+        padding: 2rem;
+        margin: 0;
+    }
 }
 
 .letter-display {
@@ -317,45 +587,87 @@ body {
    ======================================== */
 .game-footer {
     background: white;
-    padding: 1rem 2rem 2rem 2rem;
-    /* Added extra bottom padding */
-    /* Sedikit lebih ramping biar rapi */
+    padding: 0.75rem 0.5rem;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    /* Memberikan border atas pink tipis sebagai pemanis */
-    border-top: 4px solid #f472b6;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    border-top: 3px solid #F387A9;
     box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.05);
-    gap: 2rem;
-    position: fixed;
-    /* Force stick to bottom */
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    z-index: 100;
-    /* Ensure on top */
+    gap: 0.75rem;
+    position: relative;
+    z-index: 10;
+}
+
+@media (min-width: 640px) {
+    .game-footer {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.85rem 1rem;
+        gap: 1rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .game-footer {
+        padding: 1rem 1.5rem;
+        gap: 1.5rem;
+        border-top: 4px solid #F387A9;
+    }
+}
+
+@media (min-width: 1024px) {
+    .game-footer {
+        padding: 1rem 2rem;
+        gap: 2rem;
+    }
 }
 
 /* --- Progress Bar Section --- */
 .progress-container {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.5rem;
     flex: 1;
-    max-width: 450px;
-    /* Sedikit diperlebar */
+    max-width: 100%;
+}
+
+@media (min-width: 640px) {
+    .progress-container {
+        gap: 0.75rem;
+        max-width: 400px;
+    }
+}
+
+@media (min-width: 768px) {
+    .progress-container {
+        gap: 1rem;
+        max-width: 450px;
+    }
 }
 
 .progress-label {
     font-weight: 800;
-    /* Lebih tebal */
-    color: #f472b6;
-    /* Pink */
-    font-size: 1.1rem;
-    min-width: 80px;
-    font-family: 'Titan One', cursive;
-    /* Pastikan font ini terload */
-    text-shadow: 1px 1px 0px rgba(244, 114, 182, 0.2);
+    color: #F387A9;
+    font-size: 0.9rem;
+    min-width: 70px;
+    font-family: 'Tegak Bersambung_IWK', cursive;
+    text-shadow: 1px 1px 0px rgba(243, 135, 169, 0.2);
+}
+
+@media (min-width: 640px) {
+    .progress-label {
+        font-size: 1rem;
+        min-width: 75px;
+    }
+}
+
+@media (min-width: 768px) {
+    .progress-label {
+        font-size: 1.1rem;
+        min-width: 80px;
+    }
 }
 
 .progress-bar {
@@ -409,12 +721,12 @@ body {
 
 .score-label {
     font-weight: 700;
-    color: #f472b6;
-    /* Pink */
+    color: #F387A9;
+    /* IQRain Pink */
     font-size: 0.9rem;
     text-transform: uppercase;
     letter-spacing: 1px;
-    font-family: 'Titan One', cursive;
+    font-family: 'Tegak Bersambung_IWK', cursive;
 }
 
 .score-display {
@@ -434,23 +746,57 @@ body {
 /* --- Navigation Buttons --- */
 .navigation-buttons {
     display: flex;
-    gap: 1rem;
+    gap: 0.5rem;
+    width: 100%;
 }
 
 .nav-btn {
-    padding: 0.8rem 1.5rem;
+    padding: 0.6rem 0.75rem;
     border: none;
-    border-radius: 15px;
-    /* Lebih rounded */
-    font-size: 1rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s ease;
-    font-family: 'Titan One', cursive;
-    /* Font judul biar konsisten */
+    font-family: 'Tegak Bersambung_IWK', cursive;
     display: flex;
     align-items: center;
-    gap: 8px;
+    justify-content: center;
+    gap: 4px;
+    flex: 1;
+}
+
+@media (min-width: 640px) {
+    .navigation-buttons {
+        gap: 0.75rem;
+        width: auto;
+    }
+
+    .nav-btn {
+        padding: 0.7rem 1rem;
+        font-size: 0.9rem;
+        gap: 6px;
+        flex: initial;
+    }
+}
+
+@media (min-width: 768px) {
+    .navigation-buttons {
+        gap: 1rem;
+    }
+
+    .nav-btn {
+        padding: 0.8rem 1.25rem;
+        font-size: 1rem;
+        gap: 8px;
+        border-radius: 15px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .nav-btn {
+        padding: 0.8rem 1.5rem;
+    }
 }
 
 /* Tombol Sebelumnya (Outline Style) */
@@ -470,11 +816,11 @@ body {
 
 /* Tombol Berikutnya (Solid Style - Primary) */
 .btn-next {
-    background: #f472b6;
+    background: #F387A9;
     /* Background Pink */
     color: white;
     /* Teks Putih */
-    border: 3px solid #f472b6;
+    border: 3px solid #F387A9;
     /* Border Pink */
     box-shadow: 0 4px 10px rgba(244, 114, 182, 0.4);
     /* Bayangan Pink */
@@ -679,7 +1025,7 @@ body {
     font-size: 1.25rem;
     font-weight: bold;
     color: white;
-    background: linear-gradient(to right, #f472b6, #ec4899);
+    background: linear-gradient(to right, #F387A9, #ec4899);
     /* pink-400 to pink-500 */
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
     cursor: pointer;
@@ -798,7 +1144,7 @@ body {
 
 /* 1. Tombol Pink (Huruf Berikutnya) */
 .btn-pink {
-    background: linear-gradient(to right, #f472b6, #ec4899);
+    background: linear-gradient(to right, #F387A9, #ec4899);
     color: white;
     box-shadow: 0 4px 10px rgba(236, 72, 153, 0.3);
 }
@@ -814,7 +1160,7 @@ body {
 
 .btn-outline-pink:hover {
     background: #fdf2f8;
-    border-color: #f472b6;
+    border-color: #F387A9;
 }
 
 /* 3. Tombol Ghost (Menu) */
@@ -1033,11 +1379,11 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 140px;
-    height: 45px;
+    width: 100px;
+    height: 40px;
     border-radius: 9999px;
     /* rounded-full */
-    background-color: #f472b6;
+    background-color: #F387A9;
     /* bg-pink-400 */
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     /* shadow-md */
@@ -1053,22 +1399,50 @@ body {
 
 .btn-kembali-icon {
     position: absolute;
-    left: 1rem;
-    /* left-4 */
+    left: 0.5rem;
+    /* left-2 */
     display: flex;
     align-items: center;
 }
 
+.btn-kembali-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
 .btn-kembali-text {
     font-family: 'Tegak Bersambung_IWK', cursive;
-    font-size: 25px;
+    font-size: 18px;
     font-weight: normal;
     line-height: 1;
-    padding-top: 0.5rem;
-    /* pt-2 */
-    padding-left: 1rem;
-    /* pl-4 */
+    padding-top: 0.25rem;
+    /* pt-1 */
+    padding-left: 0.5rem;
+    /* pl-2 */
     color: white;
+}
+
+/* Responsive untuk tablet dan desktop */
+@media (min-width: 640px) {
+    .btn-kembali {
+        width: 140px;
+        height: 45px;
+    }
+
+    .btn-kembali-icon {
+        left: 1rem;
+    }
+
+    .btn-kembali-icon svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .btn-kembali-text {
+        font-size: 25px;
+        padding-top: 0.5rem;
+        padding-left: 1rem;
+    }
 }
 
 /* ========================================
@@ -1089,26 +1463,25 @@ body {
     width: 100%;
     max-width: 100%;
     /* max-w-6xl */
-    padding: 0 2rem;
+    padding: 0 0.75rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     position: sticky;
     top: 0;
     z-index: 10;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
 }
 
 .menu-title-wrapper {
-    background-color: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(8px);
-    padding: 0.75rem 2rem;
+    background-color: white;
+    padding: 0.5rem 1rem;
     border-radius: 9999px;
     /* rounded-full */
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    border: 4px solid #fbcfe8;
+    border: 3px solid #fbcfe8;
     /* pink-200 */
     transition: transform 0.3s;
 }
@@ -1119,18 +1492,65 @@ body {
 
 .menu-title {
     font-family: 'Tegak Bersambung_IWK', cursive;
-    font-size: 2.5rem;
+    font-size: 1.25rem;
     font-weight: bold;
-    color: transparent;
-    background-clip: text;
-    -webkit-background-clip: text;
-    background-image: linear-gradient(to right, #ec4899, #9333ea);
-    /* pink-500 to purple-600 */
+    color: #F387A9;
+    /* IQRain Pink */
     filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
     margin: 0;
+    white-space: nowrap;
 }
 
+/* Responsive untuk mobile landscape dan tablet */
+@media (min-width: 480px) {
+    .menu-title {
+        font-size: 1.75rem;
+    }
+
+    .menu-title-wrapper {
+        padding: 0.6rem 1.5rem;
+    }
+}
+
+/* Responsive untuk tablet */
+@media (min-width: 640px) {
+    .menu-header {
+        padding: 0 1.5rem;
+        margin-bottom: 1.5rem;
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+    }
+
+    .menu-title {
+        font-size: 2rem;
+    }
+
+    .menu-title-wrapper {
+        padding: 0.65rem 1.75rem;
+        border: 4px solid #fbcfe8;
+    }
+}
+
+/* Responsive untuk desktop */
 @media (min-width: 768px) {
+    .menu-header {
+        padding: 0 2rem;
+        margin-bottom: 2rem;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+
+    .menu-title {
+        font-size: 2.5rem;
+    }
+
+    .menu-title-wrapper {
+        padding: 0.75rem 2rem;
+    }
+}
+
+/* Responsive untuk desktop besar */
+@media (min-width: 1024px) {
     .menu-title {
         font-size: 3rem;
     }

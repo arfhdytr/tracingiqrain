@@ -15,18 +15,11 @@
         </div>
 
         @php
-            // Calculate stats
-            $leaderboard = $murid->leaderboards->where('mentor_id', $murid->mentor_id)->first();
-            $totalPoin = $leaderboard ? $leaderboard->total_poin_semua_game : 0;
-            
-            // Poin per game
+            // Stats sudah dihitung di controller
+            // $totalPoin dan $poinPerGame sudah di-pass dari controller
+
             $hasilGames = $murid->hasilGames;
-            $poinPerGame = [
-                'tracking' => $hasilGames->where('jenis_game_id', 1)->sum('total_poin'),
-                'labirin' => $hasilGames->where('jenis_game_id', 3)->sum('total_poin'),
-                'memory' => $hasilGames->where('jenis_game_id', 4)->sum('total_poin'),
-                'drag_drop' => $hasilGames->where('jenis_game_id', 2)->sum('total_poin'),
-            ];
+            $leaderboard = $murid->leaderboards->first();
             
             // Progress modul (Total huruf hijaiyah = 30)
             $totalModul = 30; // Total huruf hijaiyah yang harus dipelajari
@@ -161,7 +154,7 @@
                         <div class="flex items-center justify-between mb-2">
                             <div class="flex items-center gap-2">
                                 <div class="w-3 h-3 rounded-full bg-purple-500"></div>
-                                <span class="text-sm text-gray-700 dark:text-gray-300">Tracking</span>
+                                <span class="text-sm text-gray-700 dark:text-gray-300">Tracing</span>
                             </div>
                             <span class="text-sm font-bold text-gray-900 dark:text-white">{{ number_format($poinPerGame['tracking']) }} poin</span>
                         </div>

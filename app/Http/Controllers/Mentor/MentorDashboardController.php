@@ -141,7 +141,7 @@ class MentorDashboardController extends Controller
         // Pastikan murid adalah murid binaan mentor yang login
         $mentor = Auth::user()->mentor;
 
-        if ($murid->mentor_id !== $mentor->mentor_id) {
+        if ((int)$murid->mentor_id !== (int)$mentor->mentor_id) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -152,39 +152,17 @@ class MentorDashboardController extends Controller
 
     public function downloadTemplate()
     {
-        // Buat CSV template (tanpa kolom pertanyaan_preferensi)
-        $headers = [
+        // Download template CSV yang sudah disiapkan
+        $filePath = public_path('template/template_import_murid.csv');
+
+        // Check if file exists
+        if (!file_exists($filePath)) {
+            abort(404, 'Template file not found.');
+        }
+
+        return response()->download($filePath, 'template_import_murid.csv', [
             'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="template_murid.csv"',
-        ];
-
-        $columns = ['username', 'password', 'sekolah', 'jawaban_preferensi'];
-
-        $callback = function () use ($columns) {
-            $file = fopen('php://output', 'w');
-
-            // Header
-            fputcsv($file, $columns);
-
-            // Sample data
-            fputcsv($file, [
-                'murid123',
-                'password123',
-                'SD Negeri 1',
-                'Merah'
-            ]);
-
-            fputcsv($file, [
-                'anak_pintar',
-                'pass456',
-                'SD Negeri 2',
-                'Biru'
-            ]);
-
-            fclose($file);
-        };
-
-        return response()->stream($callback, 200, $headers);
+        ]);
     }
 
     public function permintaan()
@@ -285,9 +263,20 @@ class MentorDashboardController extends Controller
         // Pastikan murid adalah murid binaan mentor yang login
         $mentor = Auth::user()->mentor;
 
-        if ($murid->mentor_id !== $mentor->mentor_id) {
+        if ((int)$murid->mentor_id !== (int)$mentor->mentor_id) {
             abort(403, 'Unauthorized action.');
         }
+
+        // Hitung total poin langsung dari SUM HasilGame
+        $totalPoin = $murid->hasilGames()->sum('total_poin');
+
+        // Hitung poin per jenis game
+        $poinPerGame = [
+            'tracking' => $murid->hasilGames()->where('jenis_game_id', 1)->sum('total_poin'),
+            'labirin' => $murid->hasilGames()->where('jenis_game_id', 3)->sum('total_poin'),
+            'memory' => $murid->hasilGames()->where('jenis_game_id', 4)->sum('total_poin'),
+            'drag_drop' => $murid->hasilGames()->where('jenis_game_id', 2)->sum('total_poin'),
+        ];
 
         return view('pages.mentor.laporan-murid.detail', [
             'murid' => $murid->load([
@@ -295,7 +284,9 @@ class MentorDashboardController extends Controller
                 'leaderboards',
                 'hasilGames.jenisGame',
                 'progressModuls.modul.materiPembelajaran.tingkatanIqra'
-            ])
+            ]),
+            'totalPoin' => $totalPoin,
+            'poinPerGame' => $poinPerGame,
         ]);
     }
 }

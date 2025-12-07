@@ -206,7 +206,7 @@
             </div>
 
             <div class="flex flex-col gap-3">
-                <button onclick="restartGame()"
+                <button onclick="initGame()"
                     class="w-full py-3 bg-gradient-to-r from-pink-400 to-pink-500 text-white rounded-xl font-bold text-xl shadow-lg hover:scale-105 transition-transform font-mooli font-semibold text-base">
                     Main Lagi ↻
                 </button>

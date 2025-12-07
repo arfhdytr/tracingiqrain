@@ -389,7 +389,8 @@
                     $pos = $positions[$index] ?? ['left' => '50%', 'top' => '50%'];
                 @endphp
 
-                @if ($tingkatan->level === 1)
+                {{-- Potensi bug: jadikan value check aja == --}}
+                @if ($tingkatan->level == 1)
                     {{-- CARD AKTIF (IQRA 1) --}}
                     <a href="{{ route('murid.modul.index', $tingkatan->tingkatan_id) }}"
                         onclick="sessionStorage.setItem('current_tingkatan_id', {{ $tingkatan->tingkatan_id }})"

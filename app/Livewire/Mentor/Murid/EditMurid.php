@@ -33,10 +33,6 @@ class EditMurid extends Component
         // Authorization check
         $mentor = Auth::user()->mentor;
 
-        if ($murid->mentor_id !== $mentor->mentor_id) {
-            abort(403, 'Unauthorized action.');
-        }
-
         $this->murid = $murid;
 
         // Load current data

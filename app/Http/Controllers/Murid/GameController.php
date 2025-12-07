@@ -54,7 +54,7 @@ class GameController extends Controller
     /**
      * Menyimpan hasil (skor) dari game Tracing.
      */
-    public function storeTracingScore(Request $request)
+    public function saveTracingScore(Request $request)
     {
         // 1. Validasi Input
         $request->validate([
@@ -308,9 +308,6 @@ class GameController extends Controller
     }
 
 
-    // ==== Untuk menyimpan nilai  ===
-    // ==== 1. Logic Save Score UMUM (Memory, Labirin, Drag & Drop) ====
-    // Selalu membuat baris baru (history) setiap kali simpan
     public function saveScore(Request $request)
     {
         $request->validate([
@@ -356,80 +353,8 @@ class GameController extends Controller
         }
     }
 
-    // ==== 2. Logic Save Score KHUSUS TRACING ====
-    // Create pada huruf pertama, Update pada huruf selanjutnya
-    public function saveTracingScore(Request $request)
-    {
-        $request->validate([
-            // ID Game required kalau Create (hasil_game_id kosong)
-            'jenis_game_id' => 'required_without:hasil_game_id|exists:jenis_games,jenis_game_id',
-            'skor' => 'required|integer|min:0',
-            // hasil_game_id ada jika Update
-            'hasil_game_id' => 'nullable|exists:hasil_games,hasil_game_id',
-        ]);
 
-        try {
-            DB::beginTransaction();
 
-            $muridId = Auth::user()->murid->murid_id;
-            $newScore = $request->skor;
-            $hasilGameId = $request->hasil_game_id;
-
-            if ($hasilGameId) {
-                // --- UPDATE ---
-                $hasilGame = HasilGame::where('hasil_game_id', $hasilGameId)
-                    ->where('murid_id', $muridId)
-                    ->firstOrFail();
-
-                // Akumulasi
-                $updatedTotal = $hasilGame->total_poin + $newScore;
-
-                $hasilGame->update([
-                    'total_poin' => $updatedTotal,
-                    'skor' => $newScore,
-                ]);
-
-            } else {
-                // --- CREATE ---
-                $jenisGame = JenisGame::findOrFail($request->jenis_game_id);
-                $poinMaksimal = $jenisGame->poin_maksimal ?? 100;
-                $finalScore = min($newScore, $poinMaksimal);
-
-                $hasilGame = HasilGame::create([
-                    'murid_id' => $muridId,
-                    'jenis_game_id' => $jenisGame->jenis_game_id,
-                    'skor' => $finalScore,
-                    'total_poin' => $finalScore,
-                    'dimainkan_at' => now(),
-                ]);
-            }
-
-            // Update Leaderboard
-            if (method_exists($this, 'updateLeaderboardAndRecalculateRankings')) {
-                $this->updateLeaderboardAndRecalculateRankings($muridId);
-            } elseif (method_exists($this, 'updateLeaderboardAndRankings')) {
-                $this->updateLeaderboardAndRankings($muridId);
-            }
-
-            DB::commit();
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Skor Tracing berhasil disimpan!',
-                'hasil_game_id' => $hasilGame->hasil_game_id, // PENTING: ID buat update selanjutnya
-                'poin_didapat' => $hasilGame->skor,
-                'total_poin' => $hasilGame->total_poin
-            ]);
-
-        } catch (\Exception $e) {
-            DB::rollBack();
-            Log::error("Tracing Save Error: " . $e->getMessage());
-            return response()->json(['success' => false, 'message' => 'Gagal menyimpan skor tracing', 'error' => $e->getMessage()], 500);
-        }
-    }
-    // ==================================================================
-    // FUNGSI LEADERBOARD (TIDAK BERUBAH)
-    // ==================================================================
     private function updateLeaderboardAndRankings($murid_id)
     {
         //Hitung Total Skor Baru si Murid

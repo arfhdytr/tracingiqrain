@@ -28,23 +28,19 @@ class TrackingDetail extends Component
 
     public function calculateStats()
     {
-        // Total Poin dari Leaderboard
-        $leaderboard = $this->murid->leaderboards->where('mentor_id', null)->first();
-        $this->totalPoin = $leaderboard ? $leaderboard->total_poin_semua_game : 0;
-
         // Poin per Game
         $hasilGames = $this->murid->hasilGames;
 
-        // Group by jenis_game_id dan sum total_poin
         $this->poinPerGame = [
-            'tracking' => $hasilGames->where('jenis_game_id', 1)->sum('total_poin'), // Tracking
-            'labirin' => $hasilGames->where('jenis_game_id', 3)->sum('total_poin'),  // Labirin
-            'memory' => $hasilGames->where('jenis_game_id', 4)->sum('total_poin'),   // Memory Card
-            'drag_drop' => $hasilGames->where('jenis_game_id', 2)->sum('total_poin'), // Kuis Drag & Drop
+            'tracking' => $hasilGames->where('jenis_game_id', 1)->sum('total_poin'),
+            'labirin' => $hasilGames->where('jenis_game_id', 3)->sum('total_poin'),
+            'memory' => $hasilGames->where('jenis_game_id', 4)->sum('total_poin'),
+            'drag_drop' => $hasilGames->where('jenis_game_id', 2)->sum('total_poin'),
         ];
 
-        // Progress Modul (persentase modul yang selesai)
-        $totalModul = 30; // Jumlah huruf hijaiyah tetap
+        $this->totalPoin = array_sum($this->poinPerGame);
+
+        $totalModul = 30;
         $modulSelesai = $this->murid->progressModuls->where('status', 'selesai')->count();
         $this->progressModul = $totalModul > 0 ? round(($modulSelesai / $totalModul) * 100) : 0;
     }

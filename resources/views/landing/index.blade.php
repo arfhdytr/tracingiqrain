@@ -75,9 +75,17 @@
             pointer-events: auto;
         }
 
+        .navbar-logo {
+            margin-left: -600px;
+        }
+
         .logo-image {
             height: 40px;
             width: auto;
+        }
+
+        .navbar-login {
+            margin-right: -600px;
         }
 
         .navbar-box-wrapper {
@@ -141,15 +149,19 @@
            3. HERO SECTION
            ========================================= */
         .hero-section {
-            background-image: url("{{ asset('images/landing/landing-background.webp') }}");
-            background-size: 100% 100%;
-            background-position: top center;
-            background-repeat: no-repeat;
-            padding-bottom: 350px;
+            background-image: url("{{ asset('images/landing/landing-background.webp') }}"); 
+            background-size: auto 100%; ; 
+            background-repeat: repeat-x;
+            background-position: center top;
+            padding: 0 0 350px 0; 
             color: var(--color-white);
             position: relative;
-            border-radius: 0;
+            overflow: hidden;
+            border-bottom-left-radius: 50px; 
+            border-bottom-right-radius: 50px;
+            display: flex; flex-direction: column; align-items: flex-start;
         }
+        
 
         .hero-content-wrapper {
             display: flex;
@@ -948,7 +960,7 @@
 
         /* 1. Indikator Garis & Titik */
         .footer-indicator {
-            display: flex;
+            display: none;
             align-items: center;
             justify-content: center;
             gap: 8px;
@@ -1028,6 +1040,14 @@
                 padding: 0 20px;
             }
 
+            .navbar-logo { 
+                margin-left: -300px; 
+            }
+
+            .navbar-login { 
+                margin-right: -300px; 
+            }
+
             .hero-content-wrapper {
                 flex-direction: column;
                 text-align: center;
@@ -1055,33 +1075,38 @@
             }
 
             .content-white {
-                flex-direction: column;
-                text-align: center;
-                padding: 40px 20px;
+                flex-direction: row;
+                text-align: right;
+                padding: 30px 20px;
+                gap: 15px
             }
 
             .mascot-intro {
-                width: 250px;
-                /* Reset size for mobile */
+                width: 35%;
+                max-width: 150px; 
                 margin-left: 0;
-                transform: none;
+                margin-right: 10px;
+                transform: scale(1.2) translateY(-10px);
+                flex-shrink: 0;
             }
 
             .text-intro-white {
-                width: 100%;
+                width: 65%;
+                flex: 1;
                 padding-right: 0;
             }
 
             .text-intro-white h2 {
-                font-size: 28px;
+                font-size: 24px;
             }
 
             .qira-highlight {
-                font-size: 48px;
+                font-size: 36px;
             }
 
             .text-intro-white p {
                 font-size: 16px;
+                line-height: 20px;
             }
 
             .card-pink-wrapper {
@@ -1178,16 +1203,37 @@
             .learning-flex-container {
                 flex-direction: column-reverse;
                 align-items: center;
-                gap: 30px;
+                gap: 20px;
             }
 
             .learning-title-wrapper {
                 width: 100%;
                 text-align: center;
+                padding: 0;
+                flex: auto; 
+            }
+
+            .learning-goals-section {
+                padding: 40px 0;
+                margin-bottom: 40px;          
+            }
+
+            .goals-static-title {
+                font-size: 40px;                  
+                           
             }
 
             .goals-card {
                 width: 100%;
+                max-width: 650px;
+            }
+
+            .goal-header {
+                font-size: 18px;
+            }
+
+            .goal-description p {
+                font-size: 16px;
             }
 
             .footer-top-content {

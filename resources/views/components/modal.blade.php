@@ -38,11 +38,10 @@ $maxWidth = [
 
     <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
         {{-- MODAL CONTENT --}}
-        <div 
-            x-show="show" 
+        <div
+            x-show="show"
             @click.stop
             class="relative z-10 bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-xl transform transition-all w-full {{ $maxWidth }} text-left"
-            x-trap.inert.noscroll="show"
             x-transition:enter="ease-out duration-300"
             x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"

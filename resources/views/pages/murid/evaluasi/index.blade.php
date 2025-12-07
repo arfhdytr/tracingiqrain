@@ -11,6 +11,9 @@
     <style>
         /* Font Import */
         @import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap');
+
+        .font-fredoka { font-family: 'Fredoka', sans-serif; }
         
         @font-face {
             font-family: 'Tegak Bersambung_IWK';
@@ -36,7 +39,6 @@
 @endpush
 
 @section('content')
-{{-- FIXED BACKGROUND LAYER --}}
 <div class="fixed inset-0 w-full h-full pointer-events-none"
     style="background: linear-gradient(180deg, #56B1F3 0%, #D3F2FF 100%); z-index: -1;">
     
@@ -51,25 +53,30 @@
 </div>
 
 <div class="w-full relative overflow-x-hidden" style="z-index: 10;">
-    <div class="max-w-5xl mx-auto">
+    <div class="">
                 
-        {{-- HEADER SECTION --}}
-            <div class="container mx-auto px-4 pt-8 pb-12">
+        <!--  -->
+        <div class="container mx-auto px-4 pt-8 pb-12">
             <div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-12 max-w-6xl mx-auto">
-                
-                {{-- Maskot Gajah (KIRI) --}}
+
+                {{-- Maskot Qira Bingung (KIRI) --}}
                 <div class="w-[180px] md:w-[280px] transform hover:rotate-3 transition-transform duration-500">
-                    <img src="{{ asset('images/maskot/ceria.webp') }}" alt="Qira Happy"
-                        class="w-full h-auto drop-shadow-2xl">
+                    <img src="{{ asset('images/maskot/qira-bingung.webp') }}" alt="Qira Bingung" class="w-full h-auto drop-shadow-2xl">
                 </div>
 
-                {{-- Teks Header (KANAN) --}}
+                {{-- Text Header (KANAN) --}}
                 <div class="text-center md:text-left">
                     <h1 class="font-titan text-[40px] md:text-[55px] text-[#234275] leading-tight mb-2 text-shadow-header">
                         Bagaimana Permainannya?
                     </h1>
-                    <p class="font-cursive-iwk text-[35px] md:text-[60px] text-[#234275] leading-none text-shadow-header">
-                        Lihat kemajuan dan bersiap<br>untuk tantangan berikutnya
+                    <p class="text-[35px] md:text-[40px] text-[#234275] my-5 leading-none text-shadow-header">
+                        <span class="font-cursive-iwk phrase-biru-tua">Lihat</span>
+                        <span class="font-cursive-iwk phrase-biru-tua">kemajuan</span>
+                        <span class="font-cursive-iwk phrase-biru-tua">dan</span>
+                        <span class="font-cursive-iwk phrase-biru-tua">bersiap</span>
+                        <span class="font-cursive-iwk phrase-biru-tua">untuk</span>
+                        <span class="font-cursive-iwk phrase-biru-tua">tantangan</span>
+                        <span class="font-cursive-iwk phrase-biru-tua">berikutnya!</span>
                     </p>
                 </div>
             </div>
@@ -81,12 +88,12 @@
             <div class="bg-white rounded-full p-1 shadow-lg inline-flex">
                 <button onclick="switchTab('leaderboard')" 
                         id="tab-leaderboard" 
-                        class="font-cursive-iwk tab-button px-8 py-3 rounded-full font-bold text-3xl transition-all duration-300 bg-[var(--color-iqrain-pink)] text-white transition-all duration-300 cursor-pointer">
+                        class="font-fredoka tab-button px-8 py-3 rounded-full font-bold text-2xl transition-all duration-300 bg-[var(--color-iqrain-pink)] text-white transition-all duration-300 cursor-pointer">
                     Leaderboard
                 </button>
                 <button onclick="switchTab('evaluasi')" 
                         id="tab-evaluasi" 
-                        class="font-cursive-iwk tab-button px-8 py-3 rounded-full font-bold text-3xl transition-all duration-300  text- transition-all duration-300 cursor-pointer text-pink-500">
+                        class="font-fredoka tab-button px-8 py-3 rounded-full font-bold text-2xl transition-all duration-300 transition-all duration-300 cursor-pointer text-[#D75C82]">
                     Evaluasi
                 </button>
             </div>
@@ -94,7 +101,7 @@
         
         <!-- Leaderboard Content -->
         <div id="content-leaderboard" class="tab-content flex justify-center items-center">
-            <div class="bg-white rounded-3xl shadow-2xl" style="width: 800px; height: 900px; overflow: hidden; display: flex; flex-direction: column;">
+            <div class="bg-[#FFFFEB] border-[4px] border-[#F387A9] rounded-3xl shadow-2xl" style="width: 800px; height: 900px; overflow: hidden; display: flex; flex-direction: column;">
                    
                 {{-- Custom Dropdown Filter --}}
                 <div class="flex justify-end mb-4 px-6 pt-6 flex-shrink-0 relative z-20">
@@ -106,7 +113,7 @@
                                 class="flex items-center gap-3 hover:bg-blue-700 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-blue-500/30 transition-all duration-300 transform active:scale-95 border-2 border-blue-500" style="background-color: var(--color-iqrain-blue) !important;">
                             
                             {{-- Teks Berubah Sesuai Pilihan --}}
-                            <span class="font-cursive-iwk tracking-wide text-xl">
+                            <span class="font-fredoka text-2xl tracking-wide text-base font-semibold">
                                 {{ $leaderboardType === 'mentor' ? 'Lingkup Mentor' : 'Lingkup Global' }}
                             </span>
 
@@ -128,8 +135,8 @@
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                     </div>
                                     <div class="flex flex-col ">
-                                        <span class="font-cursive-iwk text-xl">Global Rank</span>
-                                        <span class="font-cursive-iwk text-sm opacity-70">Semua Murid</span>
+                                        <span class="font-mooli text-base">Global Rank</span>
+                                        <span class="font-mooli text-sm opacity-70">Semua Murid</span>
                                     </div>
                                     @if($leaderboardType === 'global')
                                         <svg class="w-5 h-5 ml-auto text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
@@ -143,8 +150,8 @@
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                                     </div>
                                     <div class="flex flex-col">
-                                        <span class="font-cursive-iwk text-xl">Mentor Rank</span>
-                                        <span class="font-cursive-iwk text-sm opacity-70">Teman Sekelas</span>
+                                        <span class="font-mooli text-base">Mentor Rank</span>
+                                        <span class="font-mooli text-sm opacity-70">Teman Sekelas</span>
                                     </div>
                                     @if($leaderboardType === 'mentor')
                                         <svg class="w-5 h-5 ml-auto text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
@@ -175,10 +182,10 @@
                                 alt="{{ $rank2->murid->user->username ?? 'Murid 2' }}"
                                 class="bg-gray-200 rounded-full w-26 h-26 object-cover border-4 border-gray-300 mx-auto ">
                             
-                            <p class="font-cursive-iwk text-3xl text-gray-700 truncate px-1 lowercase">{{ $rank2->murid->user->username ?? 'Murid 2' }}</p>
-                            <p class="font-cursive-iwk text-xl text-gray-500">Skor <span>{{ $rank2->total_poin_semua_game }}</span></p>
+                            <p class="font-cursive-iwk phrase-kuning font-bold text-3xl text-gray-700 truncate px-1 lowercase">{{ $rank2->murid->user->username ?? 'Murid 2' }}</p>
+                            <p class="font-mooli text-base text-gray-500 pb-2">Skor <span>{{ $rank2->total_poin_semua_game }}</span></p>
                             <div class="bg-gray-300 rounded-t-3xl shadow-lg flex items-center justify-center" style="height: 130px;">
-                                <div class="text-3xl font-bold text-gray-600">2</div>
+                                <div class="font-titan text-3xl font-bold text-gray-600">2</div>
                             </div>
                         </div>
 
@@ -195,14 +202,14 @@
                                     alt="{{ $rank1->murid->user->username ?? 'Murid 1' }}"
                                     class="bg-yellow-400 rounded-full w-36 h-36 object-cover border-4 border-yellow-500 mx-auto shadow-lg relative z-10">
                             </div>
-                            <p class="font-cursive-iwk text-3xl text-gray-700 truncate px-1 lowercase mt-2">
+                            <p class="font-cursive-iwk phrase-kuning text-4xl font-bold text-gray-700 truncate px-1 lowercase mt-2">
                                 {{ $rank1->murid->user->username ?? 'Murid 1' }}
                             </p>                    
-                            <p class="font-cursive-iwk text-xl text-gray-600 mb-1">
+                            <p class="font-mooli text-xl text-gray-600 mb-1 pb-2">
                                 Skor <span>{{ $rank1->total_poin_semua_game }}</span>
                             </p>                            
                             <div class="bg-gradient-to-b from-yellow-300 to-yellow-400 rounded-t-3xl shadow-xl flex flex-col items-center justify-center" style="height: 200px;">
-                                <div class="text-6xl font-bold text-yellow-700">1</div>
+                                <div class="font-titan text-6xl font-bold text-yellow-700">1</div>
                             </div>
                         </div>
 
@@ -212,10 +219,10 @@
                                 alt="{{ $rank3->murid->user->username ?? 'Murid 3' }}"
                                 class="bg-orange-200 rounded-full w-26 h-26 object-cover border-4 border-orange-300 mx-auto ">
 
-                            <p class="font-cursive-iwk text-3xl text-gray-700 truncate px-1 lowercase">{{ $rank3->murid->user->username ?? 'Murid 3' }}</p>
-                            <p class="font-cursive-iwk text-xl text-gray-500">Skor <span>{{ $rank3->total_poin_semua_game }}</span></p>
+                            <p class="font-cursive-iwk font-bold phrase-kuning text-3xl text-gray-700 truncate px-1 lowercase">{{ $rank3->murid->user->username ?? 'Murid 3' }}</p>
+                            <p class="font-mooli text-base text-gray-500 pb-2">Skor <span>{{ $rank3->total_poin_semua_game }}</span></p>
                             <div class="bg-orange-300 rounded-t-3xl shadow-lg flex items-center justify-center" style="height: 60px;">
-                                <div class="text-2xl font-bold text-orange-600">3</div>
+                                <div class="font-titan text-2xl font-bold text-orange-600">3</div>
                             </div>
                         </div>
                     </div>
@@ -228,9 +235,9 @@
 
                     @forelse($listItems as $leaderboard)
 
-                        <div class="flex items-center justify-between bg-gray-50 rounded-2xl p-3 hover:bg-gray-100 transition-colors">
+                        <div class="flex items-center justify-between bg-[#F9DAE4] rounded-2xl p-3 hover:bg-gray-200 transition-colors">
                             <div class="flex items-center gap-3">
-                                <div class="text-xl font-bold text-gray-400 w-10 text-center">
+                                <div class="font-titan text-xl text-gray-500 w-10 text-center">
                                     
                                     {{ sprintf('%02d', $leaderboard->ranking_display) }}
                                 </div>
@@ -239,9 +246,9 @@
                                     alt="{{ $leaderboard->murid->user->username ?? 'Murid' }}"
                                     class="bg-blue-100 rounded-full w-10 h-10 object-cover border-2 border-blue-200">
 
-                                <p class="font-cursive-iwk text-gray-700 truncate text-2xl lowercase">{{ $leaderboard->murid->user->username ?? 'Murid' }}</p>
+                                <p class="font-cursive-iwk phrase-pink text-gray-700 truncate text-3xl lowercase">{{ $leaderboard->murid->user->username ?? 'Murid' }}</p>
                             </div>
-                            <p class="text-lg font-bold text-pink-500">{{ $leaderboard->total_poin_semua_game }}</p>
+                            <p class="font-titan text-xl text-pink-500 pr-2">{{ $leaderboard->total_poin_semua_game }}</p>
                         </div>
                         @empty
                             <div class="flex flex-col items-center justify-center py-10">
@@ -262,13 +269,17 @@
                 </div>
                 
                 @if($myRanking)
-                <div class="mt-4 mb-4 mx-6 rounded-2xl p-4 border-4 border-pink-300 flex-shrink-0">
-                    <p class="font-cursive-iwk text-2xl text-center font-bold text-gray-700">
-                        Peringkatmu: 
-                        <span class="text-2xl text-pink-500">
+                <div class="mt-4 mb-4 mx-6 rounded-2xl p-4 bg-[#CAEDFE] flex-shrink-0">
+                    <p class="text-center font-bold text-gray-600">
+                        <span class="font-cursive-iwk phrase-pink text-3xl">Peringkatmu</span>
+                        <span>:</span>
+                        <span class="text-2xl text-pink-500 font-nanum">
                             #{{ $myRanking->ranking_display }}
                         </span>
-                        dengan skor <span class="text-pink-500">{{ $myRanking->total_poin_semua_game }}</span> poin
+                            <span class="mr-2 font-cursive-iwk phrase-pink text-3xl">dengan</span>
+                            <span class="font-cursive-iwk phrase-pink text-3xl">skor</span>  
+                        <span class="font-nanum text-2xl text-pink-500">{{ $myRanking->total_poin_semua_game }}</span>
+                            <span class="font-cursive-iwk phrase-pink text-3xl">poin</span>
                     </p>
                 </div>
                 @endif
@@ -278,7 +289,7 @@
             
         <!-- Evaluasi Content -->       
         <div id="content-evaluasi" class="tab-content hidden flex justify-center items-start">
-            <div class="bg-white rounded-3xl shadow-2xl flex flex-col h-auto w-[800px]">                          
+            <div class="bg-[#FFFFEB] border-[4px] border-[#F387A9] rounded-3xl shadow-2xl flex flex-col h-auto w-[800px] scale-[0.9]">                          
                 <!-- Scrollable Content -->
                 <div class="flex-1 min-h-0 overflow-y-auto py-10 px-6 space-y-4">
                     @forelse($evaluasiData as $data)
@@ -286,9 +297,9 @@
                         <div class="flex items-center gap-4">
                             <!-- Icon -->
                             <div class="bg-white rounded-xl p-3 w-40 h-40 flex items-center justify-center flex-shrink-0">
-                                @if($data['game']->nama_game === 'Tracking')
+                                @if($data['game']->nama_game === 'Tracing')
                                     <img src="{{ asset('images/icon/tracing.webp') }}" 
-                                        alt="Tracking"
+                                        alt="Tracing"
                                         class="w-full h-full object-cover rounded-xl">
                                 @elseif($data['game']->nama_game === 'Labirin')
                                     <img src="{{ asset('images/icon/maze.webp') }}" 
@@ -307,20 +318,28 @@
                             
                             <!-- Game Info -->
                             <div class="flex-1 text-white">
-                                <h3 class="font-cursive-iwk text-5xl font-bold mb-3">{{ $data['game']->nama_game }}</h3>
+                                <h3 class="font-fredoka text-3xl font-bold mb-3">{{ $data['game']->nama_game }}</h3>
                                 
                                 <div class="space-y-1">
-                                    <p class="font-cursive-iwk text-xl font-bold">
-                                        Score : <span class="text-3xl">{{ $data['result'] ? $data['result']->total_poin : '0' }}</span>
+                                    <p class="font-cursive-iwk text-3xl font-bold">
+                                        <span class="font-cursive-iwk text-3xl phrase-putih">Skor</span>
+                                        <span class="font-nanum">:</span> 
+                                        <span class="text-3xl">{{ $data['result'] ? $data['result']->total_poin : '0' }}</span>
                                     </p>
                                     
                                     @if($data['result'])
-                                        <p class="font-cursive-iwk text-3xl font-light">
-                                            Ulasan: {{ $data['ulasan'] ?? 'Hebat, pertahankan!' }}
+                                        <p class="font-light">
+                                            <span class="font-cursive-iwk text-3xl phrase-putih">Ulasan</span>
+                                            <span class="font-nanum">:</span> 
+                                            {{ $data['ulasan'] ?? 'Hebat, pertahankan!' }}
                                         </p>
                                     @else
-                                        <p class="font-cursive-iwk text-3xl font-light italic">
-                                            Ulasan: Belum pernah dimainkan
+                                        <p>
+                                            <span class="font-cursive-iwk text-3xl phrase-putih">Ulasan</span>
+                                            <span class="font-nanum">:</span> 
+                                            <span class="font-cursive-iwk text-3xl phrase-putih">Belum</span>
+                                            <span class="font-cursive-iwk text-3xl phrase-putih">pernah</span>
+                                            <span class="font-cursive-iwk text-3xl phrase-putih">dimainkan.</span>
                                         </p>
                                     @endif
                                 </div>
@@ -352,11 +371,11 @@
     if (tab === 'leaderboard') {
         // Aktifkan Leaderboard
         leaderboardTab.classList.add('bg-[var(--color-iqrain-pink)]', 'text-white');
-        leaderboardTab.classList.remove('text-pink-500', 'bg-transparent');
+        leaderboardTab.classList.remove('text-[#D75C82]', 'bg-transparent');
         
         // Nonaktifkan Evaluasi
         evaluasiTab.classList.remove('bg-[var(--color-iqrain-pink)]', 'text-white');
-        evaluasiTab.classList.add('text-pink-500', 'bg-transparent');
+        evaluasiTab.classList.add('text-[#D75C82]', 'bg-transparent');
         
         // Toggle content
         leaderboardContent.classList.remove('hidden');
@@ -364,11 +383,11 @@
     } else {
         // Aktifkan Evaluasi
         evaluasiTab.classList.add('bg-[var(--color-iqrain-pink)]', 'text-white');
-        evaluasiTab.classList.remove('text-pink-500', 'bg-transparent');
+        evaluasiTab.classList.remove('text-[#D75C82]', 'bg-transparent');
         
         // Nonaktifkan Leaderboard
         leaderboardTab.classList.remove('bg-[var(--color-iqrain-pink)]', 'text-white');
-        leaderboardTab.classList.add('text-pink-500', 'bg-transparent');
+        leaderboardTab.classList.add('text-[#D75C82]', 'bg-transparent');
         
         // Toggle content
         evaluasiContent.classList.remove('hidden');

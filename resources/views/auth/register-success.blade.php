@@ -36,21 +36,17 @@
             </div>
 
             <div class="mb-6">
-                <h1 class="text-5xl lg:text-6xl font-mooli font-bold text-white mb-2"
+                <h1 class="text-5xl lg:text-6xl font-fredoka font-bold text-white mb-2"
                     style="text-shadow: 2px 2px 4px rgba(0,0,0,0.1);">
                     Selamat!
                 </h1>
-                <p class="font-cursive text-4xl text-white mb-4">
-                    Akun kamu sudah berhasil didaftarkan.
+                <p class="font-fredoka text-2xl text-white mb-4">
+                    Akun kamu sudah siap digunakan!
                 </p>
-                
-                @if(session('message'))
-                    <p class="text-white mb-4">{{ session('message') }}</p>
-                @endif
             </div>
 
-            <a href="{{ route('login') }}" 
-               class="inline-block bg-pink-400 text-white font-mooli font-bold py-3 px-8 rounded-xl shadow-lg hover:bg-pink-500 transition">
+            <a href="{{ route('auto.login') }}"
+               class="inline-block bg-pink-400 text-white font-fredoka font-bold py-3 px-8 rounded-xl shadow-lg hover:bg-pink-500 transition">
                 Yuk Mulai Belajar!
             </a>
             

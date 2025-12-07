@@ -21,6 +21,10 @@
             font-weight: normal;
             font-style: normal;
         }
+        /* Font Mooli untuk Skor */
+        .font-mooli {
+            font-family: 'Mooli', sans-serif !important;
+        }
 
         /* Import Font Titan One dari Google Fonts secara global */
         @import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
@@ -54,8 +58,8 @@
 
         /* Navbar Link Items */
         .nav-item {
-            font-family: 'Tegak Bersambung IWK', cursive;
-            font-size: 25px;
+            font-family: 'Mooli', sans-serif;
+            font-size: 18px;
             transition: all 0.3s ease;
         }
 
@@ -73,15 +77,25 @@
             color: white;
         }
 
-        /* Mobile Menu */
-        .mobile-menu {
+        /* Mobile Menu Container - Separate box */
+        .mobile-menu-container {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease-in-out;
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            opacity: 0;
+            background: #F387A9;
+            border-radius: 24px;
+            box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
         }
 
-        .mobile-menu.active {
-            max-height: 500px;
+        .mobile-menu-container.active {
+            max-height: 400px;
+            opacity: 1;
+        }
+
+        /* Mobile Menu Inner */
+        .mobile-menu {
+            width: 100%;
         }
 
         /* --- Padding Content --- */
@@ -227,19 +241,19 @@
 
                     <div class="flex items-center space-x-2">
                         <a href="{{ route('murid.modul.index', ['tingkatan_id' => session('current_tingkatan_id', 1)]) }}"
-                            class="nav-item px-6 py-2 rounded-full text-sm {{ request()->routeIs('murid.modul.*') ? 'active' : '' }}">
+                            class="nav-item px-6 py-2 rounded-full text-xs {{ request()->routeIs('murid.modul.*') ? 'active' : '' }}">
                             Modul
                         </a>
                         <a href="{{ route('murid.games.index', ['tingkatan_id' => session('current_tingkatan_id', 1)]) }}"
-                            class="nav-item px-6 py-2 rounded-full text-sm {{ request()->routeIs('murid.games.*') ? 'active' : '' }}">
+                            class="nav-item px-6 py-2 rounded-full text-xs {{ request()->routeIs('murid.games.*') ? 'active' : '' }}">
                             Games
                         </a>
                         <a href="{{ route('murid.evaluasi.index', ['tingkatan_id' => session('current_tingkatan_id', 1)]) }}"
-                            class="nav-item px-6 py-2 rounded-full text-sm {{ request()->routeIs('murid.evaluasi.*') ? 'active' : '' }}">
+                            class="nav-item px-6 py-2 rounded-full text-xs {{ request()->routeIs('murid.evaluasi.*') ? 'active' : '' }}">
                             Evaluasi
                         </a>
                         <a href="{{ route('murid.mentor.index') }}"
-                            class="nav-item px-6 py-2 rounded-full text-sm {{ request()->routeIs('murid.mentor.*') ? 'active' : '' }}">
+                            class="nav-item px-6 py-2 rounded-full text-xs {{ request()->routeIs('murid.mentor.*') ? 'active' : '' }}">
                             Mentor
                         </a>
                     </div>
@@ -281,14 +295,13 @@
 
                 {{-- Mobile Navigation --}}
                 <div class="md:hidden">
-                    <div class="flex items-center justify-between">
+                    <div class="flex items-center justify-between h-full">
                         {{-- Logo --}}
-                        <a href="{{ route('murid.pilih-iqra') }}" class="flex items-center space-x-2">
+                        <a href="{{ route('murid.pilih-iqra') }}" class="flex items-center">
                             <img src="{{ asset('images/asset/logo.webp') }}" alt="Logo IQRAIN" class="w-10 h-10 object-contain">
                         </a>
 
                         <div class="flex items-center space-x-3">
-                            {{-- Profile Icon --}}
                             {{-- Profile Icon Mobile --}}
                             <div class="relative" x-data="{ open: false }">
                                 <button @click="open = !open" @click.away="open = false"
@@ -326,36 +339,38 @@
                             </div>
 
                             {{-- Hamburger Button --}}
-                            <button id="mobileMenuToggle" class="text-white focus:outline-none">
+                            <button id="mobileMenuToggle" class="text-white focus:outline-none flex items-center justify-center">
                                 <i class="fas fa-bars text-2xl"></i>
                             </button>
-                        </div>
-                    </div>
-
-                    {{-- Mobile Menu --}}
-                    <div id="mobileMenu" class="mobile-menu mt-4">
-                        <div class="flex flex-col space-y-2">
-                            <a href="{{ route('murid.modul.index', ['tingkatan_id' => session('current_tingkatan_id', 1)]) }}"
-                                class="nav-item px-4 py-2 rounded-full text-center {{ request()->routeIs('murid.modul.*') ? 'active' : '' }}">
-                                <i class="fas fa-book mr-2"></i>Modul
-                            </a>
-                            <a href="{{ route('murid.games.index', ['tingkatan_id' => session('current_tingkatan_id', 1)]) }}"
-                                class="nav-item px-4 py-2 rounded-full text-center {{ request()->routeIs('murid.games.*') ? 'active' : '' }}">
-                                <i class="fas fa-gamepad mr-2"></i>Games
-                            </a>
-                            <a href="{{ route('murid.evaluasi.index', ['tingkatan_id' => session('current_tingkatan_id', 1)]) }}"
-                                class="nav-item px-4 py-2 rounded-full text-center {{ request()->routeIs('murid.evaluasi.*') ? 'active' : '' }}">
-                                <i class="fas fa-clipboard-check mr-2"></i>Evaluasi
-                            </a>
-                            <a href="{{ route('murid.mentor.index') }}"
-                                class="nav-item px-4 py-2 rounded-full text-center {{ request()->routeIs('murid.mentor.*') ? 'active' : '' }}">
-                                <i class="fas fa-user-tie mr-2"></i>Mentor
-                            </a>
                         </div>
                     </div>
                 </div>
             </div>
         </nav>
+
+        {{-- Mobile Menu Container (Outside Navbar) --}}
+        <div id="mobileMenuContainer" class="mobile-menu-container fixed top-24 left-4 right-4 z-40 md:hidden">
+            <div id="mobileMenu" class="mobile-menu">
+                <div class="flex flex-col space-y-2 p-4">
+                    <a href="{{ route('murid.modul.index', ['tingkatan_id' => session('current_tingkatan_id', 1)]) }}"
+                        class="nav-item px-4 py-2 rounded-full text-center {{ request()->routeIs('murid.modul.*') ? 'active' : '' }}">
+                        <i class="fas fa-book mr-2"></i>Modul
+                    </a>
+                    <a href="{{ route('murid.games.index', ['tingkatan_id' => session('current_tingkatan_id', 1)]) }}"
+                        class="nav-item px-4 py-2 rounded-full text-center {{ request()->routeIs('murid.games.*') ? 'active' : '' }}">
+                        <i class="fas fa-gamepad mr-2"></i>Games
+                    </a>
+                    <a href="{{ route('murid.evaluasi.index', ['tingkatan_id' => session('current_tingkatan_id', 1)]) }}"
+                        class="nav-item px-4 py-2 rounded-full text-center {{ request()->routeIs('murid.evaluasi.*') ? 'active' : '' }}">
+                        <i class="fas fa-clipboard-check mr-2"></i>Evaluasi
+                    </a>
+                    <a href="{{ route('murid.mentor.index') }}"
+                        class="nav-item px-4 py-2 rounded-full text-center {{ request()->routeIs('murid.mentor.*') ? 'active' : '' }}">
+                        <i class="fas fa-user-tie mr-2"></i>Mentor
+                    </a>
+                </div>
+            </div>
+        </div>
     @endif
 
     <main class="content-wrapper">
@@ -412,15 +427,15 @@
         // Mobile Menu Toggle
         document.addEventListener('DOMContentLoaded', function () {
             const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileMenuContainer = document.getElementById('mobileMenuContainer');
 
-            if (mobileMenuToggle && mobileMenu) {
+            if (mobileMenuToggle && mobileMenuContainer) {
                 mobileMenuToggle.addEventListener('click', function () {
-                    mobileMenu.classList.toggle('active');
+                    mobileMenuContainer.classList.toggle('active');
 
                     // Toggle icon
                     const icon = this.querySelector('i');
-                    if (mobileMenu.classList.contains('active')) {
+                    if (mobileMenuContainer.classList.contains('active')) {
                         icon.classList.remove('fa-bars');
                         icon.classList.add('fa-times');
                     } else {
@@ -431,10 +446,10 @@
 
                 // Close menu when clicking outside
                 document.addEventListener('click', function (event) {
-                    const isClickInside = mobileMenuToggle.contains(event.target) || mobileMenu.contains(event.target);
+                    const isClickInside = mobileMenuToggle.contains(event.target) || mobileMenuContainer.contains(event.target);
 
-                    if (!isClickInside && mobileMenu.classList.contains('active')) {
-                        mobileMenu.classList.remove('active');
+                    if (!isClickInside && mobileMenuContainer.classList.contains('active')) {
+                        mobileMenuContainer.classList.remove('active');
                         const icon = mobileMenuToggle.querySelector('i');
                         icon.classList.remove('fa-times');
                         icon.classList.add('fa-bars');

@@ -1016,6 +1016,17 @@ const cardColors = [
     'bg-teal-100 border-teal-300 text-teal-800',
 ];
 
+const phraseColors = [
+    'phrase-blue',
+    'phrase-green',
+    'phrase-yellow',
+    'phrase-purple',
+    'phrase-card-pink',
+    'phrase-indigo',
+    'phrase-red',
+    'phrase-teal',
+];
+
 function renderMenu() {
     const grid = document.getElementById('letter-grid');
     if (!grid) return;
@@ -1024,10 +1035,11 @@ function renderMenu() {
 
     allHijaiyahData.forEach((letter, index) => {
         const colorClass = cardColors[index % cardColors.length];
+        const phraseClass = phraseColors[index % phraseColors.length];
 
         const card = document.createElement('div');
         card.className = `
-            ${colorClass} border-b-4 rounded-xl p-4 flex flex-col items-center justify-center 
+            ${colorClass} border-b-4 rounded-xl p-4 flex flex-col items-center justify-center
             cursor-pointer transform transition-all duration-200 hover:-translate-y-1 hover:shadow-lg active:translate-y-0
             aspect-[3/4] shadow-sm
         `;
@@ -1037,7 +1049,7 @@ function renderMenu() {
                 <span class="text-6xl font-bold font-['Amiri']">${letter.arabic}</span>
             </div>
             <div class="w-full border-t border-black/10 mt-2 pt-2 text-center">
-                <span class="text-sm font-bold uppercase tracking-wider opacity-80">${letter.name}</span>
+                <span class="font-cursive-iwk text-xl ${phraseClass}">${letter.name}</span>
             </div>
         `;
 

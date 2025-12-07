@@ -29,6 +29,13 @@ class RegisterMuridController extends Controller
     {
         // Validasi step 1 (data akun)
         if ($request->step == 1) {
+            // Log untuk debugging
+            \Log::info('Step 1 - Register Request', [
+                'username' => $request->username,
+                'has_password' => !empty($request->password),
+                'has_password_confirmation' => !empty($request->password_confirmation),
+            ]);
+
             $validator = Validator::make($request->all(), [
                 'username' => ['required', 'string', 'max:50', 'unique:users,username', 'alpha_dash'],
                 'password' => ['required', 'string', 'min:8', 'confirmed'],
@@ -43,8 +50,11 @@ class RegisterMuridController extends Controller
             ]);
 
             if ($validator->fails()) {
+                \Log::warning('Step 1 - Validation Failed', $validator->errors()->toArray());
                 return back()->withErrors($validator)->withInput();
             }
+
+            \Log::info('Step 1 - Validation Success, redirecting to step 2');
 
             session([
                 'murid_register_data' => [
@@ -106,12 +116,24 @@ class RegisterMuridController extends Controller
 
                 DB::commit();
 
-                // Clear session
+                // Auto login user
+                Auth::login($user);
+
+                // Clear session registrasi
                 session()->forget('murid_register_data');
 
-                // Redirect ke success page
-                return redirect()->route('register.success')
-                    ->with('message', 'Registrasi berhasil! Silakan login dengan username dan password Anda.');
+                // Return JSON untuk trigger modal
+                if ($request->expectsJson() || $request->ajax()) {
+                    return response()->json([
+                        'success' => true,
+                        'message' => 'Registrasi berhasil!',
+                        'redirect' => route('murid.pilih-iqra')
+                    ]);
+                }
+
+                // Fallback redirect biasa (jika bukan AJAX)
+                return redirect()->route('murid.pilih-iqra')
+                    ->with('success', 'Selamat! Akun kamu sudah berhasil dibuat.');
             } catch (\Exception $e) {
                 DB::rollBack();
                 return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
@@ -153,11 +175,11 @@ class RegisterMuridController extends Controller
         }
 
         $pertanyaanOptions = ['Apa warna kesukaanmu?'];
-        
+
         // Kita kirim variabel actionRoute agar view tahu kemana harus submit
         return view('auth.register-murid-preferensi', [
             'pertanyaanOptions' => $pertanyaanOptions,
-            'actionRoute' => route('murid.setup.preferensi.post') // Route baru
+            'actionRoute' => route('murid.preferensi.store') // Route untuk store preferensi
         ]);
     }
 
@@ -195,8 +217,7 @@ class RegisterMuridController extends Controller
 
             DB::commit();
 
-            return redirect()->route('murid.pilih-iqra')
-                ->with('success', 'Selamat datang! Akunmu sudah siap digunakan.');
+            return redirect()->route('murid.register.success');
 
         } catch (\Exception $e) {
             DB::rollBack();

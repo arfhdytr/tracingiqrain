@@ -161,7 +161,7 @@
                         <div class="flex items-center justify-between mb-2">
                             <div class="flex items-center gap-2">
                                 <div class="w-3 h-3 rounded-full bg-purple-500"></div>
-                                <span class="text-sm text-gray-700 dark:text-gray-300">Tracking</span>
+                                <span class="text-sm text-gray-700 dark:text-gray-300">Tracing</span>
                             </div>
                             <span class="text-sm font-bold text-gray-900 dark:text-white">{{ number_format($poinPerGame['tracking']) }} poin</span>
                         </div>

@@ -22,7 +22,6 @@ class MateriPembelajaranSeeder extends Seeder
                 'deskripsi' => 'Materi dasar huruf Hijaiyah untuk Iqra 1',
                 'urutan' => 1
             ],
-            // Tambahkan materi lain jika diperlukan
         ];
 
         foreach ($materis as $materi) {
@@ -31,8 +30,6 @@ class MateriPembelajaranSeeder extends Seeder
                 $materi
             );
         }
-
-        $this->command->info('✅ Materi Pembelajaran berhasil di-seed!');
 
     }
 }

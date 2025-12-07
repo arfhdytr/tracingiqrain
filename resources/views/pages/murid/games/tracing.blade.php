@@ -57,17 +57,19 @@
 
             <div class="menu-title-wrapper">
                 <h1 class="menu-title">
-                    Pilih Huruf Hijaiyah
+                    <span class="phrase-pink">Pilih</span>
+                    <span class="phrase-pink">Huruf</span>
+                    <span class="phrase-pink">Hijaiyah</span>
                 </h1>
             </div>
 
-            <div class="w-[140px]"></div> <!-- Spacer for centering (matches btn-kembali width) -->
+            <div class="w-[100px] sm:w-[140px]"></div> <!-- Spacer for centering (matches btn-kembali width) -->
         </div>
 
         <!-- Grid Container -->
         <div id="letter-grid"
             class="w-full max-w-6xl px-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6">
-            <!-- Cards will be populated by JS -->
+            <!-- Di sini akan mucnul kartu  -->
         </div>
     </div>
 
@@ -110,9 +112,9 @@
                     <canvas id="tracingCanvas" width="400" height="300"></canvas>
                 </div>
 
-                <div class="canvas-controls font-cursive-iwk">
-                    <button id="clear-button" class="control-btn btn-clear">Hapus</button>
-                    <button id="replay-button" class="control-btn btn-replay">Ulang Animasi</button>
+                <div class="canvas-controls">
+                    <button id="clear-button" class="control-btn btn-clear font-titan">Hapus</button>
+                    <button id="replay-button" class="control-btn btn-replay font-titan">Ulang Animasi</button>
                 </div>
             </div>
 
@@ -156,7 +158,7 @@
         <!-- Progress Footer -->
         <div class="game-footer">
             <div class="progress-container">
-                <div class="progress-label font-titan">Progress:</div>
+                <div class="progress-label font-cursive-iwk"><span class="phrase-pink-iqrain">Progress:</span></div>
                 <div class="progress-bar">
                     <div id="progress-fill" class="progress-fill"></div>
                 </div>
@@ -164,14 +166,14 @@
             </div>
 
             <div class="score-container">
-                <div class="score-label font-cursive-iwk">Akurasi:</div>
+                <div class="score-label font-cursive-iwk"><span class="phrase-pink-iqrain">Akurasi:</span></div>
                 <div id="score-display" class="score-display font-cursive-iwk">0%</div>
                 <div id="stars-display" class="stars-display">☆☆☆</div>
             </div>
 
             <div class="navigation-buttons">
-                <button id="prev-button" class="nav-btn btn-prev"><span>←</span>Sebelumnya</button>
-                <button id="next-button" class="nav-btn btn-next">Berikutnya <span>→</span></button>
+                <button id="prev-button" class="nav-btn btn-prev"><span>←</span><span class="phrase-blue">Sebelumnya</span></button>
+                <button id="next-button" class="nav-btn btn-next"><span class="phrase-pink-iqrain">Berikutnya</span> <span>→</span></button>
             </div>
         </div>
 
@@ -252,7 +254,7 @@
             // window.gameAccuracyPercentage = accuracyPercentage;
 
             // // 1. Update Tampilan Modal
-            // document.getElementById('final-accuracy').innerText = `Akurasi: ${accuracyPercentage}%`; 
+            // document.getElementById('final-accuracy').innerText = Akurasi: ${accuracyPercentage}%; 
             // document.getElementById('success-modal').style.display = 'flex'; 
 
             // // 2. Langsung Panggil Fungsi Penyimpanan Skor

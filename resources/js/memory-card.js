@@ -130,7 +130,7 @@ function shuffleCards() {
         cardSet.push({
             id: kartu.id,
             type: "latin",
-            content: `<span class="font-tegak text-4xl font-bold text-pink-500">${kartu.latin}</span>`
+            content: `<span class=" phrase-pink font-tegak text-4xl font-bold text-[#F387A9]">${kartu.latin}</span>`
         });
     });
 

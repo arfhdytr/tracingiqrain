@@ -7,78 +7,76 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
-
         /* Font Mooli & Fredoka */
         @import url('https://fonts.googleapis.com/css2?family=Mooli&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap');
-        
+
         /* Definisi Font Tegak Bersambung */
         @font-face {
             font-family: 'Tegak Bersambung_IWK';
             src: url("{{ asset('fonts/TegakBersambung_IWK.ttf') }}") format('truetype');
         }
 
-        .color-block {
-            width: 1rem;
-            height: 1rem;
-            border-radius: 0.25rem;
-            display: inline-block;
-            margin-right: 0.5rem;
-            border: 1px solid rgba(0,0,0,0.1);
-            vertical-align: middle;
-        }
-
-        .input-error-border {
-            border-color: #ef4444 !important; /* Tailwind red-500 */
-        }
-
-        .hover-merah:hover { background-color: #fce7f3; } /* Pink-50 */
-        .hover-biru:hover { background-color: #eff6ff; } /* Blue-50 */
-        .hover-hijau:hover { background-color: #f0fdf4; } /* Green-50 */
-        .hover-kuning:hover { background-color: #fffbeb; } /* Yellow-50 */
-        .hover-ungu:hover { background-color: #f5f3ff; } /* Violet-50 */
-        .hover-pink:hover { background-color: #fdf2f8; } /* Rose-50 */
-        .hover-oranye:hover { background-color: #fff7ed; } /* Orange-50 */
-        .hover-hitam:hover { background-color: #f3f4f6; } /* Gray-100 */
-
-        .color-option {
-            cursor: pointer;
-            transition: background-color 0.15s ease;
-        }
-
         .font-fredoka { font-family: 'Fredoka', sans-serif; }
         .font-mooli { font-family: 'Mooli', sans-serif; }
         .font-cursive { font-family: 'Tegak Bersambung_IWK', cursive; }
 
+        @keyframes popIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal-content {
+            animation: popIn 0.3s ease-out;
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        html, body {
+            -ms-overflow-style: none;  
+            scrollbar-width: none;  
+        }
+
+        .pattern-bg {
+            background-image: url("{{ asset('images/pattern/pattern1.webp') }}");
+            background-size: 500px;
+            background-repeat: repeat;
+        }
     </style>
 </head>
 
 <body class="min-h-screen bg-[var(--color-iqrain-blue)]">
 
-    <div class="max-w-7xl mx-auto py-20 px-6 relative">
-        <div class="lg:w-[calc(100%-500px)] lg:pr-10">
+    <div class="max-w-7xl mx-auto py-10 px-6 relative">
+        <div class="lg:w-[calc(100%-300px)] lg:pr-10">
 
-        <h1 class=" text-4xl lg:text-5xl font-fredoka font-bold text-white mb-6"
+        <h1 class="text-4xl lg:text-5xl font-fredoka font-bold text-white mb-4"
             style="text-shadow: 2px 2px 4px rgba(0,0,0,0.1);">
             Isi Pertanyaan Dulu Yuk !
         </h1>
 
-        <p class="font-fredoka text-white text-lg mb-4 opacity-90">
+        <p class="font-fredoka text-white text-base mb-3 opacity-90">
             Pertanyaan keamanan kalau kamu lupa password
         </p>
 
-        
-        <div class="flex items-center mb-8 space-x-3">
-            <div class="w-3 h-3 rounded-full bg-white opacity-60"></div> 
-            <div class="w-8 h-8 rounded-full bg-yellow-400 text-white flex items-center justify-center font-bold">2</div>
+        <div class="flex items-center justify-center mb-6 space-x-3">
             <div class="w-3 h-3 rounded-full bg-white opacity-60"></div>
+            <div class="w-8 h-8 rounded-full bg-yellow-400 text-white flex items-center justify-center font-bold">2</div>
         </div>
 
         {{-- Mengubah tampilan error agar lebih informatif --}}
         @if ($errors->any())
-            <div class="mb-6 p-4 bg-red-100 border-l-4 border-red-600 text-red-700 rounded-lg">
+            <div class="mb-4 p-3 bg-red-100 border-l-4 border-red-600 text-red-700 rounded-lg">
                 <p class="font-fredoka font-bold mb-2">Terjadi Kesalahan! Mohon periksa kembali isian Anda:</p>
-                <ul class="list-disc ml-5 text-sm">
+                <ul class="list-disc ml-5 text-xs">
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
                     @endforeach
@@ -86,121 +84,96 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('register.murid.post') }}">
+        <form method="POST" action="{{ $actionRoute ?? route('register.murid.post') }}" id="preferensiForm">
             @csrf
+            @if(!isset($actionRoute))
             <input type="hidden" name="step" value="2">
+            @endif
 
-            <div class="bg-white rounded-2xl p-6 shadow-lg border-2 border-white">
+            <div class="bg-white rounded-2xl p-5 shadow-lg border-2 border-white">
 
-                <label class="text-2xl font-fredoka text-pink-600 font-semibold block mb-3">
-                    Pertanyaan Keamanan
+                <label class="text-xl font-fredoka text-iqrain-pink font-semibold block mb-4">
+                    Apa warna kesukaanmu?
                 </label>
 
-                <div class="w-full px-4 py-3 bg-blue-50 border-2 border-blue-300 rounded-xl mb-3">
-                    <p class="font-fredoka text-gray-700 font-medium">Apa warna kesukaanmu?</p>
-                </div>
                 <input type="hidden" name="pertanyaan" value="Apa warna kesukaanmu?">
+                <input type="hidden" name="jawaban" id="hidden_jawaban" value="{{ old('jawaban') }}">
 
-                <input type="hidden" name="jawaban" id="hidden_jawaban" value="{{ old('jawaban') }}" required>
-                <div class="relative w-full" id="custom-dropdown">
-                    
-                    {{-- Tombol Tampil --}}
-                    <button type="button" 
-                        id="dropdown-button"
-                        class="w-full px-4 py-3 text-left rounded-xl border-2 {{ $errors->has('jawaban') ? 'input-error-border' : 'border-white' }} text-gray-800 ring-2 ring-yellow-300 flex items-center justify-between transition duration-150 font-fredoka"
-                        aria-haspopup="true" 
-                        aria-expanded="false"
-                    >
-                        <span id="selected-color-display" class="flex items-center">
-                            @php
-                                $list_warna = [
-                                    'Merah' => ['class' => 'bg-red-500', 'hover_class' => 'hover-merah'], 
-                                    'Biru' => ['class' => 'bg-blue-500', 'hover_class' => 'hover-biru'], 
-                                    'Hijau' => ['class' => 'bg-green-500', 'hover_class' => 'hover-hijau'], 
-                                    'Kuning' => ['class' => 'bg-yellow-400', 'hover_class' => 'hover-kuning'], 
-                                    'Ungu' => ['class' => 'bg-purple-500', 'hover_class' => 'hover-ungu'], 
-                                    'Pink' => ['class' => 'bg-pink-500', 'hover_class' => 'hover-pink'], 
-                                    'Oranye' => ['class' => 'bg-orange-500', 'hover_class' => 'hover-oranye'],
-                                    'Hitam' => ['class' => 'bg-gray-800', 'hover_class' => 'hover-hitam'], 
-                                ];
-                                $old_jawaban = old('jawaban');
-                                $display_class = $list_warna[$old_jawaban]['class'] ?? 'bg-transparent';
-                            @endphp
+                @php
+                    $list_warna = [
+                        'Merah' => 'bg-red-500',
+                        'Biru' => 'bg-blue-500',
+                        'Hijau' => 'bg-green-500',
+                        'Kuning' => 'bg-yellow-400',
+                        'Ungu' => 'bg-purple-500',
+                        'Pink' => 'bg-pink-500',
+                        'Oranye' => 'bg-orange-500',
+                        'Hitam' => 'bg-gray-800',
+                    ];
+                @endphp
 
-                            @if($old_jawaban && array_key_exists($old_jawaban, $list_warna))
-                                <span class="color-block {{ $display_class }}"></span>
-                                {{ $old_jawaban }}
-                            @else
-                                Pilih Warna Kesukaanmu
-                            @endif
-                        </span>
-                        
-                        <svg class="h-5 w-5 ml-2 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                        </svg>
-                    </button>
-
-                    {{-- Daftar Opsi (Dropdown Menu) --}}
-                    <div id="dropdown-menu" 
-                         class="absolute z-10 mt-1 w-full bg-white rounded-xl shadow-lg border border-gray-200 hidden max-h-60 overflow-y-auto"
-                         role="menu" 
-                         aria-orientation="vertical" 
-                         aria-labelledby="dropdown-button"
-                    >
-                        @foreach ($list_warna as $nama_warna => $data_warna)
-                            <div class="color-option px-4 py-2 text-sm text-gray-700 flex items-center transition duration-150 {{ $data_warna['hover_class'] }}" 
-                                 data-value="{{ $nama_warna }}" 
-                                 data-class="{{ $data_warna['class'] }}"
-                                 role="menuitem"
-                            >
-                                <span class="color-block {{ $data_warna['class'] }}"></span>
-                                {{ $nama_warna }}
+                {{-- Color Grid --}}
+                <div class="grid grid-cols-4 gap-2">
+                    @foreach($list_warna as $nama_warna => $color_class)
+                        <button
+                            type="button"
+                            onclick="selectColor('{{ $nama_warna }}')"
+                            id="color-{{ $nama_warna }}"
+                            class="color-card cursor-pointer relative p-2 rounded-xl border-2 transition-all duration-200 hover:scale-105 hover:shadow-lg
+                                {{ old('jawaban') === $nama_warna ? 'border-iqrain-pink bg-pink-50 ring-2 ring-pink-300' : 'border-gray-300 bg-white hover:border-pink-300' }}"
+                        >
+                            {{-- Checkmark --}}
+                            <div class="checkmark absolute -top-1.5 -right-1.5 bg-iqrain-pink text-white rounded-full w-5 h-5 items-center justify-center shadow-lg {{ old('jawaban') === $nama_warna ? 'flex' : 'hidden' }}">
+                                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
                             </div>
-                        @endforeach
-                    </div>
+
+                            {{-- Color Box --}}
+                            <div class="w-full h-10 rounded-lg mb-1.5 shadow-md {{ $color_class }}"></div>
+
+                            {{-- Label --}}
+                            <p class="text-xs font-fredoka font-semibold text-gray-700">{{ $nama_warna }}</p>
+                        </button>
+                    @endforeach
                 </div>
-                
+
                 {{-- Pesan Error Validasi Spesifik --}}
                 @error('jawaban')
-                    <p class="text-red-600 text-sm mt-2 font-semibold">
+                    <p class="text-red-600 text-xs mt-2 font-semibold">
                         ⚠️ {{ $message }}
                     </p>
                 @enderror
-                
-                <p class="font-fredoka text-sm text-gray-600 mt-2">
-                    💡 <strong>Tips:</strong> Ingat baik-baik jawabanmu ya! Jawaban ini akan dipakai jika kamu lupa password.
-                </p>
-
-                <div class="bg-yellow-50 rounded-xl p-4 mt-4 border border-yellow-300">
-                    <p class="font-fredoka text-sm text-gray-700">
-                        <strong class="text-pink-600 text-base">Kenapa hanya 1 pertanyaan?</strong><br>
-                        Supaya lebih mudah diingat! Cukup ingat warna kesukaanmu saja 🌈
-                    </p>
-                </div>
 
             </div>
 
-            <div class="mt-6 flex space-x-4">
+            <div class="mt-4 flex space-x-3">
+                @if(!isset($actionRoute))
+                {{-- Tombol Kembali hanya untuk registrasi baru --}}
                 <a href="{{ route('register.murid') }}"
-                    class="bg-gray-300 font-fredoka text-gray-800 font-bold py-3 px-10 rounded-xl shadow-lg 
-                            hover:bg-gray-400 transition text-center flex-1">
+                    class="bg-white font-fredoka text-iqrain-pink font-bold py-2.5 px-8 rounded-xl shadow-lg
+                             transition text-center flex-1">
                     Kembali
                 </a>
+                @endif
 
-                <button type="submit"
-                    class="flex-1 bg-pink-400 text-white font-fredoka font-bold py-3 px-10 rounded-xl shadow-lg
-                            hover:bg-pink-500 transition">
-                    Daftar
+                <button type="submit" id="submitBtn"
+                    class="@if(isset($actionRoute)) w-full @else flex-1 @endif bg-iqrain-pink cursor-pointer text-white font-fredoka font-bold py-2.5 px-8 rounded-xl shadow-lg
+                            hover:opacity-90 transition">
+                    {{ isset($actionRoute) ? 'Simpan' : 'Daftar' }}
                 </button>
             </div>
         </form>
 
-        <div class="border-t border-white mt-10 pt-4">
-            <p class="font-fredoka text-white">
+        @if(!isset($actionRoute))
+        {{-- Link login hanya untuk registrasi baru --}}
+        <div class="border-t border-white mt-6 pt-3">
+            <p class="font-fredoka text-white text-base">
                 Sudah punya akun?
                 <a href="{{ route('login') }}" class="font-fredoka text-yellow-300">Klik untuk login</a>
             </p>
         </div>
+        @endif
     </div>
 </div>
 
@@ -212,51 +185,144 @@
             class="absolute bottom-0 right-0 w-[450px]" alt="Maskot Ceria">
     </div>
 
+    <div id="successModal" class="hidden fixed inset-0 z-50" style="display: none;">
+
+        <!-- Background overlay dengan transparansi gelap -->
+        <div class="absolute inset-0 bg-white bg-opacity-50"></div>
+
+        <!-- Modal content -->
+        <div class="relative z-10 flex items-center justify-center min-h-screen p-4">
+            <div class="modal-content bg-gradient-to-br from-blue-400 to-iqrain-blue rounded-3xl p-10 max-w-md w-full text-center shadow-2xl">
+                <div class="mb-6">
+                    <div class="w-24 h-24 mx-auto bg-green-400 rounded-full flex items-center justify-center shadow-lg">
+                        <svg class="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                </div>
+                <h2 class="text-4xl font-fredoka font-bold text-white mb-4">Selamat Datang!</h2>
+                <p class="font-fredoka text-white text-lg mb-8 opacity-90">
+                    Akun kamu sudah berhasil dibuat dan siap digunakan!
+                </p>
+                <button onclick="redirectToPilihIqra()" class="bg-iqrain-pink text-white font-fredoka font-bold py-3 px-12 rounded-full shadow-lg hover:opacity-90 transition transform hover:scale-105">
+                    Yuk Mulai Belajar!
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const dropdownButton = document.getElementById('dropdown-button');
-        const dropdownMenu = document.getElementById('dropdown-menu');
-        const hiddenInput = document.getElementById('hidden_jawaban');
-        const selectedDisplay = document.getElementById('selected-color-display');
-        const colorOptions = document.querySelectorAll('.color-option');
+    let redirectUrl = '';
+    let isSubmitting = false;
 
-        dropdownButton.addEventListener('click', () => {
-            const isExpanded = dropdownButton.getAttribute('aria-expanded') === 'true' || false;
-            dropdownButton.setAttribute('aria-expanded', !isExpanded);
-            dropdownMenu.classList.toggle('hidden');
-        });
+    function selectColor(colorName) {
+        // Update hidden input
+        document.getElementById('hidden_jawaban').value = colorName;
 
-        colorOptions.forEach(option => {
-            option.addEventListener('click', () => {
-                const value = option.getAttribute('data-value');
-                const className = option.getAttribute('data-class');
+        // Remove active state from all cards
+        document.querySelectorAll('.color-card').forEach(card => {
+            card.classList.remove('border-iqrain-pink', 'bg-pink-50', 'ring-2', 'ring-pink-300');
+            card.classList.add('border-gray-300', 'bg-white');
 
-                hiddenInput.value = value;
-                
-                // Mengganti konten tampilan dengan kotak warna baru
-                selectedDisplay.innerHTML = `<span class="color-block ${className}"></span> ${value}`;
-                
-                dropdownMenu.classList.add('hidden');
-                dropdownButton.setAttribute('aria-expanded', 'false');
-
-                // Menghapus border error
-                dropdownButton.classList.remove('input-error-border');
-            });
-        });
-
-        document.addEventListener('click', (event) => {
-            const dropdown = document.getElementById('custom-dropdown');
-            if (!dropdown.contains(event.target)) {
-                dropdownMenu.classList.add('hidden');
-                dropdownButton.setAttribute('aria-expanded', 'false');
+            // Hide checkmark
+            const checkmark = card.querySelector('.checkmark');
+            if (checkmark) {
+                checkmark.classList.add('hidden');
+                checkmark.classList.remove('flex');
             }
         });
-        
-        // Memastikan tampilan awal default jika tidak ada nilai lama
-        if (!hiddenInput.value) {
-             selectedDisplay.textContent = 'Pilih Warna Kesukaanmu';
+
+        // Add active state to selected card
+        const selectedCard = document.getElementById('color-' + colorName);
+        if (selectedCard) {
+            selectedCard.classList.remove('border-gray-300', 'bg-white');
+            selectedCard.classList.add('border-iqrain-pink', 'bg-pink-50', 'ring-2', 'ring-pink-300');
+
+            // Show checkmark
+            const checkmark = selectedCard.querySelector('.checkmark');
+            if (checkmark) {
+                checkmark.classList.remove('hidden');
+                checkmark.classList.add('flex');
+            }
         }
+    }
+
+    // Handle form submit dengan AJAX
+    document.getElementById('preferensiForm').addEventListener('submit', function(e) {
+        @if(!isset($actionRoute))
+        // Cegah double submission
+        if (isSubmitting) {
+            e.preventDefault();
+            return false;
+        }
+
+        e.preventDefault();
+        isSubmitting = true;
+
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.disabled = true;
+        submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        submitBtn.textContent = 'Memproses...';
+
+        const formData = new FormData(this);
+
+        fetch(this.action, {
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json',
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                redirectUrl = data.redirect;
+                const modal = document.getElementById('successModal');
+                
+                // Tampilkan Modal
+                modal.style.display = 'block';
+                modal.classList.remove('hidden');
+
+                // Kunci scroll pada body agar tidak bisa discroll saat modal muncul
+                document.body.classList.add('overflow-hidden');
+            } else {
+                // Jika validasi error, lakukan submit normal (fall back)
+                isSubmitting = false;
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                submitBtn.textContent = '{{ isset($actionRoute) ? 'Simpan' : 'Daftar' }}';
+                this.submit();
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            isSubmitting = false;
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            submitBtn.textContent = '{{ isset($actionRoute) ? 'Simpan' : 'Daftar' }}';
+            this.submit(); // Fallback ke submit biasa jika ada error fetch
+        });
+        @else
+        // Untuk actionRoute (simpan preferensi), cegah double submission
+        if (isSubmitting) {
+            e.preventDefault();
+            return false;
+        }
+
+        isSubmitting = true;
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.disabled = true;
+        submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        submitBtn.textContent = 'Memproses...';
+        @endif
     });
+
+    function redirectToPilihIqra() {
+        // Kembalikan scroll body (opsional, karena akan pindah halaman)
+        document.body.classList.remove('overflow-hidden');
+        window.location.href = redirectUrl;
+    }
 </script>
 
 </body>

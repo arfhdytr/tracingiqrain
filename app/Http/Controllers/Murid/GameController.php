@@ -46,7 +46,7 @@ class GameController extends Controller
     public function tracing($tingkatan_id)
     {
         $tingkatan = TingkatanIqra::with('materiPembelajarans')->findOrFail($tingkatan_id);
-        $jenisGame = JenisGame::where('nama_game', 'Tracking')->firstOrFail();
+        $jenisGame = JenisGame::where('nama_game', 'Tracing')->firstOrFail();
         $murid = Auth::user()->murid;
 
         $sessionGame = HasilGame::create([
@@ -90,11 +90,11 @@ class GameController extends Controller
         $murid_id = $user->murid->murid_id;
 
         // 3. Dapatkan Jenis Game ID untuk 'Tracing'
-        $jenisGame = JenisGame::where('nama_game', 'Tracking')->first();
+        $jenisGame = JenisGame::where('nama_game', 'Tracing')->first();
 
         if (!$jenisGame) {
             // Error jika Jenis Game 'Tracing' belum ada di database
-            return response()->json(['error' => 'Jenis game Tracking tidak ditemukan.'], 404);
+            return response()->json(['error' => 'Jenis game Tracing tidak ditemukan.'], 404);
         }
 
         // 4. Simpan Hasil Game baru
@@ -295,7 +295,6 @@ class GameController extends Controller
     }
 
 
-    // ==== Untuk menyimpan nilai  ===
     public function saveScore(Request $request)
     {
         $request->validate([
@@ -319,9 +318,6 @@ class GameController extends Controller
             $poinMaksimal = $hasilGame->jenisGame->poin_maksimal ?? 100;
             $finalScore = min($request->skor, $poinMaksimal);
 
-            // 4. LAKUKAN UPDATE
-            // Saat di-update, Model Observer (booted/saved) akan otomatis jalan lagi
-            // untuk merevisi Leaderboard. Jadi Leaderboard aman.
             $hasilGame->update([
                 'skor' => $finalScore, // Gunakan skor yang sudah dicap
                 'total_poin' => $finalScore,
@@ -347,9 +343,7 @@ class GameController extends Controller
             ], 500);
         }
     }
-    // ==================================================================
-    // FUNGSI LEADERBOARD (TIDAK BERUBAH)
-    // ==================================================================
+
     private function updateLeaderboardAndRankings($murid_id)
     {
         //Hitung Total Skor Baru si Murid

@@ -19,7 +19,8 @@
                     colors: {
                         'iqrain-blue': '#5CB8E6',
                         'iqrain-pink': '#FF87AB',
-                        'iqrain-dark-blue': '#2C5F7D'
+                        'iqrain-dark-blue': '#2C5F7D',
+                        'iqrain-yellow': '#FFD166',
                     }
                 }
             }
@@ -98,7 +99,7 @@
         <div class="hidden md:flex md:w-1/2 items-center justify-center relative">
 
             <!-- Solid Blue Background (di bawah) -->
-            <div class="absolute inset-0 bg-[#5CB8E6]"></div>
+            <div class="absolute inset-0 bg-iqrain-blue"></div>
 
             <!-- Pattern (di atas) -->
             <div class="absolute inset-0 pattern-bg"></div>
@@ -118,9 +119,9 @@
 
 
         <!-- Right Side - Login Form (Blue Background) -->
-        <div class="w-full md:w-1/2 p-12 relative flex flex-col justify-center" style="background-color: #5CB8E6;">
+        <div class="w-full md:w-1/2 p-12 relative flex flex-col justify-center bg-iqrain-blue" >
             <div class="text-left mb-8">
-                <h1 class="text-5xl font-bold text-white mb-8" style="font-weight: 700;">
+                <h1 class="text-5xl font-bold text-white" style="font-weight: 700;">
                     Selamat Datang!
                 </h1>
             </div>
@@ -179,7 +180,7 @@
 
                 <!-- Forgot Password & Login Button -->
                 <div class="flex items-center justify-between pt-4">
-                    <a href="{{ route('password.request') }}" class="text-white hover:text-blue-900 text-base font-semibold underline">
+                    <a href="{{ route('password.request') }}" class="text-iqrain-yellow hover:text-yellow-400 text-base font-semibold underline">
                         Lupa password?
                     </a>
                     
@@ -199,7 +200,7 @@
             <div class="text-left">
                 <p class="text-white text-base">
                     Belum punya akun? 
-                    <a href="{{ route('register.murid') }}" class="font-bold underline hover:text-blue-900">
+                    <a href="{{ route('register.murid') }}" class="font-bold underline text-iqrain-yellow hover:text-yellow-400">
                         Daftar di sini
                     </a>
                 </p>

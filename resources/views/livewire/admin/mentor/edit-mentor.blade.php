@@ -71,19 +71,17 @@
                         </div>
 
                         {{-- Confirm New Password --}}
-                        @if($new_password)
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    Konfirmasi Password Baru
-                                </label>
-                                <input 
-                                    type="password" 
-                                    wire:model.blur="new_password_confirmation"
-                                    class="shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md"
-                                    placeholder="Ketik ulang password baru"
-                                >
-                            </div>
-                        @endif
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Konfirmasi Password Baru
+                            </label>
+                            <input 
+                                type="password" 
+                                wire:model.blur="new_password_confirmation"
+                                class="shadow-sm focus:ring-pink-500 focus:border-pink-500 block w-full sm:text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md"
+                                placeholder="Ketik ulang password baru"
+                            >
+                        </div>
                     </div>
                 </div>
 

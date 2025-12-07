@@ -23,19 +23,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // 1. Panggil Seeder bawaanmu (Ini sudah benar)
         $this->call([
             RolePermissionSeeder::class,
             UserSeeder::class,
             TingkatanIqraSeeder::class,
             JenisGameSeeder::class,   
-            MateriPembelajaranSeeder::class,  // ✅ HARUS sebelum MateriSeeder
-            MateriSeeder::class,               // ✅ Seeder modul huruf
+            MateriPembelajaranSeeder::class,  MateriSeeder::class,              
             VideoPembelajaranSeeder::class,    
+            ActivitySeeder::class,             
         ]);
 
-        // 2. Buat 20 Murid (Sekarang kita panggil Murid::factory() langsung)
-        // Setiap MuridFactory::create() akan auto-create 1 User
         Murid::factory()
             ->count(20) // Buat 20 Murid (otomatis 20 User baru)
             ->has(

@@ -11,7 +11,7 @@ class JenisGameSeeder extends Seeder
     {
         $games = [
             [
-                'nama_game' => 'Tracking',
+                'nama_game' => 'Tracing',
                 'tingkatan_id' => 1,
                 'poin_maksimal' => 10000,
                 'deskripsi' => 'Menelusuri bentuk huruf hijaiyah'

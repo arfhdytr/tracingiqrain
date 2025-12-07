@@ -141,7 +141,7 @@ class MentorDashboardController extends Controller
         // Pastikan murid adalah murid binaan mentor yang login
         $mentor = Auth::user()->mentor;
 
-        if ($murid->mentor_id !== $mentor->mentor_id) {
+        if ((int)$murid->mentor_id !== (int)$mentor->mentor_id) {
             abort(403, 'Unauthorized action.');
         }
 

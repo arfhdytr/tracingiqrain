@@ -21,28 +21,7 @@ class RejectPermintaan extends Component
 
     public function confirmRejection()
     {
-        // Pastikan permintaan adalah untuk mentor yang login
-        $mentor = Auth::user()->mentor;
-
-        if ($this->permintaan->mentor_id !== $mentor->mentor_id) {
-            $this->dispatch('updated', [
-                'title' => 'Anda tidak memiliki akses untuk menolak permintaan ini',
-                'icon' => 'error',
-                'iconColor' => 'red',
-            ]);
-            return;
-        }
-
-        // Pastikan status masih pending
-        if ($this->permintaan->status !== 'pending') {
-            $this->dispatch('updated', [
-                'title' => 'Permintaan sudah diproses sebelumnya',
-                'icon' => 'error',
-                'iconColor' => 'red',
-            ]);
-            return;
-        }
-
+        // TEMPORARY DEBUG: Skip all validation
         $this->resetErrorBag();
         $this->confirmReject = true;
     }

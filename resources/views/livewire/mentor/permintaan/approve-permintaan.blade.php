@@ -1,11 +1,12 @@
 {{-- resources/views/livewire/mentor/permintaan/approve-permintaan.blade.php --}}
-<div>
+<div x-data="{ debug: false }" x-init="console.log('ApprovePermintaan component loaded')">
     {{-- Tombol "Terima" --}}
-    <button 
+    <button
         wire:click="confirmApproval"
         type="button"
         class="inline-flex items-center px-3 py-1.5 bg-pink-500 hover:bg-pink-600 text-white text-xs font-medium rounded transition-colors duration-200"
         wire:loading.attr="disabled"
+        @click="console.log('Terima button clicked, confirmApprove:', $wire.confirmApprove)"
     >
         <i class="fas fa-check mr-1.5"></i>
         <span wire:loading.remove wire:target="confirmApproval">Terima</span>
@@ -13,7 +14,7 @@
     </button>
 
     {{-- Modal Konfirmasi Terima --}}
-    <x-dialog-modal wire:model="confirmApprove">
+    <x-dialog-modal wire:model="confirmApprove" x-on:open="console.log('Modal opened!')"  >
         <x-slot name="title">
             <div class="flex items-center">
                 <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10 mr-3">

@@ -256,7 +256,8 @@
             <div class="container mx-auto px-4 md:px-8 lg:px-40 relative z-10 mb-24">
                 <div class="w-full bg-[#F387A9] rounded-[50px] py-16 px-6 md:px-8 lg:px-4 shadow-xl">
                     <div class="max-w-7xl mx-auto">
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-20 gap-x-6 md:gap-x-10 justify-items-center">
+                        <div
+                            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-20 gap-x-6 md:gap-x-10 justify-items-center">
                             @forelse($mentors as $index => $mentor)
                                 @php
                                     $isMirror = $index % 2 !== 0;

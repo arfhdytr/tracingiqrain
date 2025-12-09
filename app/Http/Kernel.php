@@ -40,7 +40,7 @@ class Kernel extends HttpKernel
 
         'api' => [
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-            \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
+            \Illuminate\Routing\Middleware\ThrottleRequests::class . ':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
@@ -70,5 +70,9 @@ class Kernel extends HttpKernel
         'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
 
         'murid.preferensi' => \App\Http\Middleware\EnsureMuridHasPreferensi::class,
+
+        // Custom throttle aliases untuk auth
+        'throttle.auth' => \Illuminate\Routing\Middleware\ThrottleRequests::class . ':5,1',
+        'throttle.register' => \Illuminate\Routing\Middleware\ThrottleRequests::class . ':3,5',
     ];
 }

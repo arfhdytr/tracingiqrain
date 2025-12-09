@@ -51,7 +51,7 @@ class UserSeeder extends Seeder
             'nama_lengkap' => 'Mentor Hebat',
             'email' => 'mentor@iqrain.com',
             'no_wa' => '081234567890',
-            'status_approval' => 'approved', 
+            'status_approval' => 'approved',
             'tgl_persetujuan' => now(),
         ]);
 
@@ -140,25 +140,10 @@ class UserSeeder extends Seeder
         ]);
 
         // ---------------------------------
-        // 5. Buat Permintaan Bimbingan yang Sudah Disetujui
+        // A. Tambah 2 Murid yang SUDAH MENJADI ANAK DIDIK (Approved)
         // ---------------------------------
         $mentor = Mentor::where('user_id', $mentorUser->user_id)->first();
 
-        PermintaanBimbingan::create([
-            'murid_id' => $murid->murid_id,
-            'mentor_id' => $mentor->mentor_id,
-            'status' => 'approved',
-            'tanggal_permintaan' => now()->subDays(7), // 7 hari yang lalu
-            'tanggal_respons' => now()->subDays(6),    // 6 hari yang lalu
-            'catatan' => 'Saya ingin belajar Iqra dengan Anda',
-        ]);
-
-        // Update mentor_id di tabel murid setelah permintaan disetujui
-        $murid->update(['mentor_id' => $mentor->mentor_id]);
-
-        // ---------------------------------
-        // A. Tambah 2 Murid yang SUDAH MENJADI ANAK DIDIK (Approved)
-        // ---------------------------------
         for ($i = 1; $i <= 2; $i++) {
             $userAnak = User::create([
                 'username' => 'adik' . $i,
@@ -206,7 +191,7 @@ class UserSeeder extends Seeder
                 'user_id' => $userCalon->user_id,
                 'sekolah' => 'SDI 3 Kota ' . $j,
                 'preferensi_terisi' => true,
-                'mentor_id' => null, 
+                'mentor_id' => null,
             ]);
 
             // Buat preferensi dummy

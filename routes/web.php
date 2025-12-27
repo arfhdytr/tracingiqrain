@@ -69,6 +69,7 @@ Route::middleware('guest')->group(function () {
     Route::get('/forgot-password', [ForgotPasswordController::class, 'showUsernameForm'])
         ->name('password.request');
     Route::post('/forgot-password/check', [ForgotPasswordController::class, 'checkUsername'])
+        ->middleware('throttle:forgot-password-check')
         ->name('password.check');
 
     // Alur Murid
@@ -81,6 +82,7 @@ Route::middleware('guest')->group(function () {
     Route::get('/forgot-password/mentor/email', [ForgotPasswordController::class, 'showMentorEmailForm'])
         ->name('password.mentor.email');
     Route::post('/forgot-password/mentor/send', [ForgotPasswordController::class, 'verifyMentorEmail'])
+        ->middleware('throttle:forgot-password-email')
         ->name('password.mentor.send');
 
     // Halaman Reset Password Akhir (Shared)
@@ -209,9 +211,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             // Mentor
             Route::get('/mentor', [MentorController::class, 'index'])->name('mentor.index');
             Route::post('/mentor/request/{mentor_id}', [MentorController::class, 'requestBimbingan'])->name('mentor.request');
-
         });
     });
 });
-
-

@@ -24,7 +24,10 @@ class MentorController extends Controller
             ->where('status', 'pending')
             ->first();
 
-        return view('pages.murid.mentor.index', compact('mentors', 'pendingRequest'));
+        // Get current mentor if approved
+        $currentMentor = $murid->mentor_id ? Mentor::find($murid->mentor_id) : null;
+
+        return view('pages.murid.mentor.index', compact('mentors', 'pendingRequest', 'currentMentor'));
     }
 
     public function requestBimbingan(Request $request, $mentor_id)

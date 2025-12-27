@@ -31,7 +31,7 @@
         }
     </style>
 
-{{-- FIXED BACKGROUND LAYER (z-index: -1 di belakang semua) --}}
+{{-- FIXED BACKGROUND LAYER  --}}
 <div class="fixed inset-0 w-full h-full pointer-events-none"
     style="background: linear-gradient(180deg, #56B1F3 0%, #D3F2FF 100%); z-index: -1;">
     
@@ -197,8 +197,8 @@
 
 
 <script>
-    // === DATA STATIC MATERI (DI LOAD LANGSUNG DI SINI) ===
-    // Nama file disesuaikan persis dengan yang ada di folder public/images/hijaiyah/
+    
+    
     const staticMateriData = [
         @foreach($hurufs as $index => $huruf)
         {
@@ -208,11 +208,11 @@
             file: '{{ $huruf->gambar_path ?? "default.webp" }}',
             latin: '{{ $huruf->teks_latin ?? "" }}',
             konten: '{{ $huruf->konten_teks ?? "" }}',
-            video: '{{ $videos->get($index)->video_path ?? "" }}'  // Pairing by index
+            video: '{{ $videos->get($index)->video_path ?? "" }}'  
         }{{ $loop->last ? '' : ',' }}
         @endforeach
     ];
-    // console.log('staticMateriData:', staticMateriData);
+    
 
     let completedModuls = new Set();
     const initialCompletedCount = {{ $completedModulsCount }};
@@ -221,7 +221,7 @@
     let currentIndex = 0;
     let isAnimating = false;
 
-    // === 1. LOGIKA UTAMA DISPLAY ===
+    
     function updateMateriDisplay() {
         if (staticMateriData.length === 0) {
             document.getElementById('materi-card').innerHTML = '<p class="text-gray-400">Belum ada materi statis ditemukan.</p>';
@@ -280,7 +280,7 @@
             const img = new Image();
             img.src = url;
             img.onload = resolve;
-            img.onerror = resolve; // Tetap resolve agar tidak stuck
+            img.onerror = resolve; 
         });
     }
 
@@ -370,11 +370,9 @@
         }
     }
 
-    // === 2. LOGIKA VIDEO (Hanya untuk list di kanan, tidak terpakai lagi untuk main player) ===
+    
     function changeVideo(url, title, desc) {
-        // Ini adalah logic jika mengklik list video di sidebar (yang sudah dihapus layoutnya, 
-        // tapi logikanya bisa dipakai jika nanti ditambahkan lagi)
-        // Di layout baru ini, logic ini hanya perlu mengupdate Main Player di kiri.
+    
         
         document.getElementById('main-video-player').src = url;
         document.getElementById('main-video-title').innerText = title;
@@ -392,7 +390,7 @@
             return;
         }
 
-        // ✅ OPTIMISTIC UI: Update state immediately
+    
         const wasAlreadyCompleted = completedModuls.has(realModulId);
         if (!wasAlreadyCompleted) {
             completedModuls.add(realModulId);
@@ -417,7 +415,7 @@
             if (result.success) {
                 // State is already updated, so no need to do anything else
             } else {
-                // ❌ REVERT if server error
+    
                 if (!wasAlreadyCompleted) {
                     completedModuls.delete(realModulId);
                     updateProgressBar();
@@ -425,7 +423,7 @@
             }
 
         } catch (error) {
-            // ❌ REVERT if network error
+    
             if (!wasAlreadyCompleted) {
                 completedModuls.delete(realModulId);
                 updateProgressBar();
@@ -434,24 +432,24 @@
     }
 
     function updateProgressBar() {
-        // ✅ Hitung progress baru
+    
         const completedCount = completedModuls.size;
         const totalCount = totalModulsCount;
         const newPercentage = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
         
-        // ✅ Cari elemen progress bar (sesuaikan selector dengan HTML kamu)
+    
         const progressBar = document.querySelector('.bg-\\[\\#FFBA2E\\]'); 
         const progressText = document.querySelector('.absolute.inset-0.text-center');
         
         if (progressBar && progressText) {
-            // ✅ Update width progress bar dengan animasi smooth
+    
             progressBar.style.width = `${newPercentage}%`;
             progressBar.style.transition = 'width 0.5s ease-in-out';
             
-            // ✅ Update text progress
+    
             progressText.textContent = `${completedCount} / ${totalCount} Materi Selesai (${newPercentage}%)`;
             
-            // console.log(`🎯 Progress bar updated: ${completedCount}/${totalCount} (${newPercentage}%)`);
+    
         } else {
             console.warn('⚠️ Progress bar elements not found!');
         }
@@ -459,26 +457,26 @@
 
     async function loadCompletedModuls() {
         try {
-            // ✅ Endpoint API untuk ambil list modul yang sudah selesai
+    
             const response = await fetch('{{ route("murid.modul.completed") }}');
             const result = await response.json();
             
             if (result.success && Array.isArray(result.completed_moduls)) {
-                // ✅ Masukkan ke Set
+    
                 result.completed_moduls.forEach(modulId => {
                     completedModuls.add(parseInt(modulId));
                 });
                 
-                // console.log('✅ Loaded completed moduls:', completedModuls);
+    
             }
         } catch (error) {
-            // console.error('❌ Failed to load completed moduls:', error);
+    
         }
     }
 
 
 
-    // === INIT ===
+    
     document.addEventListener('DOMContentLoaded', () => {
         // Inisialisasi tampilan pertama
         updateMateriDisplay(); 

@@ -17,7 +17,7 @@ class ActivitySeeder extends Seeder
 {
     public function run()
     {
-        // 1. AMBIL MURID
+        // AMBIL MURID
         $targetUsernames = ['adik1', 'adik2'];
         $murids = Murid::whereHas('user', function ($q) use ($targetUsernames) {
             $q->whereIn('username', $targetUsernames);
@@ -28,7 +28,7 @@ class ActivitySeeder extends Seeder
             return;
         }
 
-        // 2. AMBIL MASTER DATA
+        // AMBIL MASTER DATA
         $iqra1 = TingkatanIqra::where('level', 1)->first();
         if (!$iqra1) return;
 
@@ -39,7 +39,7 @@ class ActivitySeeder extends Seeder
         $allModuls = Modul::where('materi_id', $materi->materi_id)->orderBy('urutan')->get();
         $games = JenisGame::where('tingkatan_id', $iqra1->tingkatan_id)->get();
 
-        // 3. PROSES KEGIATAN
+        // PROSES KEGIATAN
         foreach ($murids as $murid) {
             $username = $murid->user->username;
 
@@ -75,7 +75,7 @@ class ActivitySeeder extends Seeder
 
                     $modul = $allModuls[$currentModulIndex];
 
-                    // 1. Simpan Progress Modul
+                    //Simpan Progress Modul
                     ProgressModul::firstOrCreate([
                         'murid_id' => $murid->murid_id,
                         'modul_id' => $modul->modul_id,
@@ -86,7 +86,7 @@ class ActivitySeeder extends Seeder
                         'tanggal_selesai' => $currentDate->copy()->addHours(rand(0, 10))->addMinutes(rand(15, 59)),
                     ]);
 
-                    // 2. Main Game (Acak: 40% kemungkinan main game setelah modul selesai)
+                    // Main Game (Acak: 40% kemungkinan main game setelah modul selesai)
                     if (rand(1, 100) <= 40 && $games->isNotEmpty()) {
                         $randomGame = $games->random();
 
@@ -114,7 +114,7 @@ class ActivitySeeder extends Seeder
                 if ($currentModulIndex >= $totalModulTarget) break;
             }
 
-            // 4. UPDATE LEADERBOARD
+            //UPDATE LEADERBOARD
             Leaderboard::updateOrCreate(
                 ['murid_id' => $murid->murid_id],
                 [

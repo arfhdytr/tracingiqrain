@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Pasangkan Huruf - Drag & Drop</title>
-
-    {{-- 1. Memuat Asset CSS & JS Utama Laravel --}}
+    
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
@@ -261,13 +260,12 @@
             const welcomeMessage = document.getElementById("welcome-message");
 
             if (welcomeBackdrop && welcomeContainer && welcomeMessage) {
-                // Step 1: Fade in backdrop (100ms)
+                
                 setTimeout(() => {
                     welcomeBackdrop.classList.remove("opacity-0");
                     welcomeBackdrop.classList.add("opacity-100");
                 }, 100);
-
-                // Step 2: Show message with scale animation (200ms)
+            
                 setTimeout(() => {
                     welcomeContainer.classList.remove("opacity-0");
                     welcomeContainer.classList.add("opacity-100");
@@ -276,7 +274,6 @@
                     welcomeMessage.classList.add("scale-100");
                 }, 200);
 
-                // Step 3: Start fade out (2.5s)
                 setTimeout(() => {
                     welcomeMessage.classList.remove("scale-100");
                     welcomeMessage.classList.add("scale-110");
@@ -287,7 +284,6 @@
                     welcomeBackdrop.classList.add("opacity-0");
                 }, 2500);
 
-                // Step 4: Hide completely (3.5s total)
                 setTimeout(() => {
                     welcomeBackdrop.classList.add("hidden");
                     welcomeContainer.classList.add("hidden");
@@ -474,8 +470,7 @@
                 if (originalBorder) dropzone.classList.add('border-dashed');
             }, 500);
         }
-
-        // --- 5. LOGIKA FINISH GAME & CONFETTI ---
+        
         function finishGame() {
             const score = Math.round(currentScore);
             if (modalScore) modalScore.innerText = score;

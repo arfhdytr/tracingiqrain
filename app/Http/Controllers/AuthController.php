@@ -27,31 +27,30 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
-        // 1. CARI USER BERDASARKAN USERNAME
+        //CARI USER BERDASARKAN USERNAME
         $user = User::where('username', $request->username)->first();
 
-        // 2. JIKA USER TIDAK DITEMUKAN
+        //JIKA USER TIDAK DITEMUKAN
         if (!$user) {
             return back()
                 ->withErrors(['username' => 'Username tidak ditemukan.'])
                 ->withInput();
         }
 
-        // 3. JIKA PASSWORD SALAH
+        //JIKA PASSWORD SALAH
         if (!Hash::check($request->password, $user->password)) {
             return back()
                 ->withErrors(['password' => 'Password yang Anda masukkan salah.'])
                 ->withInput();
         }
 
-        // 4. JIKA LOLOS, LAKUKAN LOGIN MANUAL
+        //JIKA LOLOS, LAKUKAN LOGIN MANUAL
         Auth::login($user, $request->boolean('remember'));
         $request->session()->regenerate();
 
         // Cek Status Mentor (Logika Asli Anda)
         if ($user->hasRole('mentor') && $user->mentor && $user->mentor->status_approval !== 'approved') {
-            // Catatan: Pastikan route 'auth.pending-approval' benar-benar ada di web.php
-            // Jika di web.php namanya 'register.mentor.pending', ganti route di bawah ini.
+            
             return redirect()->route('register.mentor.pending'); 
         }
 

@@ -57,16 +57,16 @@ class CreateMentor extends Component
         try {
             DB::beginTransaction();
 
-            // 1. Create User
+            // Create User
             $user = User::create([
                 'username' => $this->username,
                 'password' => Hash::make($this->password),
             ]);
 
-            // 2. Assign role mentor
+            // Assign role mentor
             $user->assignRole('mentor');
 
-            // 3. Create Mentor profile
+            // Create Mentor profile
             Mentor::create([
                 'user_id' => $user->user_id,
                 'nama_lengkap' => $this->nama_lengkap,

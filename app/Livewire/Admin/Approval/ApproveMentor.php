@@ -16,7 +16,7 @@ class ApproveMentor extends Component
         $this->mentor = $mentor;
     }
 
-    // ✅ Method untuk buka modal
+    //Method untuk buka modal
     public function confirmApproval()
     {
         $this->confirmApprove = true;
@@ -35,7 +35,7 @@ class ApproveMentor extends Component
 
             DB::commit();
 
-            // ✅ Gunakan dispatch untuk notifikasi
+            // Gunakan dispatch untuk notifikasi
             $this->dispatch('updated', [
                 'title' => 'Mentor ' . $this->mentor->nama_lengkap . ' berhasil disetujui!',
                 'icon' => 'success',

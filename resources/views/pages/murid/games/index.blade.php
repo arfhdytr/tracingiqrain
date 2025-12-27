@@ -80,7 +80,7 @@
     
 @endpush
 
-{{-- 2. Konten Utama --}}
+{{--Konten Utama --}}
 @section('content')
 
     {{-- ========================================= --}}
@@ -374,21 +374,21 @@
             const modal = document.getElementById('gameModal');
             const data = gameData[gameType];
 
-            // 1. Update Judul
+            // Update Judul
             document.getElementById('modalGameTitle').textContent = data.title;
 
-            // 2. Update Video Youtube (Mencegah error jika ID kosong)
+            // Update Video Youtube (Mencegah error jika ID kosong)
             const embedUrl = `https://www.youtube.com/embed/${data.videoId}?rel=0&autoplay=1`;
             document.getElementById('gameVideoIframe').src = embedUrl;
 
-            // 3. Update Langkah-langkah
+            // Update Langkah-langkah
             document.getElementById('step1').innerHTML = wrapWords(data.steps[0]);
             document.getElementById('step2').innerHTML = wrapWords(data.steps[1]);
             document.getElementById('step3').innerHTML = wrapWords(data.steps[2]);
             document.getElementById('step4').innerHTML = wrapWords(data.steps[3]);
 
 
-            // 4. Tampilkan Modal (Flex agar centered)
+            // Tampilkan Modal (Flex agar centered)
             modal.style.display = 'flex';
             modal.classList.remove('hidden');
         }

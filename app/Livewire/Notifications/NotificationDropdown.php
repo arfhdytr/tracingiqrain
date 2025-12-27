@@ -51,7 +51,7 @@ class NotificationDropdown extends Component
 
         $notifications = collect();
 
-        // 1. Permintaan Bimbingan Baru (Pending)
+        // Permintaan Bimbingan Baru (Pending)
         $permintaanBaru = PermintaanBimbingan::where('mentor_id', $mentor->mentor_id)
             ->where('status', 'pending')
             ->latest('tanggal_permintaan')
@@ -70,7 +70,7 @@ class NotificationDropdown extends Component
 
         $notifications = $notifications->merge($permintaanBaru);
 
-        // 2. Murid Menyelesaikan Modul
+        // Murid Menyelesaikan Modul
         $modulSelesai = ProgressModul::whereIn('murid_id', $muridIds)
             ->where('status', 'selesai')
             ->whereNotNull('tanggal_selesai')
@@ -93,7 +93,7 @@ class NotificationDropdown extends Component
 
         $notifications = $notifications->merge($modulSelesai);
 
-        // 3. Pencapaian Game Tinggi
+        // Pencapaian Game Tinggi
         $gameTinggi = HasilGame::whereIn('murid_id', $muridIds)
             ->where('skor', '>=', 90)
             ->latest('dimainkan_at')
@@ -115,7 +115,7 @@ class NotificationDropdown extends Component
 
         $notifications = $notifications->merge($gameTinggi);
 
-        // 4. Murid Baru Bergabung
+        // Murid Baru Bergabung
         $muridBaru = Murid::where('mentor_id', $mentor->mentor_id)
             ->latest('created_at')
             ->take(1)
@@ -145,7 +145,7 @@ class NotificationDropdown extends Component
     {
         $notifications = collect();
 
-        // 1. Mentor Menunggu Approval
+        //Mentor Menunggu Approval
         $mentorPending = Mentor::where('status_approval', 'pending')
             ->latest('created_at')
             ->take(2)
@@ -163,7 +163,7 @@ class NotificationDropdown extends Component
 
         $notifications = $notifications->merge($mentorPending);
 
-        // 2. Aktivitas Game Hari Ini (Global)
+        //Aktivitas Game Hari Ini (Global)
         $totalGamesToday = HasilGame::whereDate('dimainkan_at', today())->count();
 
         if ($totalGamesToday > 0) {
@@ -177,7 +177,7 @@ class NotificationDropdown extends Component
             ]);
         }
 
-        // 3. Murid Baru Terdaftar (Global)
+        //Murid Baru Terdaftar (Global)
         $muridBaru = Murid::latest('created_at')
             ->take(1)
             ->get()

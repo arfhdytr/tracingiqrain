@@ -2,9 +2,7 @@
 
 @section('title', 'Pilih Mentor')
 
-{{-- ========================================== --}}
-{{-- 1. BAGIAN CSS --}}
-{{-- ========================================== --}}
+
 @push('styles')
     <style>
         /* Import Font */
@@ -45,9 +43,7 @@
             box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
             display: flex; align-items: center; justify-content: center;
             color: #FFF; font-family: "Tegak Bersambung_IWK", cursive;
-            
-            /* UKURAN FONT DIHAPUS DARI SINI AGAR BISA DIATUR DI HTML */
-            /* font-size: 33px; */
+                        
             
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
             transition: transform 0.2s; border: none;
@@ -58,7 +54,7 @@
 @endpush
 
 {{-- ========================================== --}}
-{{-- 2. KONTEN HTML --}}
+{{-- KONTEN HTML --}}
 {{-- ========================================== --}}
 @section('content')
 
@@ -303,7 +299,7 @@
 @endsection
 
 {{-- ========================================== --}}
-{{-- 3. JAVASCRIPT --}}
+{{-- JAVASCRIPT --}}
 {{-- ========================================== --}}
 @push('scripts')
     <script>
@@ -383,15 +379,15 @@
 
             document.getElementById('modal-mentor-name').textContent = 'Kak ' + username;
             
-            // 1. KELAS (Warna Pink Tua Default)
+     
             let kelasText = 'Kelas ' + namaLengkap;
             document.getElementById('modal-mentor-class').innerHTML = wrapWithCurve(kelasText, '#AC3F61');
 
-            // 2. LABEL MURID & TAHUN (Warna PUTIH #FFFCFC)
+     
             document.getElementById('modal-label-students').innerHTML = wrapWithCurve('murid', '#FFFCFC');
             document.getElementById('modal-label-experience').innerHTML = wrapWithCurve('tahun', '#FFFCFC');
 
-            // 3. KALIMAT AJAKAN (Warna Pink Tua Default)
+     
             let ajakanText = 'Ajukan Kak ' + username + ' menjadi mentormu';
             document.getElementById('modal-mentor-ajakan').innerHTML = wrapWithCurve(ajakanText, '#AC3F61');
 

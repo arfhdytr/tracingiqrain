@@ -10,9 +10,9 @@ use App\Models\User;
 use App\Models\Murid;
 use App\Models\HasilGame;
 use App\Models\JenisGame;
-use Illuminate\Support\Facades\Hash; // <-- Tambahkan ini
-use App\Models\Leaderboard; // <-- TAMBAHKAN INI
-use Illuminate\Support\Facades\DB;   // <-- TAMBAHKAN INI
+use Illuminate\Support\Facades\Hash; 
+use App\Models\Leaderboard; 
+use Illuminate\Support\Facades\DB;   
 
 class DatabaseSeeder extends Seeder
 {
@@ -45,7 +45,7 @@ class DatabaseSeeder extends Seeder
             )
             ->create();
 
-        // 3. Buat 1 Jagoan (Kita buat manual biar 100% aman)
+        
         $jagoanUser = User::create([
             'username' => 'JAGOAN_KITA',
             'password' => Hash::make('password'),
@@ -55,7 +55,7 @@ class DatabaseSeeder extends Seeder
         $jagoanMurid = Murid::create([
             'user_id' => $jagoanUser->user_id,
             'sekolah' => 'Sekolah Juara',
-            'preferensi_terisi' => false, // Pastikan kolom ini diisi
+            'preferensi_terisi' => false, 
         ]);
 
         HasilGame::factory()

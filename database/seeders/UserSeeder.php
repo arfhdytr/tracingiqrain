@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
     public function run()
     {
         // ---------------------------------
-        // 1. Buat User Admin
+        // Buat User Admin
         // ---------------------------------
         $adminUser = User::create([
             'username' => 'admin',
@@ -38,7 +38,7 @@ class UserSeeder extends Seeder
         $adminUser->assignRole('admin');
 
         // ---------------------------------
-        // 2. Buat User Mentor (Approved)
+        // Buat User Mentor (Approved)
         // ---------------------------------
         $mentorUser = User::create([
             'username' => 'mentor',
@@ -113,7 +113,7 @@ class UserSeeder extends Seeder
         $mentorUser4->assignRole('mentor');
 
         // ---------------------------------
-        // 3. Buat User Murid
+        // Buat User Murid
         // ---------------------------------
         $muridUser = User::create([
             'username' => 'murid',
@@ -131,7 +131,7 @@ class UserSeeder extends Seeder
         $muridUser->assignRole('murid');
 
         // ---------------------------------
-        // 4. Buat Preferensi Pertanyaan untuk Murid
+        // Buat Preferensi Pertanyaan untuk Murid
         // ---------------------------------
         PreferensiPertanyaan::create([
             'murid_id' => $murid->murid_id,
@@ -140,7 +140,7 @@ class UserSeeder extends Seeder
         ]);
 
         // ---------------------------------
-        // 5. Buat Permintaan Bimbingan yang Sudah Disetujui
+        // Buat Permintaan Bimbingan yang Sudah Disetujui
         // ---------------------------------
         $mentor = Mentor::where('user_id', $mentorUser->user_id)->first();
 
@@ -157,7 +157,7 @@ class UserSeeder extends Seeder
         $murid->update(['mentor_id' => $mentor->mentor_id]);
 
         // ---------------------------------
-        // A. Tambah 2 Murid yang SUDAH MENJADI ANAK DIDIK (Approved)
+        // Tambah 2 Murid yang SUDAH MENJADI ANAK DIDIK (Approved)
         // ---------------------------------
         for ($i = 1; $i <= 2; $i++) {
             $userAnak = User::create([
@@ -193,7 +193,7 @@ class UserSeeder extends Seeder
 
 
         // ---------------------------------
-        // B. Tambah 3 Murid yang MASIH MENUNGGU KONFIRMASI (Pending)
+        // Tambah 3 Murid yang MASIH MENUNGGU KONFIRMASI (Pending)
         // ---------------------------------
         for ($j = 1; $j <= 3; $j++) {
             $userCalon = User::create([

@@ -47,7 +47,7 @@ class Leaderboard extends Model
 
      public static function refreshAllRankings()
     {
-        // 1. Hitung Ulang Ranking GLOBAL
+        //Hitung Ulang Ranking GLOBAL
         $globalLeaderboards = self::orderByDesc('total_poin_semua_game')->get();
         
         foreach ($globalLeaderboards as $index => $leaderboard) {
@@ -57,8 +57,8 @@ class Leaderboard extends Model
                 ->update(['ranking_global' => $index + 1]);
         }
 
-        // 2. Hitung Ulang Ranking MENTOR
-        // Ambil semua ID mentor yang ada di tabel leaderboard
+        //Hitung Ulang Ranking MENTOR
+        //Ambil semua ID mentor yang ada di tabel leaderboard
         $mentorIds = self::whereNotNull('mentor_id')
             ->distinct()
             ->pluck('mentor_id');

@@ -13,19 +13,12 @@
     <script>
         var ASSET_BASE = "{{ asset('') }}";
         var REDIRECT_URL = "{{ route('murid.games.index', $tingkatan->tingkatan_id) }}";
-
-        // ID Game (Dari $jenisGame)
+        
         var JENIS_GAME_ID = {{ $jenisGame->jenis_game_id }};
         var TINGKATAN_ID = {{ $tingkatan->tingkatan_id }};
 
-        // HASIL_GAME_ID dihapus karena kita pakai sistem create on first letter
-        // var HASIL_GAME_ID = ...; 
-
-        // Data Huruf (Convert PHP Array ke JSON)
-        // Asumsi: materiPembelajarans punya kolom 'huruf_arab' dan 'nama_latin'
         var ALL_HIJAIYAH_DATA = @json($materiPembelajarans);
 
-        // URL Save Score Khusus Tracing
         var SAVE_SCORE_URL = "{{ route('murid.game.saveTracingScore') }}";
     </script>
 
@@ -68,7 +61,7 @@
                 </h1>
             </div>
 
-            <div class="w-[100px] sm:w-[140px]"></div> <!-- Spacer for centering (matches btn-kembali width) -->
+            <div class="w-[100px] sm:w-[140px]"></div> 
         </div>
 
         <!-- Grid Container -->

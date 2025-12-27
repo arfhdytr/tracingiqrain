@@ -78,7 +78,7 @@ class EditMurid extends Component
         try {
             DB::beginTransaction();
 
-            // 1. Update User
+            // Update User
             $userData = ['username' => $this->username];
 
             if (!empty($this->new_password)) {
@@ -87,14 +87,14 @@ class EditMurid extends Component
 
             $this->murid->user->update($userData);
 
-            // 2. Update Murid profile
+            // Update Murid profile
             $this->murid->update([
                 'mentor_id' => $this->mentor_id ?: null,
                 'sekolah' => $this->sekolah ?: null,
                 'preferensi_terisi' => !empty($this->jawaban),
             ]);
 
-            // 3. Update or Create Preferensi Pertanyaan
+            // Update or Create Preferensi Pertanyaan
             $this->murid->preferensiPertanyaan()->updateOrCreate(
                 ['murid_id' => $this->murid->murid_id],
                 [

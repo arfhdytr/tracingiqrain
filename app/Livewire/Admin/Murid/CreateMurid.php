@@ -61,16 +61,16 @@ class CreateMurid extends Component
         try {
             DB::beginTransaction();
 
-            // 1. Create User
+            // Create User
             $user = User::create([
                 'username' => $this->username,
                 'password' => Hash::make($this->password),
             ]);
 
-            // 2. Assign role murid
+            // Assign role murid
             $user->assignRole('murid');
 
-            // 3. Create Murid profile
+            // Create Murid profile
             $murid = Murid::create([
                 'user_id' => $user->user_id,
                 'mentor_id' => $this->mentor_id ?: null,
@@ -78,7 +78,7 @@ class CreateMurid extends Component
                 'preferensi_terisi' => true,
             ]);
 
-            // 4. Create Preferensi Pertanyaan
+            // Create Preferensi Pertanyaan
             PreferensiPertanyaan::create([
                 'murid_id' => $murid->murid_id,
                 'pertanyaan' => $this->pertanyaan,

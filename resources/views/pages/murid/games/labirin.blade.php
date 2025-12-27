@@ -9,8 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>Labirin Hijaiyah</title>
-
-    {{-- 1. IMPORT FONT MOOLI & TEGAK BERSAMBUNG --}}
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Mooli&display=swap" rel="stylesheet">
@@ -149,14 +148,14 @@
 
                 {{-- Kolom Kiri: Papan Game --}}
                 <div class="w-full md:w-auto flex flex-col items-center md:items-start">
-                    {{-- 3. TAMPILAN PROGRES SKOR --}}
+                    {{--TAMPILAN PROGRES SKOR --}}
                     <div class="mb-3 bg-white/80 px-6 py-2 rounded-full shadow-sm border-2 border-[#AC3F61]">
                         <p id="skor-labirin-display" class="text-medium font-mooli font-semibold text-[#D75C82]">
                             Huruf: 0/4
                         </p>
                     </div>
 
-                    {{-- 3. TAMPILAN PROGRES SKOR (DIPERBAIKI) --}}
+                    {{--TAMPILAN PROGRES SKOR (DIPERBAIKI) --}}
                     {{-- Grid Labirin (Akan diisi JS) --}}
                     <div id="maze-grid"
                         class="grid gap-[11px] p-4 bg-white rounded-[34px] shadow-[0_4px_10px_0_rgba(0,0,0,0.50)] place-content-start">
@@ -339,7 +338,7 @@
 
     {{-- JavaScript Game --}}
     <script>
-        // --- 1. DATA DARI CONTROLLER ---
+        // --- DATA DARI CONTROLLER ---
         window.gameData = {
             mapLayout: @json($mapLayout),
             targetLetters: @json($targetLetters),
@@ -354,14 +353,14 @@
         const saveScoreUrl = '{{ route('murid.game.saveScore') }}';
         const redirectUrl = '{{ route('murid.games.index', $tingkatan->tingkatan_id) }}';
 
-        // --- 2. FUNGSI GLOBAL (UI & SKOR) ---
+        // --- FUNGSI GLOBAL (UI & SKOR) ---
 
-        // A. Fungsi Restart Game (Dipanggil tombol HTML)
+        // Fungsi Restart Game (Dipanggil tombol HTML)
         window.restartGame = function () {
             location.reload();
         }
 
-        // B. Fungsi Tampilkan Modal Menang
+        // Fungsi Tampilkan Modal Menang
         function showSuccessModal(skorAkhir) {
             const modal = document.getElementById('success-modal');
             const scoreText = document.getElementById('modal-score');
@@ -384,7 +383,7 @@
             triggerWinConfetti();
         }
 
-        // B.2. Fungsi Tampilkan Modal Belum Selesai
+        // Fungsi Tampilkan Modal Belum Selesai
         window.showIncompleteModal = function (remaining) {
             const modal = document.getElementById('incomplete-modal');
             const message = document.getElementById('incomplete-message');
@@ -414,7 +413,7 @@
             }, 300);
         }
 
-        // C. Fungsi Confetti
+        // Fungsi Confetti
         function triggerWinConfetti() {
             var duration = 3 * 1000;
             var animationEnd = Date.now() + duration;
@@ -452,18 +451,9 @@
         }
 
         async function saveScore(skor, poin) {
-            // const currentId = window.gameData.sessionId; // Ambil ID yang dibuat pas masuk
+
             const timestamp = new Date().toLocaleTimeString();
-
-            // console.log(`[${timestamp}] MENGUPDATE SKOR ID: ${currentId}...`, { skor, poin });
-
-            // ALERT DEBUG (Boleh dihapus nanti kalau sudah oke)
-            // alert(`[UPDATE MODE] Mengupdate data ID: ${currentId} menjadi skor ${skor}`);
-
-            // if (!currentId) {
-            //     alert("ERROR FATAL: Session ID tidak ditemukan! Cek Controller.");
-            //     return;
-            // }
+           
 
             try {
                 const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -476,10 +466,10 @@
                         'X-CSRF-TOKEN': token
                     },
                     body: JSON.stringify({
-                        // PERUBAHAN DISINI: Kirim ID Jenis Game, bukan Session ID lagi
+
                         jenis_game_id: jenisGameId,
                         skor: skor,
-                        // total_poin dihitung ulang di backend biar aman, tapi kirim aja gapapa
+
                     })
                 });
 
@@ -489,19 +479,19 @@
                 if (!response.ok || (data.success === false)) {
                     console.error("Gagal Update:", data);
                     let pesanError = data.message || "Terjadi kesalahan server";
-                    // alert("GAGAL MENGUPDATE SKOR!\n\n" + pesanError);
+
                 } else {
                     console.log("Berhasil disimpan:", data);
-                    // alert(`SUKSES UPDATE!\nData ID: ${data.hasil_game_id} sekarang bernilai ${data.poin_didapat} poin.`);
+
                 }
 
             } catch (error) {
                 console.error('Error Jaringan:', error);
-                // alert("ERROR JARINGAN!\n" + error.message);
+
             }
         }
 
-        // --- 3. LOGIKA UTAMA GAME (Jalan saat Load) ---
+        // --- LOGIKA UTAMA GAME (Jalan saat Load) ---
         document.addEventListener("DOMContentLoaded", () => {
 
             // === WELCOME ANIMATION ===
@@ -510,13 +500,12 @@
             const welcomeMessage = document.getElementById("welcome-message");
 
             if (welcomeBackdrop && welcomeContainer && welcomeMessage) {
-                // Step 1: Fade in backdrop (100ms)
+               
                 setTimeout(() => {
                     welcomeBackdrop.classList.remove("opacity-0");
                     welcomeBackdrop.classList.add("opacity-100");
                 }, 100);
-
-                // Step 2: Show message with scale animation (200ms)
+            
                 setTimeout(() => {
                     welcomeContainer.classList.remove("opacity-0");
                     welcomeContainer.classList.add("opacity-100");
@@ -525,7 +514,6 @@
                     welcomeMessage.classList.add("scale-100");
                 }, 200);
 
-                // Step 3: Start fade out (2.5s)
                 setTimeout(() => {
                     welcomeMessage.classList.remove("scale-100");
                     welcomeMessage.classList.add("scale-110");
@@ -536,13 +524,12 @@
                     welcomeBackdrop.classList.add("opacity-0");
                 }, 2500);
 
-                // Step 4: Hide completely (3.5s total)
                 setTimeout(() => {
                     welcomeBackdrop.classList.add("hidden");
                     welcomeContainer.classList.add("hidden");
                 }, 3500);
             }
-            // ==================================================
+
 
             const gridContainer = document.getElementById("maze-grid");
             const scoreDisplay = document.getElementById("skor-labirin-display");
@@ -719,12 +706,12 @@
 
                 } else if (item.type === 'goal') {
                     if (collectedLetters.length === 4) {
-                        // PERUBAHAN DISINI:
+                        
 
-                        // 1. Tampilkan Pop-up & Confetti LANGSUNG (Tanpa Loading)
+                        // Tampilkan Pop-up & Confetti LANGSUNG (Tanpa Loading)
                         showSuccessModal(100);
 
-                        // 2. Simpan ke database di latar belakang (User tidak perlu nunggu ini)
+                        // Simpan ke database di latar belakang (User tidak perlu nunggu ini)
                         saveScore(100, 100);
 
                     } else {
@@ -754,22 +741,22 @@
 
             // Fungsi Reset Game (Client Side)
             function resetGame() {
-                // 1. Pilih Map Baru secara Acak
+                // Pilih Map Baru secara Acak
                 if (allMaps && allMaps.length > 0) {
                     mapLayout = allMaps[Math.floor(Math.random() * allMaps.length)];
                     gridRows = mapLayout.length;
                     gridCols = mapLayout[0].length;
                 }
 
-                // 2. Reset State
+                // Reset State
                 collectedLetters = [];
                 gameItems = [];
                 playerPosition = { x: 0, y: 0 };
 
-                // 3. Reset UI Skor
+                // Reset UI Skor
                 scoreDisplay.textContent = `Huruf: 0/4`;
 
-                // 4. Init Ulang
+                // Init Ulang
                 initGame();
             }
 

@@ -382,7 +382,8 @@ Proyek ini dikembangkan bekerja sama dengan:
 ## 📞 Support
 
 - Email: support@iqrain.com
-- Website: https://iqrain.com
+- Website: https://iqrain.my.id/
+- Yt : https://www.youtube.com/@Iqrain-edu
 
 ---
 

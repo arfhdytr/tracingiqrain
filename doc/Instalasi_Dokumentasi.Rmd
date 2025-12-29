@@ -762,51 +762,15 @@ Setelah menyelesaikan game:
 
 ## Evaluasi
 
-Setelah menyelesaikan modul dan game, murid dapat mengikuti **evaluasi** untuk menguji pemahaman.
+Setelah menyelesaikan modul dan game, murid dapat melihat **evaluasi** selama bermain game.
 
 ### Akses Evaluasi
 
-1. Klik menu **"Evaluasi"** di halaman tingkatan Iqra
-2. Pilih tingkatan yang ingin dievaluasi
+Klik menu **"Evaluasi"** di halaman tingkatan Iqra
 
 ![Ilustrasi: Halaman Evaluasi](images/murid_halaman_evaluasi.jpg)
 
-### Jenis Soal Evaluasi
-
-Evaluasi terdiri dari berbagai jenis soal:
-
-1. **Pilihan Ganda**: Pilih nama latin huruf yang ditampilkan
-2. **Cocokkan Gambar**: Cocokkan huruf dengan gambar
-3. **Isian Singkat**: Tulis nama latin huruf
-
-### Proses Evaluasi
-
-1. Klik **"Mulai Evaluasi"**
-2. Kerjakan soal satu per satu
-3. Klik **"Selanjutnya"** untuk soal berikutnya
-4. Klik **"Selesai"** setelah mengerjakan semua soal
-5. Lihat hasil evaluasi
-
-### Hasil Evaluasi
-
-Setelah selesai, murid akan melihat:
-
-- **Skor**: Total nilai (0-100)
-- **Jawaban Benar**: Jumlah jawaban yang benar
-- **Waktu Pengerjaan**: Durasi mengerjakan
-- **Pembahasan**: Review jawaban benar/salah
-
-**Kriteria Kelulusan**:
-- Skor ≥ 70: **Lulus** (bisa lanjut ke tingkatan berikutnya)
-- Skor < 70: **Tidak Lulus** (harus mengulang)
-
-### Mengulang Evaluasi
-
-Jika tidak lulus, murid dapat:
-
-1. Ulangi mempelajari modul
-2. Mainkan game lagi untuk latihan
-3. Coba evaluasi lagi (unlimited attempts)
+murid akan melihat skor tiap game dan juga komentar dari sistem.
 
 ## Leaderboard dan Ranking
 

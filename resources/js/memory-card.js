@@ -4,7 +4,6 @@ var poinBenar = 0;
 var pasanganDitemukan = 0;
 var totalPasangan = 6;
 
-// var gameStaticId = typeof GAME_STATIC_ID !== 'undefined' ? GAME_STATIC_ID : null;
 var jenisGameId = typeof JENIS_GAME_ID !== 'undefined' ? JENIS_GAME_ID : null;
 
 var SESSION_ID = window.SESSION_ID || null;
@@ -13,37 +12,37 @@ var poinMaksimal = typeof POIN_MAKSIMAL !== 'undefined' ? POIN_MAKSIMAL : 60;
 var POIN_PER_MATCH = poinMaksimal / totalPasangan;
 
 var cardMasterList = [
-    { id: "ain", latin: "Ain" },
-    { id: "alif", latin: "Alif" },
-    { id: "ba", latin: "Ba" },
-    { id: "dal", latin: "Dal" },
+    { id: "Ain", latin: "Ain" },
+    { id: "Alif", latin: "Alif" },
+    { id: "Ba", latin: "Ba" },
+    { id: "Dal", latin: "Dal" },
     { id: "Dhlo", latin: "Dlho" },
     { id: "Dhod", latin: "Dhod" },
-    { id: "dzal", latin: "Dzal" },
-    { id: "fa", latin: "Fa" },
+    { id: "Dzal", latin: "Dzal" },
+    { id: "Fa", latin: "Fa" },
     { id: "Ghoin", latin: "Ghoin" },
     { id: "Ha", latin: "Ha" },
 
-    { id: "hamzah", latin: "Hamzah" },
-    { id: "jim", latin: "Jim" },
-    { id: "kaf", latin: "Kaf" },
-    { id: "kha", latin: "Kha" },
-    { id: "kho", latin: "Kho" },
-    { id: "lam", latin: "Lam" },
+    { id: "Hamzah", latin: "Hamzah" },
+    { id: "Jim", latin: "Jim" },
+    { id: "Kaf", latin: "Kaf" },
+    { id: "Kha", latin: "Kha" },
+    { id: "Kho", latin: "Kho" },
+    { id: "Lam", latin: "Lam" },
     { id: "Lamalif", latin: "Lam Alif" },
-    { id: "mim", latin: "Mim" },
-    { id: "nun", latin: "Nun" },
+    { id: "Mim", latin: "Mim" },
+    { id: "Nun", latin: "Nun" },
     { id: "Qof", latin: "Qof" },
 
-    { id: "ra", latin: "Ra" },
+    { id: "Ra", latin: "Ra" },
     { id: "Shod", latin: "Shod" },
-    { id: "sin", latin: "Sin" },
-    { id: "syin", latin: "Syin" },
-    { id: "ta", latin: "Ta" },
+    { id: "Sin", latin: "Sin" },
+    { id: "Syin", latin: "Syin" },
+    { id: "Ta", latin: "Ta" },
     { id: "Tho", latin: "Tho" },
-    { id: "tsa", latin: "Tsa" },
+    { id: "Tsa", latin: "Tsa" },
     { id: "Wawu", latin: "Wawu" },
-    { id: "ya", latin: "Ya" },
+    { id: "Ya", latin: "Ya" },
     { id: "Za", latin: "Za" }
 ];
 
@@ -71,14 +70,12 @@ window.onload = function () {
     const welcomeContainer = document.getElementById("welcome-message-container");
     const welcomeMessage = document.getElementById("welcome-message");
 
-    if (welcomeBackdrop && welcomeContainer && welcomeMessage) {
-        // Step 1: Fade in backdrop (100ms)
+    if (welcomeBackdrop && welcomeContainer && welcomeMessage) {        
         setTimeout(() => {
             welcomeBackdrop.classList.remove("opacity-0");
             welcomeBackdrop.classList.add("opacity-100");
         }, 100);
-
-        // Step 2: Show message with scale animation (200ms)
+        
         setTimeout(() => {
             welcomeContainer.classList.remove("opacity-0");
             welcomeContainer.classList.add("opacity-100");
@@ -87,7 +84,6 @@ window.onload = function () {
             welcomeMessage.classList.add("scale-100");
         }, 200);
 
-        // Step 3: Start fade out (2.5s)
         setTimeout(() => {
             welcomeMessage.classList.remove("scale-100");
             welcomeMessage.classList.add("scale-110");
@@ -98,7 +94,6 @@ window.onload = function () {
             welcomeBackdrop.classList.add("opacity-0");
         }, 2500);
 
-        // Step 4: Hide completely (3.5s total)
         setTimeout(() => {
             welcomeBackdrop.classList.add("hidden");
             welcomeContainer.classList.add("hidden");
@@ -111,10 +106,10 @@ function shuffleCards() {
     // Mengacak kartu
     cardMasterList.sort(() => 0.5 - Math.random());
 
-    // 2. Ambil 6 kartu pertama
+    // Ambil 6 kartu pertama
     let gameCards = cardMasterList.slice(0, totalPasangan);
 
-    // 3. Buat "cardSet" (isi 12 kartu)
+    // Buat "cardSet" (isi 12 kartu)
     cardSet = [];
     let basePath = (typeof ASSET_BASE !== "undefined" ? ASSET_BASE : "");
 
@@ -159,9 +154,8 @@ function startGame() {
         // --- Bikin Kartu ---
         let card = document.createElement("div");
         card.classList.add("card");
-
-        // ▼▼▼ TAMBAHAN BARU ▼▼▼
-        card.classList.add("is-flipped"); // <-- 2. KARTU LANGSUNG KEBUKA
+        
+        card.classList.add("is-flipped"); 
 
         card.dataset.id = cardData.id;
         card.dataset.type = cardData.type;
@@ -201,15 +195,14 @@ function startGame() {
         allCards.forEach(card => {
             card.classList.remove("is-flipped");
         });
-
-        // 5. BUKA KUNCI PAPAN, game siap dimainkan!
+        
         lockBoard = false;
 
     }, 3000);
 }
 
 function selectCard() {
-    // 'this' sekarang adalah <div class="card">
+    
 
     // Pengecekan baru: Jangan klik jika papan dikunci ATAU kartu sudah kebuka
     if (lockBoard || this.classList.contains("is-flipped")) {
@@ -272,18 +265,17 @@ async function update() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Accept': 'application/json', // Force JSON response
+                    'Accept': 'application/json', 
                     'X-CSRF-TOKEN': csrfToken
                 },
                 body: JSON.stringify({
-                    hasil_game_id: SESSION_ID,
+                    jenis_game_id: jenisGameId,
                     skor: Math.round(poinBenar)
 
                 })
             })
                 .then(response => {
-                    if (!response.ok) {
-                        // Jika response bukan 2xx, lempar error agar masuk ke catch
+                    if (!response.ok) {                        
                         return response.text().then(text => {
                             throw new Error(`Server error: ${response.status} ${text}`);
                         });
@@ -311,7 +303,6 @@ async function update() {
 }
 
 
-
 // FUngsi untuk memunculkan pop up dan confeti 
 function showSuccessModal(skorAkhir) {
     const modal = document.getElementById('success-modal');
@@ -323,14 +314,14 @@ function showSuccessModal(skorAkhir) {
     // Tampilkan Modal (Hapus class hidden)
     modal.classList.remove('hidden');
 
-    // Animasi Masuk (Opsional, biar smooth)
+    // Animasi Masuk 
     const modalBox = modal.querySelector('div.relative');
     setTimeout(() => {
         modalBox.classList.remove('scale-90');
         modalBox.classList.add('scale-100');
     }, 10);
 
-    // TEMBAK CONFETTI YANG MERIAH! 🎉
+    // TEMBAK CONFETTI YANG MERIAH! 
     var duration = 3 * 1000; // 3 detik
     var animationEnd = Date.now() + duration;
     var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 60 };
@@ -353,7 +344,7 @@ function showSuccessModal(skorAkhir) {
     }, 250);
 }
 
-// 2. Fungsi Restart Game (Dipanggil tombol di modal)
+// Fungsi Restart Game (Dipanggil tombol di modal)
 // Kita bikin global biar bisa dipanggil onclick HTML
 window.restartGame = function () {
     const modal = document.getElementById('success-modal');

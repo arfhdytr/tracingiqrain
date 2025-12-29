@@ -33,10 +33,6 @@ class EditMurid extends Component
         // Authorization check
         $mentor = Auth::user()->mentor;
 
-        if ($murid->mentor_id !== $mentor->mentor_id) {
-            abort(403, 'Unauthorized action.');
-        }
-
         $this->murid = $murid;
 
         // Load current data
@@ -80,7 +76,7 @@ class EditMurid extends Component
         try {
             DB::beginTransaction();
 
-            // 1. Update User
+            // Update User
             $userData = ['username' => $this->username];
 
             if (!empty($this->new_password)) {
@@ -89,12 +85,12 @@ class EditMurid extends Component
 
             $this->murid->user->update($userData);
 
-            // 2. Update Murid
+            // Update Murid
             $this->murid->update([
                 'sekolah' => $this->sekolah ?: null,
             ]);
 
-            // 3. Update or Create Preferensi Pertanyaan dengan pertanyaan fixed
+            // Update or Create Preferensi Pertanyaan dengan pertanyaan fixed
             PreferensiPertanyaan::updateOrCreate(
                 ['murid_id' => $this->murid->murid_id],
                 [

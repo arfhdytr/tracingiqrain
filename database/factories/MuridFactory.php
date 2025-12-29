@@ -20,8 +20,7 @@ class MuridFactory extends Factory
     public function definition(): array
     {
         return [
-            // Kita ganti 'User::factory()' menjadi fungsi
-            // yang membuat User secara manual (bypass factory)
+          
             'user_id' => function () {
                 return User::create([
                     'username' => $this->faker->unique()->userName(),

@@ -68,7 +68,7 @@ class EditMentor extends Component
         try {
             DB::beginTransaction();
 
-            // 1. Update User
+            // Update User
             $userData = ['username' => $this->username];
 
             if (!empty($this->new_password)) {
@@ -77,7 +77,7 @@ class EditMentor extends Component
 
             $this->mentor->user->update($userData);
 
-            // 2. Update Mentor profile
+            // Update Mentor profile
             $this->mentor->update([
                 'nama_lengkap' => $this->nama_lengkap,
                 'email' => $this->email,

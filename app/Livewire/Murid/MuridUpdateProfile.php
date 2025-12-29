@@ -64,9 +64,9 @@ class MuridUpdateProfile extends Component
         }
 
         $previous = url()->previous();
-        $current = route('murid.profile'); // Asumsi route name profile adalah 'murid.profile'
+        $current = route('murid.profile'); 
 
-        // Cek agar tidak terjadi loop (jika previous URL sama dengan halaman profile, set default ke pilih-iqra)
+        
         if ($previous === $current || $previous === url()->current()) {
             $this->previousUrl = route('murid.pilih-iqra');
         } else {

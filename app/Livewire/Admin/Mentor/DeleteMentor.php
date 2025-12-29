@@ -31,7 +31,7 @@ class DeleteMentor extends Component
             $namaLengkap = $this->mentor->nama_lengkap;
             $jumlahMurid = $this->mentor->murids()->count();
 
-            // Hapus mentor (cascade akan menghapus data terkait)
+            
             $this->mentor->delete();
 
             DB::commit();

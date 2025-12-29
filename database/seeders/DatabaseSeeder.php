@@ -10,9 +10,9 @@ use App\Models\User;
 use App\Models\Murid;
 use App\Models\HasilGame;
 use App\Models\JenisGame;
-use Illuminate\Support\Facades\Hash; // <-- Tambahkan ini
-use App\Models\Leaderboard; // <-- TAMBAHKAN INI
-use Illuminate\Support\Facades\DB;   // <-- TAMBAHKAN INI
+use Illuminate\Support\Facades\Hash; 
+use App\Models\Leaderboard; 
+use Illuminate\Support\Facades\DB;   
 
 class DatabaseSeeder extends Seeder
 {
@@ -45,7 +45,7 @@ class DatabaseSeeder extends Seeder
             )
             ->create();
 
-        // 3. Buat 1 Jagoan (Kita buat manual biar 100% aman)
+        
         $jagoanUser = User::create([
             'username' => 'JAGOAN_KITA',
             'password' => Hash::make('password'),
@@ -55,7 +55,7 @@ class DatabaseSeeder extends Seeder
         $jagoanMurid = Murid::create([
             'user_id' => $jagoanUser->user_id,
             'sekolah' => 'Sekolah Juara',
-            'preferensi_terisi' => false, // Pastikan kolom ini diisi
+            'preferensi_terisi' => false, 
         ]);
 
         HasilGame::factory()
@@ -69,30 +69,46 @@ class DatabaseSeeder extends Seeder
             ->for($jagoanMurid) // Tautkan ke Murid jagoan
             ->create();
 
+        // Hitung total poin untuk setiap murid berdasarkan HasilGame
         $scores = HasilGame::select(
-                'murid_id', 
+                'murid_id',
                 DB::raw('SUM(total_poin) as total_skor')
             )
             ->groupBy('murid_id')
             ->orderBy('total_skor', 'desc')
             ->get();
-        
-        // Ambil data murid (untuk 'mentor_id' jika ada, jika tidak tetap null)
+
+        // Ambil semua murid
         $allMurids = Murid::all()->keyBy('murid_id');
 
-        // Loop dan masukkan ke tabel 'leaderboards'
+        // Loop dan masukkan/update leaderboard untuk murid yang punya hasil game
         foreach ($scores as $index => $score) {
             $murid = $allMurids->get($score->murid_id);
-            
-           Leaderboard::updateOrCreate(
-                    ['murid_id' => $score->murid_id], // Kunci pengecekan
+
+            Leaderboard::updateOrCreate(
+                ['murid_id' => $score->murid_id],
+                [
+                    'mentor_id' => $murid->mentor_id,
+                    'total_poin_semua_game' => $score->total_skor,
+                    'ranking_global' => $index + 1,
+                    'ranking_mentor' => 0,
+                ]
+            );
+        }
+
+        // Untuk murid yang belum punya HasilGame, buat leaderboard dengan poin 0
+        foreach ($allMurids as $murid) {
+            if (!$scores->contains('murid_id', $murid->murid_id)) {
+                Leaderboard::updateOrCreate(
+                    ['murid_id' => $murid->murid_id],
                     [
                         'mentor_id' => $murid->mentor_id,
-                        'total_poin_semua_game' => $score->total_skor,
-                        'ranking_global' => $index + 1, 
-                        'ranking_mentor' => 0, 
+                        'total_poin_semua_game' => 0,
+                        'ranking_global' => 0,
+                        'ranking_mentor' => 0,
                     ]
                 );
+            }
         }
             
     }

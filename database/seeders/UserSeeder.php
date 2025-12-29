@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
     public function run()
     {
         // ---------------------------------
-        // 1. Buat User Admin
+        // Buat User Admin
         // ---------------------------------
         $adminUser = User::create([
             'username' => 'admin',
@@ -38,7 +38,7 @@ class UserSeeder extends Seeder
         $adminUser->assignRole('admin');
 
         // ---------------------------------
-        // 2. Buat User Mentor (Approved)
+        // Buat User Mentor (Approved)
         // ---------------------------------
         $mentorUser = User::create([
             'username' => 'mentor',
@@ -51,7 +51,7 @@ class UserSeeder extends Seeder
             'nama_lengkap' => 'Mentor Hebat',
             'email' => 'mentor@iqrain.com',
             'no_wa' => '081234567890',
-            'status_approval' => 'approved', 
+            'status_approval' => 'approved',
             'tgl_persetujuan' => now(),
         ]);
 
@@ -113,7 +113,7 @@ class UserSeeder extends Seeder
         $mentorUser4->assignRole('mentor');
 
         // ---------------------------------
-        // 3. Buat User Murid
+        // Buat User Murid
         // ---------------------------------
         $muridUser = User::create([
             'username' => 'murid',
@@ -131,34 +131,19 @@ class UserSeeder extends Seeder
         $muridUser->assignRole('murid');
 
         // ---------------------------------
-        // 4. Buat Preferensi Pertanyaan untuk Murid
+        // Buat Preferensi Pertanyaan untuk Murid
         // ---------------------------------
         PreferensiPertanyaan::create([
             'murid_id' => $murid->murid_id,
             'pertanyaan' => 'Apa warna kesukaan kamu?',
-            'jawaban' => Hash::make('merah'),
+            'jawaban' => 'Merah',
         ]);
-
-        // ---------------------------------
-        // 5. Buat Permintaan Bimbingan yang Sudah Disetujui
-        // ---------------------------------
-        $mentor = Mentor::where('user_id', $mentorUser->user_id)->first();
-
-        PermintaanBimbingan::create([
-            'murid_id' => $murid->murid_id,
-            'mentor_id' => $mentor->mentor_id,
-            'status' => 'approved',
-            'tanggal_permintaan' => now()->subDays(7), // 7 hari yang lalu
-            'tanggal_respons' => now()->subDays(6),    // 6 hari yang lalu
-            'catatan' => 'Saya ingin belajar Iqra dengan Anda',
-        ]);
-
-        // Update mentor_id di tabel murid setelah permintaan disetujui
-        $murid->update(['mentor_id' => $mentor->mentor_id]);
 
         // ---------------------------------
         // A. Tambah 2 Murid yang SUDAH MENJADI ANAK DIDIK (Approved)
         // ---------------------------------
+        $mentor = Mentor::where('user_id', $mentorUser->user_id)->first();
+
         for ($i = 1; $i <= 2; $i++) {
             $userAnak = User::create([
                 'username' => 'adik' . $i,
@@ -177,7 +162,7 @@ class UserSeeder extends Seeder
             PreferensiPertanyaan::create([
                 'murid_id' => $muridAnak->murid_id,
                 'pertanyaan' => 'Apa warna kesukaan kamu?',
-                'jawaban' => Hash::make('biru'),
+                'jawaban' => 'Biru',
             ]);
 
             // Buat record permintaan bimbingan (Status: Approved)
@@ -193,7 +178,7 @@ class UserSeeder extends Seeder
 
 
         // ---------------------------------
-        // B. Tambah 3 Murid yang MASIH MENUNGGU KONFIRMASI (Pending)
+        // Tambah 3 Murid yang MASIH MENUNGGU KONFIRMASI (Pending)
         // ---------------------------------
         for ($j = 1; $j <= 3; $j++) {
             $userCalon = User::create([
@@ -206,14 +191,14 @@ class UserSeeder extends Seeder
                 'user_id' => $userCalon->user_id,
                 'sekolah' => 'SDI 3 Kota ' . $j,
                 'preferensi_terisi' => true,
-                'mentor_id' => null, 
+                'mentor_id' => null,
             ]);
 
             // Buat preferensi dummy
             PreferensiPertanyaan::create([
                 'murid_id' => $muridCalon->murid_id,
                 'pertanyaan' => 'Apa warna kesukaan kamu?',
-                'jawaban' => Hash::make('hijau'),
+                'jawaban' => 'Hijau',
             ]);
 
             // Buat record permintaan bimbingan (Status: Pending)

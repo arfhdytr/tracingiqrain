@@ -6,14 +6,12 @@ window.addEventListener("DOMContentLoaded", function () {
     const welcomeContainer = document.getElementById("welcome-message-container");
     const welcomeMessage = document.getElementById("welcome-message");
 
-    if (welcomeBackdrop && welcomeContainer && welcomeMessage) {
-        // Step 1: Fade in backdrop (100ms)
+    if (welcomeBackdrop && welcomeContainer && welcomeMessage) {        
         setTimeout(() => {
             welcomeBackdrop.classList.remove("opacity-0");
             welcomeBackdrop.classList.add("opacity-100");
         }, 100);
-
-        // Step 2: Show message with scale animation (200ms)
+        
         setTimeout(() => {
             welcomeContainer.classList.remove("opacity-0");
             welcomeContainer.classList.add("opacity-100");
@@ -22,7 +20,6 @@ window.addEventListener("DOMContentLoaded", function () {
             welcomeMessage.classList.add("scale-100");
         }, 200);
 
-        // Step 3: Start fade out (2.5s)
         setTimeout(() => {
             welcomeMessage.classList.remove("scale-100");
             welcomeMessage.classList.add("scale-110");
@@ -33,7 +30,6 @@ window.addEventListener("DOMContentLoaded", function () {
             welcomeBackdrop.classList.add("opacity-0");
         }, 2500);
 
-        // Step 4: Hide completely and initialize game (3.5s total)
         setTimeout(() => {
             welcomeBackdrop.classList.add("hidden");
             welcomeContainer.classList.add("hidden");
@@ -567,12 +563,12 @@ const defaultHijaiyahData = [
                 type: "line",
                 points: [
                     { x: 190, y: 115 },
-                    { x: 170, y: 105 }, // MELENGKUNG KIRI ATAS
+                    { x: 170, y: 105 }, 
                     { x: 150, y: 100 },
                     { x: 140, y: 120 },
                     { x: 150, y: 140 },
-                    { x: 190, y: 125 }, // BALIK KE TENGAH
-                    { x: 150, y: 140 }, // MELENGKUNG KANAN BAWAH
+                    { x: 190, y: 125 }, 
+                    { x: 150, y: 140 }, 
                     { x: 140, y: 160 },
                     { x: 132, y: 180 },
                     { x: 130, y: 180 },
@@ -596,12 +592,12 @@ const defaultHijaiyahData = [
                 type: "line",
                 points: [
                     { x: 190, y: 115 },
-                    { x: 170, y: 105 }, // MELENGKUNG KIRI ATAS
+                    { x: 170, y: 105 }, 
                     { x: 150, y: 100 },
                     { x: 140, y: 120 },
                     { x: 150, y: 140 },
-                    { x: 190, y: 125 }, // BALIK KE TENGAH
-                    { x: 150, y: 140 }, // MELENGKUNG KANAN BAWAH
+                    { x: 190, y: 125 }, 
+                    { x: 150, y: 140 }, 
                     { x: 140, y: 160 },
                     { x: 132, y: 180 },
                     { x: 130, y: 180 },
@@ -836,34 +832,7 @@ const defaultHijaiyahData = [
             },
         ],
     },
-    {
-        id: 28,
-        arabic: "لا",
-        name: "Lamalif",
-        difficulty: "medium",
-        image_path: "/images/hijaiyah/Lamalif.webp",
-        strokes: [
-            {
-                type: "line",
-                points: [
-                    { x: 240, y: 120 },
-                    { x: 200, y: 170 },
-                    { x: 160, y: 200 },
-                    { x: 160, y: 205 },
-                    { x: 180, y: 210 },
-                    { x: 230, y: 200 },
-                    { x: 230, y: 195 },
-                    { x: 200, y: 170 },
-                    { x: 160, y: 140 },
-                ],
-            },
-            {
-                type: "line",
-                center: { x: 190, y: 195 },
-                radius: 8,
-            },
-        ],
-    },
+
     {
         id: 29,
         arabic: "ء",
@@ -937,7 +906,7 @@ const settings = {
     canvasWidth: 400,
     canvasHeight: 300,
     lineWidth: 5,
-    tolerance: 15, // Diperketat dari 30 ke 15
+    tolerance: 15, 
     colors: {
         correct: "#4CAF50",
         incorrect: "#F44336",
@@ -979,13 +948,9 @@ let guideCanvas, guideCtx;
 let tracingCanvas, tracingCtx;
 let animationCanvas, animationCtx;
 
-// --- TAMBAHAN BARU ---
 let currentAnimationFrameID = null; // Menyimpan ID requestAnimationFrame
 let currentAnimationTimeoutID = null; // Menyimpan ID setTimeout (jeda antar stroke)
 
-// ========================================
-// INITIALIZE GAME
-// ========================================
 // ========================================
 // INITIALIZE GAME
 // ========================================
@@ -999,8 +964,8 @@ function initGame() {
 
     setupEventListeners();
     renderMenu(); // Render menu on load
-    // loadGame(currentHurufIndex); // Don't load game immediately
 }
+
 
 // ========================================
 // MENU & NAVIGATION FUNCTIONS
@@ -1062,7 +1027,6 @@ function startGame(index) {
     document.getElementById('letter-menu-container').style.display = 'none';
     document.getElementById('game-container').style.display = 'block';
 
-    // Trigger resize event to fix canvas scaling if needed
     window.dispatchEvent(new Event('resize'));
 
     loadGame(index);
@@ -1077,8 +1041,12 @@ function showMenu() {
 // Expose functions to window for onclick events
 window.startGame = startGame;
 window.showMenu = showMenu;
-// 🔵 FINAL RECORDER: GESER HALUS & IRIT
-// ==========================================
+
+
+
+// ========================================================
+// FUNGSI UNTUK MENENTUKAN TITIK TITIK PADA HURUF HIJAIYAH
+// ========================================================
 // function initGame() {
 //     // 1. Setup Canvas
 //     guideCanvas = document.getElementById('guideCanvas');
@@ -1104,9 +1072,7 @@ window.showMenu = showMenu;
 //         // 2. Setting Transparansi
 //         guideCtx.globalAlpha = 0.4;
 
-//         // ==========================================
-//         // 📐 RUMUS AUTO-FIT (ANTI KEBESARAN)
-//         // ==========================================
+
 //         const canvasWidth = 400;
 //         const canvasHeight = 300;
 //         const padding = 50; // Jarak aman dari pinggir (biar gak nempel banget)
@@ -1236,6 +1202,8 @@ window.showMenu = showMenu;
 //     }
 // }
 
+
+
 // ========================================
 // SETUP EVENT LISTENERS
 // ========================================
@@ -1252,12 +1220,10 @@ function setupEventListeners() {
 
     document
         .getElementById("clear-button")
-        .addEventListener("click", clearCanvas);
+        .addEventListener("click", restartCurrentLetter);
     document
         .getElementById("replay-button")
-        .addEventListener("click", playAnimation);
-
-    // UDAH ADA DI BLADE
+        .addEventListener("click", playAnimation);    
     document
         .getElementById("prev-button")
         .addEventListener("click", loadPreviousLetter);
@@ -1268,6 +1234,7 @@ function setupEventListeners() {
     // document.getElementById('try-again-button').addEventListener('click', restartCurrentLetter);
     //document.getElementById('next-letter-button').addEventListener('click', loadNextLetter);
 }
+
 
 // ========================================
 // LOAD GAME WITH SPECIFIC LETTER
@@ -1306,6 +1273,7 @@ function loadGame(index) {
     updateNavigationButtons();
 }
 
+
 // ========================================
 // DRAW GUIDE PATH (DENGAN SMOOTHING)
 // ========================================
@@ -1339,8 +1307,7 @@ function drawGuide(letter) {
 
             guideCtx.beginPath();
             guideCtx.moveTo(stroke.points[0].x, stroke.points[0].y);
-
-            // === [MODIFIKASI: LOGIKA SMOOTHING] ===
+            
             // Jika titik lebih dari 2, kita pakai kurva biar melengkung
             if (stroke.points.length > 2) {
                 for (let i = 1; i < stroke.points.length - 2; i++) {
@@ -1369,8 +1336,7 @@ function drawGuide(letter) {
                 for (let i = 1; i < stroke.points.length; i++) {
                     guideCtx.lineTo(stroke.points[i].x, stroke.points[i].y);
                 }
-            }
-            // === [AKHIR MODIFIKASI] ===
+            }            
 
             guideCtx.stroke();
 
@@ -1425,8 +1391,9 @@ function drawGuide(letter) {
     guideCtx.setLineDash([]);
 }
 
+
 // ========================================
-// STOP ANIMATION (PENTING BUAT FIX BUG)
+// STOP ANIMATION 
 // ========================================
 function stopAnimation() {
     if (currentAnimationFrameID) {
@@ -1440,10 +1407,10 @@ function stopAnimation() {
 }
 
 // ========================================
-// PLAY ANIMATION (REVISI ANTI-BUG)
+// PLAY ANIMATION 
 // ========================================
 function playAnimation() {
-    // 1. MATIKAN animasi sebelumnya (kalau ada)
+    
     stopAnimation();
 
     const letter = allHijaiyahData[currentHurufIndex];
@@ -1521,32 +1488,26 @@ function playAnimation() {
         // Kita gambar dari titik start segmen ini ke titik progress saat ini
         animationCtx.moveTo(start.x * scaleX, start.y * scaleY);
         animationCtx.lineTo(x * scaleX, y * scaleY);
-        animationCtx.stroke();
-
-        // Simpan "jejak" permanen di canvas biar garisnya gak hilang
-        // (Opsional: Kalau mau animasi 'ular' yang buntutnya hilang, hapus bagian ini)
-        // Tapi untuk tracing huruf, buntut harus tetap ada.
-        // Triknya: Kita tidak clearRect per frame, jadi tinta lama tetap ada.
-
-        progress += 0.05; // Kecepatan animasi (makin besar makin cepat)
+        animationCtx.stroke();        
+        
+        progress += 0.05; 
 
         if (progress >= 1) {
             progress = 0;
-            pointIndex++;
-            // Gambar garis full segmen ini biar rapi sebelum pindah
+            pointIndex++;            
             animationCtx.beginPath();
             animationCtx.moveTo(start.x * scaleX, start.y * scaleY);
             animationCtx.lineTo(end.x * scaleX, end.y * scaleY);
             animationCtx.stroke();
         }
-
-        // Request frame berikutnya & simpan ID-nya
+        
         currentAnimationFrameID = requestAnimationFrame(animate);
     }
 
     // Mulai animasi
     animate();
 }
+
 
 // ========================================
 // HANDLE CANVAS CLICK (UNTUK CIRCLE)
@@ -1588,6 +1549,7 @@ function handleCanvasClick(e) {
     }
 }
 
+
 // ========================================
 // DRAWING FUNCTIONS
 // ========================================
@@ -1597,7 +1559,6 @@ function startDrawing(e) {
 
     const stroke = letter.strokes[currentStrokeIndex];
     if (stroke && stroke.type === "circle") {
-        // Jangan allow drawing untuk circle stroke
         return;
     }
 
@@ -1680,19 +1641,17 @@ function handleTouchMove(e) {
     tracingCanvas.dispatchEvent(mouseEvent);
 }
 
+
 // ========================================
 // ADVANCE TO NEXT STROKE
 // ========================================
 function advanceToNextStroke() {
     const letter = allHijaiyahData[currentHurufIndex];
 
-    // 1. Akumulasi skor dari goresan garis
     gameState.totalGamePoints += gameState.totalPoints;
     gameState.totalGameCorrectPoints += gameState.correctPoints;
 
-    // 2. Jika stroke adalah circle, kita tambahkan skor tetap (misalnya 10 poin)
-    if (letter.strokes[currentStrokeIndex].type === "circle") {
-        // Asumsi: Circle selalu benar dan bernilai 100 poin (karena cuma 1 klik)
+    if (letter.strokes[currentStrokeIndex].type === "circle") {        
         gameState.totalGamePoints += 1; // Anggap 1 titik
         gameState.totalGameCorrectPoints += 100; // Skor sempurna
     }
@@ -1721,6 +1680,7 @@ function advanceToNextStroke() {
     }
 }
 
+
 // ========================================
 // GET MOUSE POSITION
 // ========================================
@@ -1735,12 +1695,10 @@ function getMousePos(e) {
     };
 }
 
-// ========================================
-// CHECK ACCURACY (CURRENT STROKE ONLY)
-// ========================================
-// ========================================
-// CHECK ACCURACY (WEIGHTED SCORING)
-// ========================================
+
+// =================
+// CHECK ACCURACY 
+// =================
 function checkAccuracy(point) {
     const letter = allHijaiyahData[currentHurufIndex];
     if (
@@ -1754,8 +1712,7 @@ function checkAccuracy(point) {
     if (stroke.type !== "line") return { isCorrect: false, score: 0 };
 
     let minDistance = Infinity;
-
-    // Cari jarak terdekat ke segmen manapun di stroke ini
+    
     for (let i = 0; i < stroke.points.length - 1; i++) {
         const start = stroke.points[i];
         const end = stroke.points[i + 1];
@@ -1776,6 +1733,7 @@ function checkAccuracy(point) {
         return { isCorrect: false, score: 0 }; // Salah
     }
 }
+
 
 // ========================================
 // DISTANCE TO LINE SEGMENT
@@ -1811,6 +1769,7 @@ function distanceToLineSegment(point, start, end) {
     const dy = point.y - yy;
     return Math.sqrt(dx * dx + dy * dy);
 }
+
 
 // ========================================
 // CALCULATE PROGRESS
@@ -1851,6 +1810,7 @@ function calculateProgress() {
     }
 }
 
+
 // ========================================
 // CALCULATE PATH LENGTH
 // ========================================
@@ -1863,6 +1823,7 @@ function calculatePathLength(path) {
     }
     return length;
 }
+
 
 // ========================================
 // UPDATE PROGRESS UI
@@ -1890,6 +1851,7 @@ function updateProgress() {
     starsDisplay.innerHTML = "⭐".repeat(stars) + "☆".repeat(3 - stars);
 }
 
+
 // ========================================
 // GET STARS BASED ON ACCURACY
 // ========================================
@@ -1899,6 +1861,7 @@ function getStars(accuracy) {
     if (accuracy >= settings.scoring.oneStar) return 1;
     return 0;
 }
+
 
 // ========================================
 // CLEAR CANVAS
@@ -1912,6 +1875,7 @@ function clearCanvas() {
     gameState.circleClicked = false;
     updateProgress();
 }
+
 
 // ========================================
 // NAVIGATION FUNCTIONS
@@ -1956,19 +1920,18 @@ function updateNavigationButtons() {
 }
 
 
-// ========================================
-// SHOW SUCCESS MODAL (VANILLA JS VERSION)
-// ========================================
+
+// ====================
+// SHOW SUCCESS MODAL 
+// ====================
 function showSuccessModal(skorAkhir) {
     const modal = document.getElementById('success-modal');
     const scoreText = document.getElementById('modal-score');
     const starsContainer = document.getElementById('final-stars');
-    const nextButton = document.getElementById('btn-next-letter'); // Ambil tombol next
-
-    // 1. Update Teks Skor
+    const nextButton = document.getElementById('btn-next-letter'); 
+    
     if (scoreText) scoreText.innerText = skorAkhir + "%";
 
-    // 2. Logika Bintang (HARUS DI DALAM FUNGSI)
     let starCount = 1;
     if (skorAkhir >= 85) starCount = 3;
     else if (skorAkhir >= 60) starCount = 2;
@@ -1989,7 +1952,6 @@ function showSuccessModal(skorAkhir) {
         starsContainer.innerHTML = starsHTML;
     }
 
-    // 3. Cek Tombol Next (Sembunyikan jika huruf terakhir)
     if (nextButton) {
         // Cek apakah ini huruf terakhir di array
         if (currentHurufIndex >= allHijaiyahData.length - 1) {
@@ -1999,34 +1961,32 @@ function showSuccessModal(skorAkhir) {
         }
     }
 
-    // 4. Tampilkan Modal
     if (modal) {
         modal.classList.add('show');
     }
 
-    // 5. Efek Confetti
     launchConfetti();
 
-    // 6. Simpan Skor ke Database (Otomatis saat selesai)
-    // Konversi: 100% akurasi = 10 poin
-    const poinDidapat = Math.round(skorAkhir / 10);
+    // Konversi: 100% akurasi = 3 poin (Sesuai request)
+    // Rumus: (Skor / 100) * 3, dibulatkan
+    const poinDidapat = Math.round((skorAkhir / 100) * 3);
+
+    // Update total lokal untuk display (jika ada)
     totalSessionScore += poinDidapat;
-    saveTracingScore(totalSessionScore);
+
+    saveTracingScore(poinDidapat);
 }
+
 
 // ========================================
 // TOMBOL AKSI MODAL
 // ========================================
-
-// 1. Fungsi Restart Huruf Ini (Ulangi)
 function restartCurrentLetter() {
     hideSuccessModal();
-
-    // Reset Canvas & Game State untuk huruf yang sama
+    
     loadGame(currentHurufIndex);
 }
 
-// 2. Fungsi Tombol Main Lagi (Reset Total)
 function restartGame() {
     hideSuccessModal();
 
@@ -2035,11 +1995,12 @@ function restartGame() {
     initGame();
 }
 
+
 // ========================================
 // CONFETTI EFFECT
 // ========================================
 function launchConfetti() {
-    if (typeof confetti === 'undefined') return; // Cek library ada/nggak
+    if (typeof confetti === 'undefined') return; 
 
     var duration = 3 * 1000;
     var animationEnd = Date.now() + duration;
@@ -2066,25 +2027,19 @@ function launchConfetti() {
 // ========================================
 // SUBMIT SCORE TO SERVER
 // ========================================
-
 function calculateAccuracy(strokesDone, totalStrokes) {
     return Math.round((strokesDone / totalStrokes) * 100);
 }
 
-// Tambahkan fungsi ini di dalam script di tracing.blade.php atau di public/js/game-tracing.js
-
-// --- 1. AMBIL DATA SUNTIKAN ---
 // Kalau gak ada suntikan (misal test lokal), pakai default null/array kosong
 const jenisGameId = typeof JENIS_GAME_ID !== "undefined" ? JENIS_GAME_ID : null;
 const tingkatanId = typeof TINGKATAN_ID !== "undefined" ? TINGKATAN_ID : null;
-const hasilGameId = typeof HASIL_GAME_ID !== "undefined" ? HASIL_GAME_ID : null;
+// UBAH JADI LET SUPAYA BISA DI-UPDATE SETELAH DAPAT ID DARI SERVER
+let hasilGameId = typeof HASIL_GAME_ID !== "undefined" ? HASIL_GAME_ID : null;
 const saveScoreUrl =
     typeof SAVE_SCORE_URL !== "undefined" ? SAVE_SCORE_URL : "/game/save-score";
 const redirectUrl = typeof REDIRECT_URL !== "undefined" ? REDIRECT_URL : "/";
 
-// ... (Kode inisialisasi game, variabel gameState, dll TETAP SAMA) ...
-
-// --- 2. UPDATE FUNGSI SAVE SCORE ---
 async function saveTracingScore(scoreInput) {
     // Ambil skor dari parameter, atau fallback ke 0
     const skor = (typeof scoreInput !== 'undefined') ? scoreInput : 0;
@@ -2101,14 +2056,17 @@ async function saveTracingScore(scoreInput) {
     if (backButton) backButton.disabled = true;
 
     try {
-        // Fetch ke URL yang benar
-        const response = await fetch("/murid/game/save-score", {
+        // Fetch ke URL yang benar (Gunakan variabel saveScoreUrl)
+        const response = await fetch(saveScoreUrl, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                "Accept": "application/json", 
                 "X-CSRF-TOKEN": csrfToken,
             },
             body: JSON.stringify({
+                jenis_game_id: jenisGameId, 
+                tingkatan_id: tingkatanId,
                 hasil_game_id: hasilGameId,
                 skor: skor,
                 total_poin: skor,
@@ -2118,13 +2076,17 @@ async function saveTracingScore(scoreInput) {
         const data = await response.json();
 
         if (data.success) {
+            
+            if (data.hasil_game_id) {
+                hasilGameId = data.hasil_game_id;
+            
+            }
+
             if (saveStatusElement) {
                 saveStatusElement.innerText = `Skor ${skor}% berhasil disimpan!`;
                 saveStatusElement.classList.remove("text-yellow-600");
                 saveStatusElement.classList.add("text-green-600");
-            }
-            // Redirect setelah sukses (opsional, atau biarkan user klik tombol kembali)
-            // window.location.href = redirectUrl;
+            }            
         } else {
             throw new Error("Gagal menyimpan data.");
         }

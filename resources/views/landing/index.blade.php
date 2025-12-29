@@ -4,8 +4,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Game IQRAIN</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Primary Meta Tags -->
+    <title>IQRAIN - Platform Belajar Hijaiyah</title>
+    <meta name="title" content="IQRAIN - Platform Belajar Huruf Hijaiyah Interaktif untuk Anak">
+    <meta name="description" content="IQRAIN adalah platform pembelajaran interaktif untuk mengenal huruf hijaiyah melalui game edukatif. Belajar mengaji jadi lebih menyenangkan dengan tracking game, memory card, labirin, dan drag & drop.">
+    <meta name="keywords" content="belajar hijaiyah, game edukatif islam, belajar mengaji anak, huruf hijaiyah, iqra online, game islami anak, pendidikan islam">
+    <meta name="author" content="IQRAIN">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{{ url('/') }}">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url('/') }}">
+    <meta property="og:title" content="IQRAIN - Platform Belajar Huruf Hijaiyah Interaktif untuk Anak">
+    <meta property="og:description" content="IQRAIN adalah platform pembelajaran interaktif untuk mengenal huruf hijaiyah melalui game edukatif. Belajar mengaji jadi lebih menyenangkan dengan tracking game, memory card, labirin, dan drag & drop.">
+    <meta property="og:image" content="{{ asset('images/asset/logo.webp') }}">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:site_name" content="IQRAIN">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{{ url('/') }}">
+    <meta name="twitter:title" content="IQRAIN - Platform Belajar Huruf Hijaiyah Interaktif untuk Anak">
+    <meta name="twitter:description" content="IQRAIN adalah platform pembelajaran interaktif untuk mengenal huruf hijaiyah melalui game edukatif. Belajar mengaji jadi lebih menyenangkan.">
+    <meta name="twitter:image" content="{{ asset('images/asset/logo.webp') }}">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/webp" href="{{ asset('images/asset/logo.webp') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/asset/logo.webp') }}">
+
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Titan+One&family=Mooli&display=swap" rel="stylesheet">
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "EducationalOrganization",
+      "name": "IQRAIN",
+      "description": "Platform pembelajaran interaktif untuk mengenal huruf hijaiyah melalui game edukatif",
+      "url": "{{ url('/') }}",
+      "logo": "{{ asset('images/asset/logo.webp') }}",
+      "sameAs": [],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "Customer Service",
+        "availableLanguage": "Indonesian"
+      },
+      "educationalProgramMode": "Online",
+      "teaches": "Huruf Hijaiyah dan Iqra"
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "IQRAIN",
+      "url": "{{ url('/') }}",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "{{ url('/') }}?search={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
 
     <style>
         * {

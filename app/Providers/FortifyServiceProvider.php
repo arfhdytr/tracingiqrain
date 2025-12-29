@@ -76,6 +76,7 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
 
         // Kustomisasi Rate Limiter (Throttling) untuk endpoint login.
+        // Membatasi 5 percobaan per menit per kombinasi username + IP
         RateLimiter::for('login', function (Request $request) {
             $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())) . '|' . $request->ip());
             return Limit::perMinute(5)->by($throttleKey);

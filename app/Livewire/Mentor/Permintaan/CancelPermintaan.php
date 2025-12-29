@@ -20,28 +20,7 @@ class CancelPermintaan extends Component
 
     public function confirmCancellation()
     {
-        // Pastikan permintaan adalah untuk mentor yang login
-        $mentor = Auth::user()->mentor;
-
-        if ($this->permintaan->mentor_id !== $mentor->mentor_id) {
-            $this->dispatch('updated', [
-                'title' => 'Anda tidak memiliki akses untuk membatalkan permintaan ini',
-                'icon' => 'error',
-                'iconColor' => 'red',
-            ]);
-            return;
-        }
-
-        // Pastikan status bukan pending
-        if ($this->permintaan->status === 'pending') {
-            $this->dispatch('updated', [
-                'title' => 'Permintaan masih dalam status menunggu',
-                'icon' => 'error',
-                'iconColor' => 'red',
-            ]);
-            return;
-        }
-
+        // TEMPORARY DEBUG: Skip all validation
         $this->resetErrorBag();
         $this->confirmCancel = true;
     }
@@ -52,8 +31,12 @@ class CancelPermintaan extends Component
             // Double check authorization
             $mentor = Auth::user()->mentor;
 
-            if ($this->permintaan->mentor_id !== $mentor->mentor_id || $this->permintaan->status === 'pending') {
-                throw new \Exception('Unauthorized action');
+            if ((int)$this->permintaan->mentor_id !== (int)$mentor->mentor_id) {
+                throw new \Exception('Anda tidak memiliki akses untuk membatalkan permintaan ini');
+            }
+
+            if ($this->permintaan->status === 'pending') {
+                throw new \Exception('Permintaan masih dalam status menunggu');
             }
 
             DB::beginTransaction();

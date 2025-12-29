@@ -91,10 +91,10 @@ class Murid extends Model
 
     protected static function booted()
     {
-        // 1. SAAT MURID BARU DAFTAR (Created)
+        // SAAT MURID BARU DAFTAR (Created)
         static::created(function ($murid) {
             
-            // A. Buatkan data Leaderboard awal
+            //Buatkan data Leaderboard awal
             Leaderboard::create([
                 'murid_id' => $murid->murid_id,
                 'mentor_id' => $murid->mentor_id, // Ikut data murid (bisa null/terisi)
@@ -106,7 +106,7 @@ class Murid extends Model
             Leaderboard::refreshAllRankings();
         });
 
-        // 2. SAAT MURID MEMILIH/GANTI MENTOR (Updated)
+        // SAAT MURID MEMILIH/GANTI MENTOR (Updated)
         static::updated(function ($murid) {
             if ($murid->isDirty('mentor_id')) {
                 
@@ -121,7 +121,7 @@ class Murid extends Model
             }
         });
 
-        // 3. SAAT AKUN DIHAPUS (Deleting)
+        // SAAT AKUN DIHAPUS (Deleting)
         static::deleting(function ($murid) {
             $murid->hasilGames()->delete();
             $murid->progressModuls()->delete();

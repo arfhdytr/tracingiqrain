@@ -13,15 +13,13 @@
     <script>
         var ASSET_BASE = "{{ asset('') }}";
         var REDIRECT_URL = "{{ route('murid.games.index', $tingkatan->tingkatan_id) }}";
-
-        // ID Game (Dari $jenisGame)
+        
         var JENIS_GAME_ID = {{ $jenisGame->jenis_game_id }};
         var TINGKATAN_ID = {{ $tingkatan->tingkatan_id }};
-        var HASIL_GAME_ID = {{ $sessionGame->hasil_game_id }};
 
-        // Data Huruf (Convert PHP Array ke JSON)
-        // Asumsi: materiPembelajarans punya kolom 'huruf_arab' dan 'nama_latin'
         var ALL_HIJAIYAH_DATA = @json($materiPembelajarans);
+
+        var SAVE_SCORE_URL = "{{ route('murid.game.saveTracingScore') }}";
     </script>
 
 </head>
@@ -63,7 +61,7 @@
                 </h1>
             </div>
 
-            <div class="w-[100px] sm:w-[140px]"></div> <!-- Spacer for centering (matches btn-kembali width) -->
+            <div class="w-[100px] sm:w-[140px]"></div> 
         </div>
 
         <!-- Grid Container -->
@@ -229,18 +227,6 @@
         </div>
     </div>
 
-    <!-- <div id="score-modal" class="modal d-none">
-        <div class="modal-content">
-            <h4>Skor tracing berhasil disimpan!</h4>
-            <p id="modal-skor"></p>
-            <p id="modal-total"></p>
-            <button onclick="closeScoreModal()">Lanjut</button>
-        </div>
-    </div> -->
-
-
-
-
     <script>
         // Variabel global yang akan diisi oleh logika game Anda
         window.gameFinalScore = 0; // Skor yang akan masuk ke DB (misalnya, total poin)
@@ -250,19 +236,8 @@
         // saat tracing selesai.
         function showGameResults(finalScore, accuracyPercentage) {
             showSuccessModal(accuracyPercentage);
-            // window.gameFinalScore = finalScore; 
-            // window.gameAccuracyPercentage = accuracyPercentage;
-
-            // // 1. Update Tampilan Modal
-            // document.getElementById('final-accuracy').innerText = Akurasi: ${accuracyPercentage}%; 
-            // document.getElementById('success-modal').style.display = 'flex'; 
-
-            // // 2. Langsung Panggil Fungsi Penyimpanan Skor
-            // saveTracingScore(); // Didefinisikan di game-tracing.js
         }
     </script>
-
-
 
     <script src="{{ asset('js/game-tracing.js') }}"></script>
 </body>

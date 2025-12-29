@@ -84,19 +84,19 @@ class CreateMurid extends Component
 
             $mentor = Auth::user()->mentor;
 
-            // 1. Create User
+            // Create User
             $user = User::create([
                 'username' => $this->username,
                 'password' => Hash::make($this->password),
             ]);
 
-            // 2. Assign role murid
+            // Assign role murid
             $user->assignRole('murid');
 
             // Cek apakah jawaban diisi
             $isPreferensiTerisi = !empty($this->jawaban_preferensi);
 
-            // 3. Create Murid profile
+            // Create Murid profile
             $murid = Murid::create([
                 'user_id' => $user->user_id,
                 'mentor_id' => $mentor->mentor_id,
@@ -104,7 +104,7 @@ class CreateMurid extends Component
                 'preferensi_terisi' => $isPreferensiTerisi,
             ]);
 
-            // 4. Create Preferensi Pertanyaan dengan pertanyaan fixed
+            // Create Preferensi Pertanyaan dengan pertanyaan fixed
             if ($isPreferensiTerisi) {
                 PreferensiPertanyaan::create([
                     'murid_id' => $murid->murid_id,

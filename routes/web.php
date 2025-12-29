@@ -65,28 +65,30 @@ Route::middleware('guest')->group(function () {
     Route::get('/auto-login', [App\Http\Controllers\Auth\AutoLoginController::class, 'autoLogin'])
         ->name('auto.login');
 
-    // 1. Halaman Input Username Awal
+    // Halaman Input Username Awal
     Route::get('/forgot-password', [ForgotPasswordController::class, 'showUsernameForm'])
         ->name('password.request');
     Route::post('/forgot-password/check', [ForgotPasswordController::class, 'checkUsername'])
+        ->middleware('throttle:forgot-password-check')
         ->name('password.check');
 
-    // 2. Alur Murid
+    // Alur Murid
     Route::get('/forgot-password/murid/question', [ForgotPasswordController::class, 'showMuridQuestion'])
         ->name('password.murid.question');
     Route::post('/forgot-password/murid/verify', [ForgotPasswordController::class, 'verifyMuridAnswer'])
         ->name('password.murid.verify');
 
-    // 3. Alur Mentor
+    // Alur Mentor
     Route::get('/forgot-password/mentor/email', [ForgotPasswordController::class, 'showMentorEmailForm'])
         ->name('password.mentor.email');
     Route::post('/forgot-password/mentor/send', [ForgotPasswordController::class, 'verifyMentorEmail'])
+        ->middleware('throttle:forgot-password-email')
         ->name('password.mentor.send');
 
-    // 4. Halaman Reset Password Akhir (Shared)
+    // Halaman Reset Password Akhir (Shared)
     // Route untuk Murid (tanpa token di URL) & Mentor (dengan token dari email)
     Route::get('/reset-password/{token?}', [ForgotPasswordController::class, 'showResetForm'])
-        ->name('password.reset.form'); // Route name harus sesuai config password reset laravel
+        ->name('password.reset.form'); 
 
     Route::post('/reset-password', [ForgotPasswordController::class, 'updatePassword'])
         ->name('password.update');
@@ -172,7 +174,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             return view('auth.register-murid-success');
         })->name('register.success');
 
-        // Semua route lainnya HARUS sudah isi preferensi
+        
         Route::middleware(['murid.preferensi'])->group(function () {
 
             Route::get('/pilih-iqra', function () {
@@ -198,6 +200,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::post('/game/save-score', [GameController::class, 'saveScore'])->name('game.saveScore');
 
             Route::get('/games/{tingkatan_id}/tracing', [GameController::class, 'tracing'])->name('games.tracing');
+            Route::post('/game/save-tracing-score', [GameController::class, 'saveTracingScore'])->name('game.saveTracingScore');
             Route::get('/games/{tingkatan_id}/labirin', [GameController::class, 'labirin'])->name('games.labirin');
             Route::get('/games/{tingkatan_id}/drag-drop', [GameController::class, 'dragDrop'])->name('games.drag-drop');
 
@@ -208,9 +211,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             // Mentor
             Route::get('/mentor', [MentorController::class, 'index'])->name('mentor.index');
             Route::post('/mentor/request/{mentor_id}', [MentorController::class, 'requestBimbingan'])->name('mentor.request');
-
         });
     });
 });
-
-

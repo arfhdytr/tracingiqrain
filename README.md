@@ -22,19 +22,18 @@
   Platform pembelajaran interaktif berbasis web yang dirancang khusus untuk membantu anak-anak tunarungu belajar huruf hijaiyah melalui game edukatif yang menyenangkan dan visual. Dikembangkan bekerja sama dengan <strong>Yayasan SatiRama</strong> untuk mengakomodasi kebutuhan pembelajaran anak berkebutuhan khusus.
 </p>
 
-### 📖 Navigasi Proyek
+## 📖 Navigasi Proyek
 
 | Bagian | Deskripsi |
 | :--- | :--- |
-| 📄 **[Dokumentasi](#dokumentasi-proyek)** | Berkas administrasi, Berita Acara, dan Milestone proyek. |
-| ✨ **[Fitur Utama](#fitur-utama)** | Daftar fungsi dan keunggulan utama yang dimiliki sistem. |
-| 🛠️ **[Tech Stack](#tech-stack)** | Teknologi, framework, dan library yang digunakan dalam pengembangan. |
-| 📂 **[Struktur Proyek](#struktur-proyek)** | Penjelasan susunan folder dan arsitektur file aplikasi. |
-| 📥 **[Instalasi](#instalasi)** | Panduan langkah demi langkah cara menjalankan aplikasi secara lokal. |
-| 🚀 **[Deployment](#deployment)** | Informasi mengenai link demo atau proses publikasi sistem. |
-| 👥 **[Kolaborasi](#kolaborasi)** | Daftar anggota Tim 5 (3SI1) yang berkontribusi dalam proyek ini. |
-| 💬 **[Support](#support)** | Kontak bantuan atau cara melaporkan kendala pada aplikasi. |
-
+| <a href="#-dokumentasi-proyek">📄 **Dokumentasi**</a> | Berkas administrasi, Berita Acara, dan Milestone. |
+| <a href="#-fitur-utama">✨ **Fitur Utama**</a> | Daftar fungsi dan keunggulan utama sistem. |
+| <a href="#-tech-stack">🛠️ **Tech Stack**</a> | Teknologi dan framework yang digunakan. |
+| <a href="#-struktur-proyek">📂 **Struktur Proyek**</a> | Penjelasan susunan folder dan arsitektur file. |
+| <a href="#-installation">📥 **Instalasi**</a> | Panduan cara menjalankan aplikasi secara lokal. |
+| <a href="#-deployment">🚀 **Deployment**</a> | Informasi link demo atau publikasi sistem. |
+| <a href="#-kolaborasi">👥 **Kolaborasi**</a> | Daftar anggota Tim 5 (3SI1). |
+| <a href="#-support">💬 **Support**</a> | Kontak bantuan atau laporan kendala. |
 ---
 
 ## 📚 Dokumentasi Proyek

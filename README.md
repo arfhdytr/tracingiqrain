@@ -23,14 +23,29 @@
 </p>
 
 <p align="center">
+  <strong>📖 Navigation</strong><br>
+  <a href="#-dokumentasi-proyek">Dokumentasi</a> •
   <a href="#-fitur-utama">Fitur</a> •
-  <a href="#-installation">Installation</a> •
   <a href="#-tech-stack">Tech Stack</a> •
-  <a href="#-deployment">Deployment</a> •
-  <a href="#-license">License</a>
+  <a href="#-struktur-proyek">Struktur</a> •
+  <a href="#-installation">Install</a> •
+  <a href="#-deployment">Deploy</a> •
+  <a href="#-kolaborasi">Kolaborasi</a> •
+  <a href="#-support">Support</a>
 </p>
 
+
 ---
+
+## 📚 Dokumentasi Proyek
+
+### 📄 Administrasi
+- [Berita Acara Serah Terima](doc/3SI1_Tim5_Berita_Acara_Serah_Terima.pdf)
+- [Surat Perjanjian Alih Hak Sistem](doc/3SI1_Tim5_Surat_Perjanjian_Alih_Hak_Sistem.pdf)
+
+### 🚀 Progres
+- [Milestone 4](doc/3SI1_Tim5_Milestone_4.pdf)
+
 
 ## 🎯 Fitur Utama
 

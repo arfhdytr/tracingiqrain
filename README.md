@@ -29,11 +29,11 @@
 | <a href="#-dokumentasi-proyek">📄 **Dokumentasi**</a> | Berkas administrasi, Berita Acara, dan Milestone. |
 | <a href="#-fitur-utama">✨ **Fitur Utama**</a> | Daftar fungsi dan keunggulan utama sistem. |
 | <a href="#-tech-stack">🛠️ **Tech Stack**</a> | Teknologi dan framework yang digunakan. |
-| <a href="#-struktur-proyek">📂 **Struktur Proyek**</a> | Penjelasan susunan folder dan arsitektur file. |
+| <a href="#-struktur-proyek">📂 **Struktur Proyek**</a> | susunan folder dan arsitektur file. |
 | <a href="#-installation">📥 **Instalasi**</a> | Panduan cara menjalankan aplikasi secara lokal. |
-| <a href="#-deployment">🚀 **Deployment**</a> | Informasi link demo atau publikasi sistem. |
-| <a href="#-kolaborasi">👥 **Kolaborasi**</a> | Daftar anggota Tim 5 (3SI1). |
-| <a href="#-support">💬 **Support**</a> | Kontak bantuan atau laporan kendala. |
+| <a href="#-deployment">🚀 **Deployment**</a> | Prosedur rilis produksi dan konfigurasi CI/CD. |
+| <a href="#-kolaborasi">👥 **Kolaborasi**</a> | Informasi kemitraan dengan Yayasan SatiRama.. |
+| <a href="#-support">💬 **Support**</a> | Kontak Media sosial dan website. |
 ---
 
 ## 📚 Dokumentasi Proyek

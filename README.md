@@ -22,18 +22,18 @@
   Platform pembelajaran interaktif berbasis web yang dirancang khusus untuk membantu anak-anak tunarungu belajar huruf hijaiyah melalui game edukatif yang menyenangkan dan visual. Dikembangkan bekerja sama dengan <strong>Yayasan SatiRama</strong> untuk mengakomodasi kebutuhan pembelajaran anak berkebutuhan khusus.
 </p>
 
-<p align="center">
-  <strong>📖 Navigation</strong><br>
-  <a href="#-dokumentasi-proyek">Dokumentasi</a> •
-  <a href="#-fitur-utama">Fitur</a> •
-  <a href="#-tech-stack">Tech Stack</a> •
-  <a href="#-struktur-proyek">Struktur</a> •
-  <a href="#-installation">Install</a> •
-  <a href="#-deployment">Deploy</a> •
-  <a href="#-kolaborasi">Kolaborasi</a> •
-  <a href="#-support">Support</a>
-</p>
+### 📖 Navigasi Proyek
 
+| Bagian | Deskripsi |
+| :--- | :--- |
+| 📄 **[Dokumentasi](#dokumentasi-proyek)** | Berkas administrasi, Berita Acara, dan Milestone proyek. |
+| ✨ **[Fitur Utama](#fitur-utama)** | Daftar fungsi dan keunggulan utama yang dimiliki sistem. |
+| 🛠️ **[Tech Stack](#tech-stack)** | Teknologi, framework, dan library yang digunakan dalam pengembangan. |
+| 📂 **[Struktur Proyek](#struktur-proyek)** | Penjelasan susunan folder dan arsitektur file aplikasi. |
+| 📥 **[Instalasi](#instalasi)** | Panduan langkah demi langkah cara menjalankan aplikasi secara lokal. |
+| 🚀 **[Deployment](#deployment)** | Informasi mengenai link demo atau proses publikasi sistem. |
+| 👥 **[Kolaborasi](#kolaborasi)** | Daftar anggota Tim 5 (3SI1) yang berkontribusi dalam proyek ini. |
+| 💬 **[Support](#support)** | Kontak bantuan atau cara melaporkan kendala pada aplikasi. |
 
 ---
 
@@ -46,6 +46,8 @@
 ### 🚀 Progres
 - [Milestone 4](doc/3SI1_Tim5_Milestone_4.pdf)
 
+### 🛠️ Instalasi
+- [Dokumentasi Instalasi](doc/Instalasi_Dokumentasi.pdf)
 
 ## 🎯 Fitur Utama
 
